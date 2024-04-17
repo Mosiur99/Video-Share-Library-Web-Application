@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>User Dashboard</h2>
+
+    <!-- Table to display previous video data -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Sample data, you can replace this with dynamic data -->
+        <tr th:each = "video : ${videoList}">
+            <td th:text = "${video.title}">Title</td>
+            <td th:text = "${video.url}">URL</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Button to add a new video -->
+    <a href="/userDashboard" class="btn btn-primary">Add New Video</a>
+</div>
+</body>
+</html>
