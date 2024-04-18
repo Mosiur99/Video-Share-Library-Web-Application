@@ -15,6 +15,7 @@
         <tr>
             <th>Title</th>
             <th>URL</th>
+            <th>Video Id</th>
         </tr>
         </thead>
         <tbody>
@@ -22,19 +23,13 @@
         <tr th:each = "video : ${videoList}">
             <td th:text = "${video.title}">Title</td>
             <td th:text = "${video.url}">URL</td>
+            <td th:text = "${video.videoId}">URL</td>
         </tr>
-<!--        <tr>-->
-<!--            <td>Sample Video 2</td>-->
-<!--            <td>Description 2</td>-->
-<!--            <td>7:45</td>-->
-<!--            <td>2000</td>-->
-<!--        </tr>-->
-        <!-- End of sample data -->
         </tbody>
     </table>
 
     <!-- Button to add a new video -->
-    <a href="/userDashboard" class="btn btn-primary">Add New Video</a>
+    <a href="/addVideo" class="btn btn-primary">Add New Video</a>
 </div>
 </body>
 </html>

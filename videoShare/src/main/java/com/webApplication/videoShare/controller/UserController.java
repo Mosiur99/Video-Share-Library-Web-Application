@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,17 +50,53 @@ public class UserController {
         return "userDashboard";
     }
 
-    @PostMapping("/userDashboard")
-    public String VideoAddedPage(){
-        return "addVideo";
+    @GetMapping("/home")
+    public String homePage(Model model){
+        List<Video> videoList = videoService.getAllVideos();
+
+        model.addAttribute("videoList", videoList);
+        return "home";
     }
+
+
+//    @GetMapping("/videourl")
+//    public String getVideoUrl(Model model){
+//        List<Object> videosUrl = videoRepository.getVideosUrl();
+//        model.addAttribute("videosUrl", videosUrl);
+//        return "videourl";
+//    }
+
+//    @PostMapping("/userDashboard")
+//    public String VideoAddedPage(){
+//        return "addVideo";
+//    }
 
     @PostMapping("/addVideo")
     public String addNewVideo(@RequestParam String title, @RequestParam String url){
         Video video = new Video();
         video.setTitle(title);
         video.setUrl(url);
+        String videoId = videoService.extractVideoId(url);
+        video.setVideoId(videoId);
         videoRepository.save(video);
         return "videoAddedSuccess";
+    }
+
+    @GetMapping("/addVideo")
+    public String addVideo(){
+        return "addVideo";
+    }
+
+    @GetMapping("/videoDetails/{videoId}")
+    public String videoDetails(@PathVariable String videoId, Model model){
+        List<Video> videoList = videoService.getAllVideos();
+
+        for(Video video : videoList){
+            if(video.getVideoId() == videoId){
+                model.addAttribute("video", video);
+                break;
+            }
+        }
+        return "videoDetails";
     }
 }

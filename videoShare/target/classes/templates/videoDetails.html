@@ -6,23 +6,23 @@
 </head>
 <body>
 <h1>Video List</h1>
-<div th:each="video : ${videoList}">
+<!--<div th:each="video : ${videoList}">-->
     <h2 th:text="${video.title}"></h2>
     <div class="video-container">
-<!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/${video.videoId}'}" frameborder="0" allowfullscreen></iframe>-->
+        <!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/${video.videoId}'}" frameborder="0" allowfullscreen></iframe>-->
 
-<!--        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>-->
+        <!--        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>-->
 
 
         <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
 
 
-<!--        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>-->
+        <!--        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>-->
 
 
         <!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/+${T(com.webApplication.videoShare.utility.YoutubeUtil.extractVideoIdFromUrl(video.url))}'}" frameborder="0" allowfullscreen></iframe>-->
     </div>
-    <a th:href="@{${'videoDetails/'+video.videoId}}" class="btn btn-primary">Video Details</a>
-</div>
+<!--    <a href="/videoDetails/{video.videoId}" class="btn btn-primary">Video Details</a>-->
+<!--</div>-->
 </body>
 </html>

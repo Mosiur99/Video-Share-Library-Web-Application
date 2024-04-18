@@ -16,14 +16,18 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String url;
 
+    @Column(nullable = false, unique = true)
+    private String videoId;
+
     public Video(){
 
     }
 
-    public Video(long id, String title, String url) {
+    public Video(long id, String title, String url, String videoId) {
         this.id = id;
         this.title = title;
         this.url = url;
+        this.videoId = videoId;
     }
 
     public long getId() {
@@ -48,5 +52,13 @@ public class Video {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 }

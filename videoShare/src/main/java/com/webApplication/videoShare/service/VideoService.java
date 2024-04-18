@@ -5,5 +5,7 @@ import com.webApplication.videoShare.Entity.Video;
 import java.util.List;
 
 public interface VideoService {
-    List<Video> getAllVideos();
+    public List<Video> getAllVideos();
+
+    public String extractVideoId(String url);
 }
