@@ -27,4 +27,42 @@ public class VideoServiceImpl implements VideoService{
     public String extractVideoId(String url) {
         return url.split("v=")[1];
     }
+
+    @Override
+    public Video singleVideoDetails(String id) {
+        List<Video> videos = videoRepository.findAll();
+        Video video = videos.stream()
+                .filter(t -> id.equals(t.getVideoId()))
+                .findFirst()
+                .orElse(null);
+        return video;
+    }
+
+    @Override
+    public void incrementLikeCount(String id) {
+        List<Video> videoList = videoRepository.findAll();
+        for(Video video : videoList){
+            if(video.getVideoId().equals(id)){
+               long likes = video.getLikeCount();
+                likes += 1;
+                video.setLikeCount(likes);
+                videoRepository.save(video);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void incrementDislikeCount(String id) {
+        List<Video> videoList = videoRepository.findAll();
+        for(Video video : videoList){
+            if(video.getVideoId().equals(id)){
+                long dislikes = video.getDislikeCount();
+                dislikes += 1;
+                video.setDislikeCount(dislikes);
+                videoRepository.save(video);
+                break;
+            }
+        }
+    }
 }

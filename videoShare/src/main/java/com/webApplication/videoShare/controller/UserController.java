@@ -4,6 +4,8 @@ import com.webApplication.videoShare.Entity.User;
 import com.webApplication.videoShare.Entity.Video;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
+import com.webApplication.videoShare.service.UserService;
+import com.webApplication.videoShare.service.UserServiceImpl;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class UserController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/userSignup")
     public String signupForm(){
         return "userSignup";
@@ -41,6 +46,21 @@ public class UserController {
         user.setPassword(password);
         userRepository.save(user);
         return "signupSuccess";
+    }
+
+    @GetMapping("/userLogin")
+    public String loginForm(){
+        return "userLogin";
+    }
+
+    @PostMapping("/userLogin")
+    public String loginSubmit(@RequestParam String username, @RequestParam String email, @RequestParam String password){
+        if(userService.validUser(username, email, password)){
+            return "userDashboard";
+        }
+        else{
+            return "InValid User";
+        }
     }
 
     @GetMapping("/userDashboard")
@@ -89,14 +109,20 @@ public class UserController {
 
     @GetMapping("/videoDetails/{videoId}")
     public String videoDetails(@PathVariable String videoId, Model model){
-        List<Video> videoList = videoService.getAllVideos();
-
-        for(Video video : videoList){
-            if(video.getVideoId() == videoId){
-                model.addAttribute("video", video);
-                break;
-            }
-        }
+        Video video = videoService.singleVideoDetails(videoId);
+        model.addAttribute("video", video);
         return "videoDetails";
+    }
+
+    @PostMapping("/like/{videoId}")
+    public String likeVideo(@PathVariable String videoId){
+        videoService.incrementLikeCount(videoId);
+        return "redirect:/videoDetails/{videoId}";
+    }
+
+    @PostMapping("/dislike/{videoId}")
+    public String dislikeVideo(@PathVariable String videoId){
+        videoService.incrementDislikeCount(videoId);
+        return "redirect:/videoDetails/{videoId}";
     }
 }

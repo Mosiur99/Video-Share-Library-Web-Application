@@ -8,4 +8,10 @@ public interface VideoService {
     public List<Video> getAllVideos();
 
     public String extractVideoId(String url);
+
+    public Video singleVideoDetails(String id);
+
+    public void incrementLikeCount(String id);
+
+    public void incrementDislikeCount(String id);
 }

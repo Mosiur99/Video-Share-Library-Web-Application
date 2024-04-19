@@ -5,6 +5,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<div>
+    <h4>Sign Up</h4>
+    <a th:href="@{/userSignup}"><button class = "btn btn-primary">Sign Up</button></a>
+    <!-- Assuming '/signup' is the endpoint for the signup page -->
+</div>
+<div>
+    <h4>Login</h4>
+    <a th:href="@{/userLogin}"><button class = "btn btn-primary">Login</button></a>
+    <!-- Assuming '/login' is the endpoint for the login page -->
+</div>
 <h1>Video List</h1>
 <div th:each="video : ${videoList}">
     <h2 th:text="${video.title}"></h2>
