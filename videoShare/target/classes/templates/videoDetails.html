@@ -31,14 +31,14 @@
     <p th:text="${video.viewCount}">${video.viewCount}</p>
 </div>
 <div>
-    <form th:action="@{${'/like/'+video.videoId}}" method="post">
+    <form th:action="@{${'/user/like/'+video.videoId}}" method="post">
 <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
         <button type="submit" class = "btn btn-primary">Like</button>
         <p th:text="${video.likeCount}">${video.likeCount}</p>
     </form>
 </div>
 <div>
-    <form th:action="@{${'/dislike/'+video.videoId}}" method="post">
+    <form th:action="@{${'/user/dislike/'+video.videoId}}" method="post">
 <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
         <button type="submit" class = "btn btn-danger">Dislike</button>
         <p th:text="${video.dislikeCount}">${video.dislikeCount}</p>

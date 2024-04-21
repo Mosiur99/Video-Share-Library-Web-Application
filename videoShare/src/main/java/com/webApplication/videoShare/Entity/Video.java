@@ -19,6 +19,9 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String videoId;
 
+    @ManyToOne()
+    private User user;
+
     private long viewCount = 0;
     private  long likeCount = 0;
     private long dislikeCount = 0;
@@ -27,11 +30,12 @@ public class Video {
 
     }
 
-    public Video(long id, String title, String url, String videoId, long viewCount, long likeCount, long dislikeCount) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.videoId = videoId;
+        this.user = user;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
@@ -91,5 +95,13 @@ public class Video {
 
     public void setVideoId(String videoId) {
         this.videoId = videoId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

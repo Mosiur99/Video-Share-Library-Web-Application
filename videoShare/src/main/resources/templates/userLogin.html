@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div class="login-container">
     <h2>User Login</h2>
     <form th:action="@{/userLogin}" method="post">
         <div class="form-group">
@@ -26,7 +26,8 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <a href="/userDashboard" class="btn btn-primary">Login</a>
+<!--        <a role = "button" href="/user/userDashboard" class="btn btn-primary">Login</a>-->
+        <button type="submit">Login</button>
     </form>
 </div>
 </body>

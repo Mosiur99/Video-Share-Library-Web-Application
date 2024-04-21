@@ -32,7 +32,7 @@
 
         <!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/+${T(com.webApplication.videoShare.utility.YoutubeUtil.extractVideoIdFromUrl(video.url))}'}" frameborder="0" allowfullscreen></iframe>-->
     </div>
-    <a th:href="@{${'videoDetails/'+video.videoId}}" class="btn btn-primary">Video Details</a>
+    <a th:href="@{${'/user/videoDetails/'+video.videoId}}" class="btn btn-primary">Video Details</a>
 </div>
 </body>
 </html>

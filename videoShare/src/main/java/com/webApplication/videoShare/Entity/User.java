@@ -2,6 +2,8 @@ package com.webApplication.videoShare.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -10,24 +12,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 45)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 45)
+//    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false)
     private String username;
+
+    private String role = "USER";
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<Video> videos;
 
     public User(){
 
     }
 
-    public User(Long id, String email, String password, String username) {
+    public User(Long id, String email, String password, String username, String role) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
+        this.role = role;
     }
 
     public Long getId() {
@@ -60,5 +71,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
