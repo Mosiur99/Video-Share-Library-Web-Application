@@ -1,6 +1,10 @@
 package com.webApplication.videoShare.Entity;
 
+
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "videos")
@@ -20,17 +24,23 @@ public class Video {
     private String videoId;
 
     @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
 
     private long viewCount = 0;
     private  long likeCount = 0;
     private long dislikeCount = 0;
 
+    @ManyToMany()
+    private List<User> likedUser = new ArrayList<>();
+    @ManyToMany()
+    private List<User> dislikedUser = new ArrayList<>();
+
     public Video(){
 
     }
 
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -39,6 +49,8 @@ public class Video {
         this.viewCount = viewCount;
         this.likeCount = likeCount;
         this.dislikeCount = dislikeCount;
+        this.likedUser = likedUser;
+        this.dislikedUser = dislikedUser;
     }
 
     public long getId() {
@@ -103,5 +115,21 @@ public class Video {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<User> getLikedUser() {
+        return likedUser;
+    }
+
+    public void setLikedUser(List<User> likedUser) {
+        this.likedUser = likedUser;
+    }
+
+    public List<User> getDislikedUser() {
+        return dislikedUser;
+    }
+
+    public void setDislikedUser(List<User> dislikedUser) {
+        this.dislikedUser = dislikedUser;
     }
 }

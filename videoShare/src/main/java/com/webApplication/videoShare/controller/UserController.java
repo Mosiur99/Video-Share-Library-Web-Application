@@ -4,20 +4,27 @@ import com.webApplication.videoShare.Entity.User;
 import com.webApplication.videoShare.Entity.Video;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
+import com.webApplication.videoShare.service.UserService;
+import com.webApplication.videoShare.service.UserServiceImplement;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -49,7 +56,14 @@ public class UserController {
 
     @GetMapping("/userLogin")
     public String loginPage(){
-        return "userLogin";
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "userLogin";
+        }
+
+        return "redirect:/user/userDashboard";
     }
 
 //    @PostMapping("/userLogin")
@@ -59,7 +73,7 @@ public class UserController {
 
     @GetMapping("/user/userDashboard")
     public String userDashboard(Model model) {
-        List<Video> videoList = videoService.getAllVideos();
+        List<Video> videoList = videoService.getAllVideosByUserId();
         model.addAttribute("videoList", videoList);
         return "userDashboard";
     }
@@ -69,7 +83,22 @@ public class UserController {
         List<Video> videoList = videoService.getAllVideos();
 
         model.addAttribute("videoList", videoList);
-        return "home";
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            return "home";
+        }
+
+        return "redirect:/user/userHome";
+    }
+
+    @GetMapping("/user/userHome")
+    public String userHomePage(Model model){
+        List<Video> videoList = videoService.getAllVideos();
+        model.addAttribute("videoList", videoList);
+
+        return "userHome";
     }
 
 
@@ -87,17 +116,30 @@ public class UserController {
 
     @PostMapping("/user/addVideo")
     public String addNewVideo(@RequestParam String title, @RequestParam String url){
-        Video video = new Video();
-        video.setTitle(title);
-        video.setUrl(url);
-        String videoId = videoService.extractVideoId(url);
-        video.setVideoId(videoId);
-        videoRepository.save(video);
-        return "videoAddedSuccess";
+//        Video video = new Video();
+//        video.setTitle(title);
+//        video.setUrl(url);
+//        String videoId = videoService.extractVideoId(url);
+//        video.setVideoId(videoId);
+//        videoRepository.save(video);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        Long id = 0L;
+//        List<User> userList = userRepository.findAll();
+//        for(User user : userList){
+//            if(user.getUsername().equals(username)){
+//                id = user.getId();
+//                break;
+//            }
+//        }
+        videoService.newVideoAdded(title, url, userService.fetchUserId());
+        return "redirect:/user/userDashboard";
     }
 
     @GetMapping("/user/addVideo")
-    public String addVideo(){
+    public String addVideo(Model model){
+        User user = userService.singleUserDetails(userService.fetchUserId());
+        model.addAttribute("user", user);
         return "addVideo";
     }
 

@@ -33,12 +33,13 @@ public class User {
 
     }
 
-    public User(Long id, String email, String password, String username, String role) {
+    public User(Long id, String email, String password, String username, String role, List<Video> videos) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.username = username;
         this.role = role;
+        this.videos = videos;
     }
 
     public Long getId() {
@@ -79,5 +80,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(List<Video> videos) {
+        this.videos = videos;
     }
 }
