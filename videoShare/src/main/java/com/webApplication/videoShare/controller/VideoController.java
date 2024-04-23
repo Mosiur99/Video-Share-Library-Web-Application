@@ -6,6 +6,7 @@ import com.webApplication.videoShare.repository.VideoRepository;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,18 +57,24 @@ public class VideoController {
         return "videoDetails";
     }
 
+//    @PostMapping("/user/like/{videoId}")
+//    public String likeVideo(@PathVariable String videoId, Model model){
+//        videoService.incrementLikeCount(videoId);
+//        return "redirect:/user/videoDetails/{videoId}";
+//    }
+
     @PostMapping("/user/like/{videoId}")
-    public String likeVideo(@PathVariable String videoId, Model model){
-        videoService.incrementLikeCount(videoId);
-        return "redirect:/user/videoDetails/{videoId}";
-//        Video video = videoService.singleVideoDetails(videoId);
-//        model.addAttribute("video", video);
+    @ResponseBody
+    public ResponseEntity<Long> likeVideo(@PathVariable String videoId, Model model){
+        Long likeCount = videoService.updateLikeCount(videoId);
+        return ResponseEntity.ok(likeCount);
     }
 
+
     @PostMapping("/user/dislike/{videoId}")
-    public String dislikeVideo(@PathVariable String videoId){
-        videoService.incrementDislikeCount(videoId);
-        return "redirect:/user/videoDetails/{videoId}";
+    public ResponseEntity<Long> dislikeVideo(@PathVariable String videoId, Model model){
+        Long dislikeCount = videoService.updateDislikeCount(videoId);
+        return ResponseEntity.ok(dislikeCount);
     }
 
     @GetMapping("/view/{videoId}")

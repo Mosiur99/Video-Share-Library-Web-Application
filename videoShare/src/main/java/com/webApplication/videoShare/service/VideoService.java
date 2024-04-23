@@ -13,9 +13,11 @@ public interface VideoService {
 
     Video singleVideoDetails(String id);
 
-    void incrementLikeCount(String id);
+    Long updateLikeCount(String id);
 
-    void incrementDislikeCount(String id);
+    Long updateDislikeCount(String id);
+
+//    void incrementDislikeCount(String id);
 
     void newVideoAdded(String title, String url, long id);
 
