@@ -20,4 +20,6 @@ public interface VideoService {
     void newVideoAdded(String title, String url, long id);
 
     void viewCountUpdate(String id);
+
+    void updateVideo(Long id, String title, String url);
 }

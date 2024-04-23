@@ -7,42 +7,28 @@
 </head>
 <body>
 <div>
-    <!--    <h4>Sign Up</h4>-->
     <a th:href="@{/logout}"><button class = "btn btn-primary float-right">Log Out</button></a>
-    <!-- Assuming '/signup' is the endpoint for the signup page -->
 </div>
 <div class="container mt-5 p-4">
     <h2>User Dashboard</h2>
-
-    <!-- Table to display previous video data -->
     <table class="table">
         <thead>
         <tr>
             <th>Title</th>
             <th>URL</th>
             <th>Edit</th>
-<!--            <th>Video Id</th>-->
         </tr>
         </thead>
         <tbody>
-        <!-- Sample data, you can replace this with dynamic data -->
         <tr th:each = "video : ${videoList}">
             <td th:text = "${video.title}">Title</td>
             <td th:text = "${video.url}">URL</td>
             <td>
-                <form th:action="@{${'/user/edit/'+video.id}}" method="post">
-                    <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
-                    <button type="submit" class = "btn btn-danger">Edit</button>
-                </form>
-<!--                <a href="@{${'/user/edit/'+video.id}}" class="btn btn-danger">Edit</a>-->
-<!--                <a href="/user/edit/{video.id}" class="btn btn-danger">Edit</a>-->
+                <a th:href="@{${'/user/edit/'+video.id}}" class="btn btn-danger">Edit</a>
             </td>
-<!--            <td th:text = "${video.videoId}">URL</td>-->
         </tr>
         </tbody>
     </table>
-
-    <!-- Button to add a new video -->
     <a href="/user/addVideo" class="btn btn-primary">Add New Video</a>
     <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
 </div>

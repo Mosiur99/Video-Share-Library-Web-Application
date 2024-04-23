@@ -8,10 +8,7 @@ import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class VideoController {
@@ -37,16 +34,17 @@ public class VideoController {
         return "addVideo";
     }
 
-    @PostMapping("/user/edit")
-    public String editThisVideo(){
-//        videoService.newVideoAdded(title, url, userService.fetchUserId());
+    @PostMapping("/user/edit/{id}")
+    public String editThisVideo(@PathVariable Long id, @RequestParam String title, @RequestParam String url){
+        videoService.updateVideo(id, title, url);
         return "redirect:/user/userDashboard";
     }
 
-    @GetMapping("/user/edit")
-    public String editVideo(){
+    @GetMapping("/user/edit/{id}")
+    public String editVideo(@PathVariable Long id, Model model){
+        Video video = videoRepository.getReferenceById(id);
 //        User user = userService.singleUserDetails(userService.fetchUserId());
-//        model.addAttribute("user", user);
+        model.addAttribute("video", video);
         return "editVideo";
     }
 

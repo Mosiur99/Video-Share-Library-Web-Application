@@ -211,4 +211,13 @@ public class VideoServiceImpl implements VideoService{
             }
         }
     }
+
+    @Override
+    public void updateVideo(Long id, String title, String url) {
+        Video video = videoRepository.getReferenceById(id);
+        video.setTitle(title);
+        video.setUrl(url);
+        video.setVideoId(extractVideoId(url));
+        videoRepository.save(video);
+    }
 }
