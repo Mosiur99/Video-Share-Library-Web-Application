@@ -1,22 +1,23 @@
 package com.webApplication.videoShare.service;
 
-import com.webApplication.videoShare.Entity.User;
-import com.webApplication.videoShare.Entity.Video;
+import com.webApplication.videoShare.entity.Video;
 
 import java.util.List;
 
 public interface VideoService {
-    public List<Video> getAllVideos();
+    List<Video> getAllVideos();
 
-    public List<Video> getAllVideosByUserId();
+    List<Video> getAllVideosByUserId();
 
-    public String extractVideoId(String url);
+    String extractVideoId(String url);
 
-    public Video singleVideoDetails(String id);
+    Video singleVideoDetails(String id);
 
-    public void incrementLikeCount(String id);
+    void incrementLikeCount(String id);
 
-    public void incrementDislikeCount(String id);
+    void incrementDislikeCount(String id);
 
-    public void newVideoAdded(String title, String url, long id);
+    void newVideoAdded(String title, String url, long id);
+
+    void viewCountUpdate(String id);
 }

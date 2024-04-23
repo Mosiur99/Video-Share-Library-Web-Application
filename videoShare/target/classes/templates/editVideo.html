@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Video</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Edit Video</h2>
+<!--    <form th:action="@{${'/user/edit/'+video.id}}" method="post">-->
+<!--        &lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <label for="url">URL:</label>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <input type="text" class="form-control" id="url" name="url" required>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <div class="form-group">-->
+<!--            <label for="title">Title:</label>-->
+<!--            <input type="text" class="form-control" id="title" name="title" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="url">URL:</label>-->
+<!--            <input type="text" class="form-control" id="url" name="url" required>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;        <div class="form-group">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <label for="password">Password:</label>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <input type="password" class="form-control" id="password" name="password" required>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <button type="submit" class="btn btn-primary">Add New Video</button>-->
+<!--    </form>-->
+    <form th:action="@{/user/edit}" method="post">
+        <!--        <div class="form-group">-->
+        <!--            <label for="url">URL:</label>-->
+        <!--            <input type="text" class="form-control" id="url" name="url" required>-->
+        <!--        </div>-->
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="url">URL:</label>
+            <input type="text" class="form-control" id="url" name="url" required>
+        </div>
+        <!--        <div class="form-group">-->
+        <!--            <label for="password">Password:</label>-->
+        <!--            <input type="password" class="form-control" id="password" name="password" required>-->
+        <!--        </div>-->
+        <button type="submit" class="btn btn-primary">Add New Video</button>
+    </form>
+</div>
+</body>
+</html>

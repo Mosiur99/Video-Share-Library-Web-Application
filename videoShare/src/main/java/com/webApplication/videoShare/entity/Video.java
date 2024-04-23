@@ -1,4 +1,4 @@
-package com.webApplication.videoShare.Entity;
+package com.webApplication.videoShare.entity;
 
 
 import jakarta.persistence.*;

@@ -20,7 +20,8 @@
         <tr>
             <th>Title</th>
             <th>URL</th>
-            <th>Video Id</th>
+            <th>Edit</th>
+<!--            <th>Video Id</th>-->
         </tr>
         </thead>
         <tbody>
@@ -28,7 +29,15 @@
         <tr th:each = "video : ${videoList}">
             <td th:text = "${video.title}">Title</td>
             <td th:text = "${video.url}">URL</td>
-            <td th:text = "${video.videoId}">URL</td>
+            <td>
+                <form th:action="@{${'/user/edit/'+video.id}}" method="post">
+                    <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
+                    <button type="submit" class = "btn btn-danger">Edit</button>
+                </form>
+<!--                <a href="@{${'/user/edit/'+video.id}}" class="btn btn-danger">Edit</a>-->
+<!--                <a href="/user/edit/{video.id}" class="btn btn-danger">Edit</a>-->
+            </td>
+<!--            <td th:text = "${video.videoId}">URL</td>-->
         </tr>
         </tbody>
     </table>

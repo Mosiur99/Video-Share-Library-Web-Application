@@ -6,18 +6,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Video Details</h1>
 <div>
-    <h2>Video Title</h2>
     <!-- Replace 'videoTitle' with your actual video title -->
-    <p th:text="${video.title}">Video Title</p>
-    <div class="video-container">
+    <h5 th:text="${video.title}" class = "m-3">Video Title</h5>
+    <div class="video-container m-3">
         <!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/${video.videoId}'}" frameborder="0" allowfullscreen></iframe>-->
 
         <!--        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>-->
 
 
-        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
+        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
 
 
         <!--        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>-->
@@ -33,16 +31,47 @@
 <div>
     <form th:action="@{${'/user/like/'+video.videoId}}" method="post">
 <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
-        <button type="submit" class = "btn btn-primary">Like</button>
+        <button type = "submit" class = "btn btn-primary click">Like</button>
         <p th:text="${video.likeCount}">${video.likeCount}</p>
     </form>
 </div>
 <div>
     <form th:action="@{${'/user/dislike/'+video.videoId}}" method="post">
 <!--        <input type="hidden" name="videoId" th:value="${video.videoId}" />-->
-        <button type="submit" class = "btn btn-danger">Dislike</button>
+        <button type="button" class = "btn btn-danger">Dislike</button>
         <p th:text="${video.dislikeCount}">${video.dislikeCount}</p>
     </form>
+</div>
+<div>
+    <h5>who liked this video</h5>
+    <div th:if="${not #lists.isEmpty(video.likedUser)}">
+        <div th:each="likedUser : ${video.likedUser}">
+            <p th:text = "${likedUser.username}">${likedUser.username}</p>
+        </div>
+    </div>
+    <div th:if="${#lists.isEmpty(video.likedUser)}">
+        <p>No body till now liked this video</p>
+    </div>
+<!--    <div th:each="likedUser : ${video.likedUser}">-->
+<!--        <p th:text = "${likedUser.username}">${likedUser.username}</p>-->
+<!--    </div>-->
+</div>
+<div>
+    <h5>who Disliked this video</h5>
+    <div th:if="${not #lists.isEmpty(video.dislikedUser)}">
+        <div th:each="dislikedUser : ${video.dislikedUser}">
+            <p th:text = "${dislikedUser.username}">${dislikedUser.username}</p>
+        </div>
+    </div>
+    <div th:if="${#lists.isEmpty(video.dislikedUser)}">
+        <p>No body till now disliked this video</p>
+    </div>
+<!--    <div th:each="dislikedUser : ${video.dislikedUser}">-->
+<!--        <p th:text = "${dislikedUser.username}">${dislikedUser.username}</p>-->
+<!--    </div>-->
+</div>
+<div>
+    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
 </div>
 </body>
 </html>

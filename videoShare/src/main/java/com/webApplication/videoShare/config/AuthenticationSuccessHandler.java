@@ -1,4 +1,4 @@
-package com.webApplication.videoShare.security;
+package com.webApplication.videoShare.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

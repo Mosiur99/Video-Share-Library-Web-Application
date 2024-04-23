@@ -1,4 +1,4 @@
-package com.webApplication.videoShare.Entity;
+package com.webApplication.videoShare.entity;
 
 import jakarta.persistence.*;
 
@@ -15,7 +15,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)

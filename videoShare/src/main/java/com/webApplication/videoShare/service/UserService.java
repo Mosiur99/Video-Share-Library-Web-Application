@@ -1,10 +1,12 @@
 package com.webApplication.videoShare.service;
 
-import com.webApplication.videoShare.Entity.User;
-import com.webApplication.videoShare.Entity.Video;
+import com.webApplication.videoShare.entity.User;
 
 public interface UserService {
-    public User singleUserDetails(Long id);
 
-    public Long fetchUserId();
+    User singleUserDetails(Long id);
+
+    Long fetchUserId();
+
+    boolean validUser(String username, String password);
 }

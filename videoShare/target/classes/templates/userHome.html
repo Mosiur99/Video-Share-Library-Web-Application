@@ -3,6 +3,12 @@
 <head>
     <title>Video List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .ytplayer
+        {
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
 <!--<div>-->
@@ -35,7 +41,7 @@
             <!--        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>-->
 
 
-            <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
+            <iframe class = "ytplayer" width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
 
 
             <!--        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>-->

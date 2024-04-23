@@ -1,7 +1,7 @@
 package com.webApplication.videoShare.service;
 
-import com.webApplication.videoShare.Entity.User;
-import com.webApplication.videoShare.Entity.Video;
+import com.webApplication.videoShare.entity.User;
+import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class VideoServiceImpl implements VideoService{
@@ -83,15 +81,27 @@ public class VideoServiceImpl implements VideoService{
                         return;
                     }
                     else{
-                        List<User> likedUserList = videoList.getFirst().getLikedUser();
+                        List<User> likedUserList = video.getLikedUser();
+                        List<User> dislikedUserList = video.getDislikedUser();
                         if(likedUserList.contains(loginUser)){
                             likedUserList.remove(loginUser);
                             video.setLikeCount(video.getLikeCount() - 1);
+                            video.setLikedUser(likedUserList);
+                            videoRepository.save(video);
+                        }
+                        else if(dislikedUserList.contains(loginUser)){
+                            dislikedUserList.remove(loginUser);
+                            likedUserList.add(loginUser);
+                            video.setDislikeCount(video.getDislikeCount() - 1);
+                            video.setLikeCount(video.getLikeCount() + 1);
+                            video.setDislikedUser(dislikedUserList);
+                            video.setLikedUser(likedUserList);
                             videoRepository.save(video);
                         }
                         else{
                             likedUserList.add(loginUser);
                             video.setLikeCount(video.getLikeCount() + 1);
+                            video.setLikedUser(likedUserList);
                             videoRepository.save(video);
                         }
                     }
@@ -135,14 +145,27 @@ public class VideoServiceImpl implements VideoService{
                     if (video.getUser().getId().equals(userId)) {
                         return;
                     } else {
-                        List<User> dislikedUserList = videoList.getFirst().getDislikedUser();
+                        List<User> likedUserList = video.getLikedUser();
+                        List<User> dislikedUserList = video.getDislikedUser();
                         if (dislikedUserList.contains(loginUser)) {
                             dislikedUserList.remove(loginUser);
                             video.setDislikeCount(video.getDislikeCount() - 1);
+                            video.setDislikedUser(dislikedUserList);
                             videoRepository.save(video);
-                        } else {
+                        }
+                        else if(likedUserList.contains(loginUser)){
+                            likedUserList.remove(loginUser);
+                            dislikedUserList.add(loginUser);
+                            video.setLikeCount(video.getLikeCount() - 1);
+                            video.setDislikeCount(video.getDislikeCount() + 1);
+                            video.setLikedUser(likedUserList);
+                            video.setDislikedUser(dislikedUserList);
+                            videoRepository.save(video);
+                        }
+                        else {
                             dislikedUserList.add(loginUser);
                             video.setDislikeCount(video.getDislikeCount() + 1);
+                            video.setDislikedUser(dislikedUserList);
                             videoRepository.save(video);
                         }
                     }
@@ -167,5 +190,25 @@ public class VideoServiceImpl implements VideoService{
             }
         }
         videoRepository.save(video);
+    }
+
+    @Override
+    public void viewCountUpdate(String id) {
+        long userId = userService.fetchUserId();
+        List<Video> videoList = videoRepository.findAll();
+
+        for(Video video : videoList){
+            if(video.getVideoId().equals(id)){
+                if(video.getUser() != null){
+                    if(video.getUser().getId().equals(userId)){
+                        return;
+                    }
+                    else{
+                        video.setViewCount(video.getViewCount() + 1);
+                        videoRepository.save(video);
+                    }
+                }
+            }
+        }
     }
 }
