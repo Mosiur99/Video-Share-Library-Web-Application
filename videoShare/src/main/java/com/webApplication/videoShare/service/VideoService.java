@@ -17,8 +17,6 @@ public interface VideoService {
 
     Long updateDislikeCount(String id);
 
-//    void incrementDislikeCount(String id);
-
     void newVideoAdded(String title, String url, long id);
 
     void viewCountUpdate(String id);

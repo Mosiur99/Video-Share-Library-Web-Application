@@ -1,82 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Video Details</title>-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--<div>-->
-<!--    &lt;!&ndash; Replace 'videoTitle' with your actual video title &ndash;&gt;-->
-<!--    <h5 th:text="${video.title}" class = "m-3">Video Title</h5>-->
-<!--    <div class="video-container m-3">-->
-<!--        &lt;!&ndash;        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/${video.videoId}'}" frameborder="0" allowfullscreen></iframe>&ndash;&gt;-->
-
-<!--        &lt;!&ndash;        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>&ndash;&gt;-->
-
-
-<!--        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>-->
-
-
-<!--        &lt;!&ndash;        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>&ndash;&gt;-->
-
-
-<!--        &lt;!&ndash;        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/+${T(com.webApplication.videoShare.utility.YoutubeUtil.extractVideoIdFromUrl(video.url))}'}" frameborder="0" allowfullscreen></iframe>&ndash;&gt;-->
-<!--    </div>-->
-<!--</div>-->
-<!--<div>-->
-<!--    <h2>View Count</h2>-->
-<!--    <p th:text="${video.viewCount}">${video.viewCount}</p>-->
-<!--</div>-->
-<!--<div>-->
-<!--    <form th:action="@{${'/user/like/'+video.videoId}}" method="post">-->
-<!--&lt;!&ndash;        <input type="hidden" name="videoId" th:value="${video.videoId}" />&ndash;&gt;-->
-<!--        <button type = "submit" class = "btn btn-primary click">Like</button>-->
-<!--        <p th:text="${video.likeCount}">${video.likeCount}</p>-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div>-->
-<!--    <form th:action="@{${'/user/dislike/'+video.videoId}}" method="post">-->
-<!--&lt;!&ndash;        <input type="hidden" name="videoId" th:value="${video.videoId}" />&ndash;&gt;-->
-<!--        <button type="button" class = "btn btn-danger">Dislike</button>-->
-<!--        <p th:text="${video.dislikeCount}">${video.dislikeCount}</p>-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div>-->
-<!--    <h5>who liked this video</h5>-->
-<!--    <div th:if="${not #lists.isEmpty(video.likedUser)}">-->
-<!--        <div th:each="likedUser : ${video.likedUser}">-->
-<!--            <p th:text = "${likedUser.username}">${likedUser.username}</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:if="${#lists.isEmpty(video.likedUser)}">-->
-<!--        <p>No body till now liked this video</p>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div th:each="likedUser : ${video.likedUser}">&ndash;&gt;-->
-<!--&lt;!&ndash;        <p th:text = "${likedUser.username}">${likedUser.username}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--</div>-->
-<!--<div>-->
-<!--    <h5>who Disliked this video</h5>-->
-<!--    <div th:if="${not #lists.isEmpty(video.dislikedUser)}">-->
-<!--        <div th:each="dislikedUser : ${video.dislikedUser}">-->
-<!--            <p th:text = "${dislikedUser.username}">${dislikedUser.username}</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div th:if="${#lists.isEmpty(video.dislikedUser)}">-->
-<!--        <p>No body till now disliked this video</p>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div th:each="dislikedUser : ${video.dislikedUser}">&ndash;&gt;-->
-<!--&lt;!&ndash;        <p th:text = "${dislikedUser.username}">${dislikedUser.username}</p>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--</div>-->
-<!--<div>-->
-<!--    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -102,46 +23,17 @@
     </form>
 </div>
 <div>
-    <form id="dislikeForm" th:action="@{${'/user/like/'+video.videoId}}">
+    <form id="dislikeForm" th:action="@{${'/user/dislike/'+video.videoId}}">
         <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
         <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
     </form>
 </div>
 
-<script th:inline="javascript">
-    function likeVideo() {
-    var videoId = /*[[${video.videoId}]]*/ '';
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/like/' + videoId, true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var likeCount = parseInt(xhr.responseText);
-            document.getElementById('likeCount').innerText = likeCount;
-        }
-    };
-    xhr.send();
-}
-
-
-    function dislikeVideo() {
-    var videoId = /*[[${video.videoId}]]*/ '';
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/dislike/' + videoId, true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var dislikeCount = parseInt(xhr.responseText);
-            document.getElementById('dislikeCount').innerText = dislikeCount;
-        }
-    };
-    xhr.send();
-}
-</script>
-
 <div>
     <h5>Who liked this video</h5>
     <div th:if="${not #lists.isEmpty(video.likedUser)}">
         <div th:each="likedUser : ${video.likedUser}">
-            <p th:text="${likedUser.username}"></p>
+            <p id="likedUser" th:text="${likedUser.username}"></p>
         </div>
     </div>
     <div th:if="${#lists.isEmpty(video.likedUser)}">
@@ -162,5 +54,38 @@
 <div>
     <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
 </div>
+
+
+<script th:inline="javascript">
+    function likeVideo() {
+    var videoId = /*[[${video.videoId}]]*/ '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/user/like/' + videoId, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var likeCount = parseInt(xhr.responseText);
+            document.getElementById('likeCount').innerText = likeCount;
+            document.getElementById('dislikeCount').innerText = /*[[${video.dislikeCount}]]*/ '';
+        }
+    };
+    xhr.send();
+}
+
+
+    function dislikeVideo() {
+    var videoId = /*[[${video.videoId}]]*/ '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/user/dislike/' + videoId, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var dislikeCount = parseInt(xhr.responseText);
+            document.getElementById('dislikeCount').innerText = dislikeCount;
+            document.getElementById('likeCount').innerText = /*[[${video.likeCount}]]*/ '';
+        }
+    };
+    xhr.send();
+}
+</script>
+
 </body>
 </html>

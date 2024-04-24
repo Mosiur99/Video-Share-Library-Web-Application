@@ -3,38 +3,54 @@ package com.webApplication.videoShare.service;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.InvalidParameterException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent()){
-            User userObj = user.get();
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(userObj.getUsername())
-                    .password(userObj.getPassword())
-                    .roles(getRoles(userObj))
-                    .build();
+    public User singleUserDetails(Long id) {
+        List<User> userList = userRepository.findAll();
+        for(User user : userList){
+            if(user.getId().equals(id)){
+                return user;
+            }
         }
-        else{
-            throw new UsernameNotFoundException(username);
-        }
+        return null;
     }
 
-    private String[] getRoles(User user) {
-        if(user.getRole() == null){
-            return new String[]{"USER"};
+    @Override
+    public Long fetchUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String username = userDetails.getUsername();
+        Long id = 0L;
+        List<User> userList = userRepository.findAll();
+        for(User user : userList){
+            if(user.getEmail().equals(username)){
+                id = user.getId();
+                break;
+            }
         }
-        return user.getRole().split(",");
+        return id;
+    }
+
+    @Override
+    public void validUser(String email, String password){
+        List<User> userList = userRepository.findAll();
+        Optional<User> user = userList.stream()
+                .filter(t -> email.equals(t.getUsername()))
+                .filter(t -> password.equals(t.getPassword()))
+                .findFirst();
     }
 }

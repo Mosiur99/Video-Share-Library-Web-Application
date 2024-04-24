@@ -12,31 +12,17 @@
 </head>
 <body>
 <div>
-<!--    <h4>Sign Up</h4>-->
     <a th:href="@{/userSignup}"><button class = "btn btn-primary float-right m-3">Sign Up</button></a>
-    <!-- Assuming '/signup' is the endpoint for the signup page -->
 </div>
 <div>
 <!--    <h4>Login</h4>-->
     <a th:href="@{/userLogin}"><button class = "btn btn-primary float-right m-3">Login</button></a>
-    <!-- Assuming '/login' is the endpoint for the login page -->
 </div>
 <h1>Video List</h1>
 <div th:each="video : ${videoList}">
     <h2 th:text="${video.title}"></h2>
     <div class="video-container">
-<!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/${video.videoId}'}" frameborder="0" allowfullscreen></iframe>-->
-
-<!--        <iframe width="560" height="315" src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>-->
-
-
         <iframe class = "ytplayer" width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
-
-
-<!--        <iframe width="854" height="480" src="https://www.youtube.com/embed/video.videoId" frameborder="0" allowfullscreen></iframe>-->
-
-
-        <!--        <iframe width="560" height="315" th:src="@{'https://www.youtube.com/embed/+${T(com.webApplication.videoShare.utility.YoutubeUtil.extractVideoIdFromUrl(video.url))}'}" frameborder="0" allowfullscreen></iframe>-->
     </div>
     <a th:href="@{${'/view/'+video.videoId}}" class="btn btn-primary">View</a>
 </div>

@@ -8,5 +8,5 @@ public interface UserService {
 
     Long fetchUserId();
 
-    boolean validUser(String username, String password);
+    void validUser(String email, String password);
 }

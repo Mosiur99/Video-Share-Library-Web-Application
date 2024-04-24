@@ -57,22 +57,16 @@ public class VideoController {
         return "videoDetails";
     }
 
-//    @PostMapping("/user/like/{videoId}")
-//    public String likeVideo(@PathVariable String videoId, Model model){
-//        videoService.incrementLikeCount(videoId);
-//        return "redirect:/user/videoDetails/{videoId}";
-//    }
-
     @PostMapping("/user/like/{videoId}")
     @ResponseBody
-    public ResponseEntity<Long> likeVideo(@PathVariable String videoId, Model model){
+    public ResponseEntity<Long> likeVideo(@PathVariable String videoId){
         Long likeCount = videoService.updateLikeCount(videoId);
         return ResponseEntity.ok(likeCount);
     }
 
 
     @PostMapping("/user/dislike/{videoId}")
-    public ResponseEntity<Long> dislikeVideo(@PathVariable String videoId, Model model){
+    public ResponseEntity<Long> dislikeVideo(@PathVariable String videoId){
         Long dislikeCount = videoService.updateDislikeCount(videoId);
         return ResponseEntity.ok(dislikeCount);
     }

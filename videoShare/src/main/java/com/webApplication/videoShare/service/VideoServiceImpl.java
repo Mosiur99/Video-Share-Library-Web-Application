@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class VideoServiceImpl implements VideoService{
@@ -28,11 +29,6 @@ public class VideoServiceImpl implements VideoService{
 
     @Override
     public List<Video> getAllVideosByUserId() {
-//        List<Video> videoList = videoRepository.findAll();
-//        while(videoList.isEmpty()){
-//
-//        }
-//        return videoRepository.findAll();
         Long userId = userService.fetchUserId();
         List<Video> videoList = videoRepository.findAll();
         List<Video> userVideoList = new ArrayList<>();
@@ -67,26 +63,20 @@ public class VideoServiceImpl implements VideoService{
     public Long updateLikeCount(String id) {
         Long userId = userService.fetchUserId();
         List<Video> videoList = videoRepository.findAll();
-        Video video = null;
-        for(Video v : videoList){
-            if(v.getVideoId().equals(id)){
-                video = v;
-                break;
-            }
-        }
-        if (video == null) {
-            // Handle video not found
+        Video video = videoList.stream()
+                .filter(t -> id.equals(t.getVideoId()))
+                .findFirst()
+                .orElse(null);
+        if (Objects.isNull(video)) {
             return null;
         }
 
         User loginUser = userRepository.findById(userId).orElse(null);
         if (loginUser == null) {
-            // Handle user not found
             return null;
         }
 
         if (video.getUser() != null && video.getUser().getId().equals(userId)) {
-            // User is the owner of the video
             return video.getLikeCount();
         }
 
@@ -120,19 +110,16 @@ public class VideoServiceImpl implements VideoService{
                 break;
             }
         }
-        if (video == null) {
-            // Handle video not found
+        if (Objects.isNull(video)) {
             return null;
         }
 
         User loginUser = userRepository.findById(userId).orElse(null);
         if (loginUser == null) {
-            // Handle user not found
             return null;
         }
 
         if (video.getUser() != null && video.getUser().getId().equals(userId)) {
-            // User is the owner of the video
             return video.getDislikeCount();
         }
 
@@ -200,6 +187,11 @@ public class VideoServiceImpl implements VideoService{
         video.setTitle(title);
         video.setUrl(url);
         video.setVideoId(extractVideoId(url));
+        video.setLikeCount(0);
+        video.setDislikeCount(0);
+        video.setViewCount(0);
+        video.setLikedUser(null);
+        video.setDislikedUser(null);
         videoRepository.save(video);
     }
 }

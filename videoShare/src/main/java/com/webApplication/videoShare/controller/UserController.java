@@ -7,6 +7,9 @@ import com.webApplication.videoShare.repository.VideoRepository;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -65,11 +69,13 @@ public class UserController {
 
 
     @PostMapping("/userLogin")
-    public String loginSubmit(@RequestParam String username, @RequestParam String password){
-        if(userService.validUser(username, password)){
+    public String loginSubmit(@RequestParam String email, @RequestParam String password){
+        try{
+            userService.validUser(email, password);
             return "redirect:/user/userDashboard";
+        }catch(Exception exception){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
-        return "redirect:/userLogin?error";
     }
 
 
