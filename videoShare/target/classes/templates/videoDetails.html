@@ -17,39 +17,28 @@
     <p th:text="${video.viewCount}"></p>
 </div>
 <div>
-    <form id="likeForm" th:action="@{${'/user/like/'+video.videoId}}">
+    <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/LIKE'}}">
         <button type="button" class="btn btn-primary click" onclick="likeVideo()">Like</button>
         <p id="likeCount" th:text="${video.likeCount}"></p>
     </form>
 </div>
 <div>
-    <form id="dislikeForm" th:action="@{${'/user/dislike/'+video.videoId}}">
+    <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/DISLIKE'}}">
         <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
         <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
     </form>
 </div>
 
-<div>
-    <h5>Who liked this video</h5>
-    <div th:if="${not #lists.isEmpty(video.likedUser)}">
-        <div th:each="likedUser : ${video.likedUser}">
-            <p id="likedUser" th:text="${likedUser.username}"></p>
-        </div>
-    </div>
-    <div th:if="${#lists.isEmpty(video.likedUser)}">
-        <p>No one has liked this video yet</p>
-    </div>
+<div class="m-3">
+    <form th:action="@{${'/user/likedUsers/'+video.videoId}}">
+        <button type="submit" class="btn btn-secondary">Liked User List</button>
+    </form>
 </div>
-<div>
-    <h5>Who Disliked this video</h5>
-    <div th:if="${not #lists.isEmpty(video.dislikedUser)}">
-        <div th:each="dislikedUser : ${video.dislikedUser}">
-            <p th:text="${dislikedUser.username}"></p>
-        </div>
-    </div>
-    <div th:if="${#lists.isEmpty(video.dislikedUser)}">
-        <p>No one has disliked this video yet</p>
-    </div>
+
+<div class="m-3">
+    <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">
+        <button type="submit" class="btn btn-secondary">DisLiked User List</button>
+    </form>
 </div>
 <div>
     <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
@@ -58,14 +47,14 @@
 
 <script th:inline="javascript">
     function likeVideo() {
-    var videoId = /*[[${video.videoId}]]*/ '';
+    var videoId = /*[[${video.id}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/like/' + videoId, true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/LIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var likeCount = parseInt(xhr.responseText);
-            document.getElementById('likeCount').innerText = likeCount;
-            document.getElementById('dislikeCount').innerText = /*[[${video.dislikeCount}]]*/ '';
+            var likeOrDislikeCount = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = likeOrDislikeCount[0];
+            document.getElementById('dislikeCount').innerText = likeOrDislikeCount[1];
         }
     };
     xhr.send();
@@ -73,14 +62,14 @@
 
 
     function dislikeVideo() {
-    var videoId = /*[[${video.videoId}]]*/ '';
+    var videoId = /*[[${video.id}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/dislike/' + videoId, true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/DISLIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var dislikeCount = parseInt(xhr.responseText);
-            document.getElementById('dislikeCount').innerText = dislikeCount;
-            document.getElementById('likeCount').innerText = /*[[${video.likeCount}]]*/ '';
+            var likeOrDislikeCount = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = likeOrDislikeCount[0];
+            document.getElementById('dislikeCount').innerText = likeOrDislikeCount[1];
         }
     };
     xhr.send();

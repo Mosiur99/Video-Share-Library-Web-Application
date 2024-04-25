@@ -36,11 +36,14 @@ public class Video {
     @ManyToMany()
     private List<User> dislikedUser = new ArrayList<>();
 
+    @Enumerated(EnumType.ORDINAL)
+    private LikeOrDislike likeOrDislike;
+
     public Video(){
 
     }
 
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -51,6 +54,7 @@ public class Video {
         this.dislikeCount = dislikeCount;
         this.likedUser = likedUser;
         this.dislikedUser = dislikedUser;
+        this.likeOrDislike = likeOrDislike;
     }
 
     public long getId() {
@@ -110,26 +114,40 @@ public class Video {
     }
 
     public User getUser() {
+
         return user;
     }
 
     public void setUser(User user) {
+
         this.user = user;
     }
 
     public List<User> getLikedUser() {
+
         return likedUser;
     }
 
     public void setLikedUser(List<User> likedUser) {
+
         this.likedUser = likedUser;
     }
 
     public List<User> getDislikedUser() {
+
         return dislikedUser;
     }
 
     public void setDislikedUser(List<User> dislikedUser) {
+
         this.dislikedUser = dislikedUser;
+    }
+
+    public LikeOrDislike getLikeOrDislike() {
+        return likeOrDislike;
+    }
+
+    public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
+        this.likeOrDislike = likeOrDislike;
     }
 }

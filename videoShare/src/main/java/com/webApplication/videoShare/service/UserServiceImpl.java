@@ -7,9 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.security.InvalidParameterException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,37 +22,43 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User singleUserDetails(Long id) {
-        List<User> userList = userRepository.findAll();
-        for(User user : userList){
-            if(user.getId().equals(id)){
-                return user;
-            }
-        }
-        return null;
+
+        Optional<User> user = userRepository.findById(id);
+        return user.get();
     }
 
     @Override
     public Long fetchUserId() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        Long id = 0L;
-        List<User> userList = userRepository.findAll();
-        for(User user : userList){
-            if(user.getEmail().equals(username)){
-                id = user.getId();
-                break;
-            }
-        }
+
+        String email = userDetails.getUsername();
+        Optional<User> user = userRepository.findUserByEmail(email);
+        Long id = user.get().getId();
+
         return id;
     }
 
     @Override
-    public void validUser(String email, String password){
-        List<User> userList = userRepository.findAll();
-        Optional<User> user = userList.stream()
-                .filter(t -> email.equals(t.getUsername()))
-                .filter(t -> password.equals(t.getPassword()))
-                .findFirst();
+    public Boolean isValidUser(String email, String password) {
+
+        if (Objects.isNull(email) || email == "" || Objects.isNull(password) || password == "") {
+            return false;
+        }
+
+        Optional<User> user = userRepository.findUserByEmail(email);
+
+        return user.isPresent();
+    }
+
+    @Override
+    public void saveNewUser(String username, String email, String password) {
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
+        userRepository.save(user);
     }
 }

@@ -18,12 +18,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(registry ->{
+                .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/home", "/userSignup", "/register/**", "/view/**").permitAll();
                     registry.requestMatchers("/user/**").hasRole("USER");
                     registry.anyRequest().authenticated();
@@ -35,16 +38,23 @@ public class SecurityConfiguration {
                             .successHandler(new AuthenticationSuccessHandler())
                             .permitAll();
                 })
+                .logout(httpSecurityLogoutConfigurer -> {
+                    httpSecurityLogoutConfigurer
+                            .logoutSuccessHandler(logoutSuccessHandler)
+                            .permitAll();
+                })
                 .build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
+
         return userDetailsServiceImpl;
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
+
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsServiceImpl);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -53,6 +63,7 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }

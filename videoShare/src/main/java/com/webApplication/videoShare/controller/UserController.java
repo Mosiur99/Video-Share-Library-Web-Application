@@ -7,9 +7,7 @@ import com.webApplication.videoShare.repository.VideoRepository;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,97 +16,85 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final VideoService videoService;
 
     @Autowired
-    private VideoRepository videoRepository;
+    public UserController(UserService userService, VideoService videoService) {
 
-    @Autowired
-    private VideoService videoService;
-
+        this.userService = userService;
+        this.videoService = videoService;
+    }
 
     @GetMapping("/userSignup")
-    public String signupForm(){
+    public String signupForm() {
         return "userSignup";
     }
 
-
     @PostMapping("/userSignup")
-    public String signupSubmit(@RequestParam String username, @RequestParam String email, @RequestParam String password){
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
+    public String signupSubmit(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
+
+        userService.saveNewUser(username, email, password);
         return "signupSuccess";
     }
 
-
     @GetMapping("/userLogin")
-    public String loginPage(){
+    public String loginPage() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+
             return "userLogin";
         }
-
         return "redirect:/user/userDashboard";
     }
 
-
     @PostMapping("/userLogin")
-    public String loginSubmit(@RequestParam String email, @RequestParam String password){
+    public String loginSubmit(@RequestParam String email, @RequestParam String password) {
+
         try{
-            userService.validUser(email, password);
+
+            userService.isValidUser(email, password);
             return "redirect:/user/userDashboard";
         }catch(Exception exception){
+
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
     }
 
-
     @GetMapping("/user/userDashboard")
     public String userDashboard(Model model) {
+
         List<Video> videoList = videoService.getAllVideosByUserId();
         model.addAttribute("videoList", videoList);
         return "userDashboard";
     }
 
-
     @GetMapping("/home")
-    public String homePage(Model model){
+    public String homePage(Model model) {
+
         List<Video> videoList = videoService.getAllVideos();
-
         model.addAttribute("videoList", videoList);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+
             return "home";
         }
-
         return "redirect:/user/userHome";
     }
 
-
     @GetMapping("/user/userHome")
-    public String userHomePage(Model model){
+    public String userHomePage(Model model) {
+
         List<Video> videoList = videoService.getAllVideos();
         model.addAttribute("videoList", videoList);
-
         return "userHome";
     }
-
 }

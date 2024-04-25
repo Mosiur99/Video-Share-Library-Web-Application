@@ -24,7 +24,7 @@
         <div class="video-container">
             <iframe class = "ytplayer" width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
         </div>
-        <a th:href="@{${'/user/videoDetails/'+video.videoId}}" class="btn btn-primary">Video Details</a>
+        <a th:href="@{${'/user/videoDetails/'+video.videoId+'/'+video.id}}" class="btn btn-primary">Video Details</a>
     </div>
 
 </div>
