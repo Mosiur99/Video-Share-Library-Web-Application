@@ -1,6 +1,7 @@
 package com.webApplication.videoShare.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String videoId;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,8 +33,11 @@ public class Video {
     private  long likeCount = 0;
     private long dislikeCount = 0;
 
+    @JsonBackReference
     @ManyToMany()
     private List<User> likedUser = new ArrayList<>();
+
+    @JsonBackReference
     @ManyToMany()
     private List<User> dislikedUser = new ArrayList<>();
 

@@ -7,6 +7,9 @@ import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -19,12 +22,19 @@ import java.util.stream.Collectors;
 @Service
 public class VideoServiceImpl implements VideoService{
 
+
+    private final UserService userService;
+
+    private final VideoRepository videoRepository;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private VideoRepository videoRepository;
-    @Autowired
-    private UserRepository userRepository;
+    public VideoServiceImpl(UserService userService, VideoRepository videoRepository, UserRepository userRepository) {
+        this.userService = userService;
+        this.videoRepository = videoRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Video> getAllVideos() {
@@ -142,8 +152,16 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public void viewCountUpdate(Long id) {
 
-        long userId = userService.fetchUserId();
         Video video = videoRepository.getReferenceById(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+            video.setViewCount(video.getViewCount() + 1);
+            videoRepository.save(video);
+            return;
+        }
+
+        long userId = userService.fetchUserId();
         if(video.getUser() != null){
             if(!video.getUser().getId().equals(id)){
                 video.setViewCount(video.getViewCount() + 1);
@@ -176,8 +194,6 @@ public class VideoServiceImpl implements VideoService{
                 .findFirst()
                 .orElse(null);
         List<User> likedUserList = video.getLikedUser();
-        video.setViewCount(video.getViewCount() - 1);
-        videoRepository.save(video);
         return likedUserList;
     }
 
@@ -190,8 +206,6 @@ public class VideoServiceImpl implements VideoService{
                 .findFirst()
                 .orElse(null);
         List<User> dislikedUserList = video.getDislikedUser();
-        video.setViewCount(video.getViewCount() - 1);
-        videoRepository.save(video);
         return dislikedUserList;
     }
 }

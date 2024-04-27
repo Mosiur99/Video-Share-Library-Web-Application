@@ -3,6 +3,7 @@ package com.webApplication.videoShare.controller;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
+import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
@@ -77,27 +78,41 @@ public class VideoController {
 
     @PostMapping("/user/likeOrDislike/{id}/{LikeOrDislike}")
     @ResponseBody
-    public ResponseEntity<Long[]> likeOrDislike(@PathVariable Long id, @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
+    public ResponseEntity<Long[]> updateLikeOrDislike(@PathVariable Long id, @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
 
         Long[] ar = videoService.updateLikeOrDisLikeCount(id, likeOrDislike.name());
         return ResponseEntity.ok(ar);
     }
 
-    @GetMapping("/user/likedUsers/{videoId}")
-    public String likedUserList(@PathVariable String videoId, Model model) {
+//    @GetMapping("/user/likedUsers/{videoId}")
+//    public String likedUserList(@PathVariable String videoId, Model model) {
+//
+//        List<User> userList = videoService.likedUsers(videoId);
+//        model.addAttribute("userList", userList);
+//        return "likedUserList";
+//    }
 
+    @PostMapping("/user/likedUsers/{videoId}")
+    @ResponseBody
+    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId){
         List<User> userList = videoService.likedUsers(videoId);
-        model.addAttribute("userList", userList);
-        return "likedUserList";
+        return ResponseEntity.ok(userList);
     }
 
-    @GetMapping("/user/dislikedUsers/{videoId}")
-    public String dislikedUserList(@PathVariable String videoId, Model model) {
-
+    @PostMapping("/user/dislikedUsers/{videoId}")
+    @ResponseBody
+    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId){
         List<User> userList = videoService.dislikedUsers(videoId);
-        model.addAttribute("userList", userList);
-        return "dislikedUserList";
+        return ResponseEntity.ok(userList);
     }
+
+//    @GetMapping("/user/dislikedUsers/{videoId}")
+//    public String dislikedUserList(@PathVariable String videoId, Model model) {
+//
+//        List<User> userList = videoService.dislikedUsers(videoId);
+//        model.addAttribute("userList", userList);
+//        return "dislikedUserList";
+//    }
 
     @GetMapping("/view/{id}")
     public String viewVideo(@PathVariable Long id, Model model) {
