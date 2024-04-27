@@ -208,4 +208,12 @@ public class VideoServiceImpl implements VideoService{
         List<User> dislikedUserList = video.getDislikedUser();
         return dislikedUserList;
     }
+
+    @Override
+    public String addNewComment(String comment, Long id) {
+        Video video = videoRepository.getReferenceById(id);
+        video.setComment(comment);
+        videoRepository.save(video);
+        return comment;
+    }
 }

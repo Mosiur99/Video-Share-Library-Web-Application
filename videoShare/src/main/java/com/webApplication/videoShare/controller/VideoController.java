@@ -38,7 +38,8 @@ public class VideoController {
     }
 
     @PostMapping("/user/addVideo")
-    public String addNewVideo(@RequestParam String title, @RequestParam String url) {
+    public String addNewVideo(@RequestParam String title,
+                              @RequestParam String url) {
 
         videoService.newVideoAdded(title, url, userService.fetchUserId());
         return "redirect:/user/userDashboard";
@@ -53,14 +54,17 @@ public class VideoController {
     }
 
     @PostMapping("/user/edit/{id}")
-    public String editThisVideo(@PathVariable Long id, @RequestParam String title, @RequestParam String url) {
+    public String editThisVideo(@PathVariable Long id,
+                                @RequestParam String title,
+                                @RequestParam String url) {
 
         videoService.updateVideo(id, title, url);
         return "redirect:/user/userDashboard";
     }
 
     @GetMapping("/user/edit/{id}")
-    public String editVideo(@PathVariable Long id, Model model) {
+    public String editVideo(@PathVariable Long id,
+                            Model model) {
 
         Video video = videoRepository.getReferenceById(id);
         model.addAttribute("video", video);
@@ -68,7 +72,8 @@ public class VideoController {
     }
 
     @GetMapping("/user/videoDetails/{videoId}/{id}")
-    public String videoDetails(@PathVariable Long id, Model model) {
+    public String videoDetails(@PathVariable Long id,
+                               Model model) {
 
         Video video = videoService.singleVideoDetails(id);
         model.addAttribute("video", video);
@@ -78,10 +83,17 @@ public class VideoController {
 
     @PostMapping("/user/likeOrDislike/{id}/{LikeOrDislike}")
     @ResponseBody
-    public ResponseEntity<Long[]> updateLikeOrDislike(@PathVariable Long id, @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-
+    public ResponseEntity<Long[]> updateLikeOrDislike(@PathVariable Long id,
+                                                      @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
         Long[] ar = videoService.updateLikeOrDisLikeCount(id, likeOrDislike.name());
         return ResponseEntity.ok(ar);
+    }
+
+    @PostMapping("/user/comment/{id}")
+    @ResponseBody
+    public ResponseEntity<String> addComment(@RequestParam String comment, @PathVariable Long id) {
+        String newComment = videoService.addNewComment(comment, id);
+        return new ResponseEntity<>(newComment, HttpStatus.OK);
     }
 
 //    @GetMapping("/user/likedUsers/{videoId}")
@@ -94,14 +106,14 @@ public class VideoController {
 
     @PostMapping("/user/likedUsers/{videoId}")
     @ResponseBody
-    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId){
+    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId) {
         List<User> userList = videoService.likedUsers(videoId);
         return ResponseEntity.ok(userList);
     }
 
     @PostMapping("/user/dislikedUsers/{videoId}")
     @ResponseBody
-    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId){
+    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId) {
         List<User> userList = videoService.dislikedUsers(videoId);
         return ResponseEntity.ok(userList);
     }
@@ -115,8 +127,8 @@ public class VideoController {
 //    }
 
     @GetMapping("/view/{id}")
-    public String viewVideo(@PathVariable Long id, Model model) {
-
+    public String viewVideo(@PathVariable Long id,
+                            Model model) {
         Video video = videoService.singleVideoDetails(id);
         model.addAttribute("video", video);
         videoService.viewCountUpdate(id);

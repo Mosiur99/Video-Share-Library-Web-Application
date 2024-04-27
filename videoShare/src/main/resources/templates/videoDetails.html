@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Video Details</title>
@@ -7,51 +8,151 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-<div>
-    <h5 th:text="${video.title}" class="m-3">Video Title</h5>
-    <div class="video-container m-3">
-        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+
+<!--<div>-->
+<!--    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--    <h5 th:text="${video.title}" class="m-3">Video Title</h5>-->
+<!--    <div class="video-container m-3">-->
+<!--        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--    <h6>View Count</h6>-->
+<!--    <p th:text="${video.viewCount}"></p>-->
+<!--</div>-->
+
+<form>
+    <div class="row float-right mx-2 mt-2">
+        <div>
+            <a href="/user/userHome" class="btn btn-primary">Return Home Page</a>
+        </div>
     </div>
-</div>
-<div>
-    <h2>View Count</h2>
-    <p th:text="${video.viewCount}"></p>
-</div>
-<div>
-    <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/LIKE'}}">
-        <button type="button" class="btn btn-primary click" onclick="likeVideo()">Like</button>
-        <p id="likeCount" th:text="${video.likeCount}"></p>
-    </form>
-</div>
-<div>
-    <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/DISLIKE'}}">
-        <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
-        <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
-    </form>
-</div>
+    <div class="row mx-1">
+        <div>
+            <h5 th:text="${video.title}" class="mx-2">Video Title</h5>
+            <div class="video-container m-3">
+                <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+            </div>
+        </div>
+    </div>
+    <div class="row mx-1">
+        <h6 class="mx-1">View Count:</h6>
+        <h4><p th:text="${video.viewCount}"></p></h4>
+    </div>
+    <div class="row mx-1">
+        <div class="col">
+            <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/LIKE'}}">
+                <button type="button" class="btn btn-primary click" onclick="likeVideo()" col="1">Like</button>
+                <p id="likeCount" th:text="${video.likeCount}"></p>
+            </form>
+        </div>
+        <div class="col">
+            <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/DISLIKE'}}">
+                <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
+                <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
+            </form>
+        </div>
+<!--        <div class="col">-->
+<!--            <label for="exampleFormControlTextarea1">Comment</label>-->
+<!--            <textarea class="form-control" id="exampleFormControlTextarea1"></textarea>-->
+<!--        </div>-->
+    </div>
+    <div class="row mx-1">
+        <form th:action="@{${'/user/comment/'+video.id}}">
+            <h6><label for="comment">Comment</label></h6>
+            <textarea class="form-control" id="comment" rows="3" cols="80"></textarea>
+            <button type="button" class="btn btn-primary click float-right mt-1" onclick="addNewComment()">Submit</button>
+            <ol id="comments">
 
-<div class="m-3">
-    <form th:action="@{${'/user/likedUsers/'+video.videoId}}">
-        <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>
-        <ul id="likedUsers">
+            </ol>
+        </form>
+    </div>
+    <div class="row">
+        <div class="m-5 col">
+            <form th:action="@{${'/user/likedUsers/'+video.videoId}}">
+                <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>
+                <ul id="likedUsers">
 
-        </ul>
-    </form>
-</div>
+                </ul>
+            </form>
+        </div>
+        <div class="m-5 col">
+            <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">
+                <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>
+                <ul id="dislikedUsers">
 
-<div class="m-3">
-    <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">
-        <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>
-        <ul id="dislikedUsers">
+                </ul>
+            </form>
+        </div>
+    </div>
+</form>
+<!--<div>-->
+<!--    <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/LIKE'}}">-->
+<!--        <button type="button" class="btn btn-primary click" onclick="likeVideo()" col="1">Like</button>-->
+<!--        <p id="likeCount" th:text="${video.likeCount}"></p>-->
+<!--    </form>-->
+<!--</div>-->
 
-        </ul>
-    </form>
-</div>
-<div>
-    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
-</div>
+<!--<div>-->
+<!--    <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/DISLIKE'}}">-->
+<!--        <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>-->
+<!--        <p id="dislikeCount" th:text="${video.dislikeCount}"></p>-->
+<!--    </form>-->
+<!--</div>-->
 
+<!--<div>-->
+<!--    <label for="exampleFormControlTextarea1"><h4>Comment</h4></label>-->
+<!--    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>-->
+<!--    <button type="button" class="btn btn-primary click float-right m-1">Submit</button>-->
+<!--</div>-->
+
+<!--<form>-->
+<!--    <div class="row">-->
+<!--        <div class="m-5 col">-->
+<!--            <form th:action="@{${'/user/likedUsers/'+video.videoId}}">-->
+<!--                <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>-->
+<!--                <ul id="likedUsers">-->
+
+<!--                </ul>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="m-5 col">-->
+<!--            <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">-->
+<!--                <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>-->
+<!--                <ul id="dislikedUsers">-->
+
+<!--                </ul>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+
+<!--<div class="m-3">-->
+<!--    <form th:action="@{${'/user/likedUsers/'+video.videoId}}">-->
+<!--        <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>-->
+<!--        <ul id="likedUsers">-->
+
+<!--        </ul>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--<div class="m-3">-->
+<!--    <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">-->
+<!--        <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>-->
+<!--        <ul id="dislikedUsers">-->
+
+<!--        </ul>-->
+<!--    </form>-->
+<!--</div>-->
+<!--<div>-->
+<!--    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>-->
+<!--</div>-->
 
 <script th:inline="javascript">
     function likeVideo() {
@@ -82,6 +183,26 @@
             document.getElementById('dislikeCount').innerText = likeOrDislikeCount[1];
             document.getElementById('likedUsers').style.display = 'none';
             document.getElementById('dislikedUsers').style.display = 'none';
+        }
+    };
+    xhr.send();
+}
+
+    function addNewComment() {
+    var videoId = /*[[${video.id}]]*/ '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/user/comment/' + videoId, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var commentText = JSON.parse(xhr.responseText);
+            var list = document.getElementById('comments');
+            list.innerText = '';
+            var newComment = document.createElement('li');
+            newComment.innerText = commentText;
+            list.appendChild(newComment);
+            document.getElementById('likedUsers').style.display = 'none';
+            document.getElementById('dislikedUsers').style.display = 'none';
+            document.getElementById('comment').innerText = '';
         }
     };
     xhr.send();

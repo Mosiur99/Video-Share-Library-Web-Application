@@ -24,6 +24,9 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String videoId;
 
+    @Column(length = 50)
+    private String comment;
+
     @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -48,11 +51,12 @@ public class Video {
 
     }
 
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
+    public Video(long id, String title, String url, String videoId, String comment, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.videoId = videoId;
+        this.comment = comment;
         this.user = user;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
@@ -154,5 +158,13 @@ public class Video {
 
     public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
         this.likeOrDislike = likeOrDislike;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
