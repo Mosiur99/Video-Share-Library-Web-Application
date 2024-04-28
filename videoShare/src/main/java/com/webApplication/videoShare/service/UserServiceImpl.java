@@ -23,21 +23,20 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User singleUserDetails(Long id) {
-
         Optional<User> user = userRepository.findById(id);
         return user.get();
     }
 
     @Override
     public Long fetchUserId() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -49,8 +48,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean isValidUser(String email, String password) {
-
+    public Boolean isValidUser(String email,
+                               String password) {
         if (Objects.isNull(email) || email == "" || Objects.isNull(password) || password == "") {
             return false;
         }
@@ -61,8 +60,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveNewUser(String username, String email, String password) {
-
+    public void saveNewUser(String username,
+                            String email,
+                            String password) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);

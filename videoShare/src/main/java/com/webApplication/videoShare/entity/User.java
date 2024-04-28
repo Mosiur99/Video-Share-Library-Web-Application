@@ -2,6 +2,9 @@ package com.webApplication.videoShare.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -31,10 +34,6 @@ public class User {
     )
     private List<Video> videos;
 
-    public User(){
-
-    }
-
     public User(Long id, String email, String password, String username, String role, List<Video> videos) {
         this.id = id;
         this.email = email;
@@ -42,6 +41,10 @@ public class User {
         this.username = username;
         this.role = role;
         this.videos = videos;
+    }
+
+    public User(){
+
     }
 
     public Long getId() {

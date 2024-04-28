@@ -27,8 +27,8 @@ public class UserController {
     private final VideoService videoService;
 
     @Autowired
-    public UserController(UserService userService, VideoService videoService) {
-
+    public UserController(UserService userService,
+                          VideoService videoService) {
         this.userService = userService;
         this.videoService = videoService;
     }
@@ -39,39 +39,36 @@ public class UserController {
     }
 
     @PostMapping("/userSignup")
-    public String signupSubmit(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-
+    public String signupSubmit(@RequestParam String username,
+                               @RequestParam String email,
+                               @RequestParam String password) {
         userService.saveNewUser(username, email, password);
         return "signupSuccess";
     }
 
     @GetMapping("/userLogin")
     public String loginPage() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
-
             return "userLogin";
         }
+
         return "redirect:/user/userDashboard";
     }
 
     @PostMapping("/userLogin")
-    public String loginSubmit(@RequestParam String email, @RequestParam String password) {
-
+    public String loginSubmit(@RequestParam String email,
+                              @RequestParam String password) {
         try{
-
             userService.isValidUser(email, password);
             return "redirect:/user/userDashboard";
         }catch(Exception exception){
-
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
     }
 
     @GetMapping("/user/userDashboard")
     public String userDashboard(Model model) {
-
         List<Video> videoList = videoService.getAllVideosByUserId();
         model.addAttribute("videoList", videoList);
         return "userDashboard";
@@ -79,20 +76,19 @@ public class UserController {
 
     @GetMapping("/home")
     public String homePage(Model model) {
-
         List<Video> videoList = videoService.getAllVideos();
         model.addAttribute("videoList", videoList);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
-
             return "home";
         }
+
         return "redirect:/user/userHome";
     }
 
     @GetMapping("/user/userHome")
     public String userHomePage(Model model) {
-
         List<Video> videoList = videoService.getAllVideos();
         model.addAttribute("videoList", videoList);
         return "userHome";

@@ -21,9 +21,9 @@ public class SecurityConfiguration {
     private LogoutSuccessHandler logoutSuccessHandler;
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
@@ -48,13 +48,11 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-
         return userDetailsServiceImpl;
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsServiceImpl);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -63,7 +61,6 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 }

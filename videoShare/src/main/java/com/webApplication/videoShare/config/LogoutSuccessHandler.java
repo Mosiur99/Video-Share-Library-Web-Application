@@ -13,8 +13,9 @@ import java.io.IOException;
 public class LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
+    public void onLogoutSuccess(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Authentication authentication) throws IOException, ServletException {
         setDefaultTargetUrl("/home");
         super.onLogoutSuccess(request, response, authentication);
     }

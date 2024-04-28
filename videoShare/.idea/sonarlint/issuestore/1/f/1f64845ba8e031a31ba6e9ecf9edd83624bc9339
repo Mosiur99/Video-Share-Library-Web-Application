@@ -1,0 +1,14 @@
+
+†
+java:S1192I"JDefine a constant instead of duplicating this literal "videoList" 3 times.(õâÿŠJ$a0cb2a10-8dcd-4e2c-a0df-245f7a3e5fe7
+•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀJ$c93b8fd6-adbd-4814-b30e-a65e44e748ef
+‚
+java:S1128"FRemove this unused import 'com.webApplication.videoShare.entity.User'.(úîÅJ$6273d638-2664-49b6-acd7-b5174b8b8dbb
+
+java:S1128"TRemove this unused import 'com.webApplication.videoShare.repository.UserRepository'.(Â‹ÑµJ$486eb78d-9646-4dff-8216-36cfbe1e9c07
+‘
+java:S1128"URemove this unused import 'com.webApplication.videoShare.repository.VideoRepository'.(Òœ…J$c207f29e-34f1-4516-a1df-30ec2b9949e8
+š
+java:S1128"YRemove this unused import 'org.springframework.security.crypto.password.PasswordEncoder'.(‰¡ßáÿÿÿÿÿJ$e58a7deb-a970-4279-b94e-80582193f38e
+—
+java:S1128"[Remove this unused import 'org.springframework.web.servlet.mvc.support.RedirectAttributes'.(ìçÚËJ$1a45837f-64b0-4565-bcb6-37c496e94e86

@@ -13,8 +13,9 @@ import java.io.IOException;
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws ServletException, IOException {
-
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                        HttpServletResponse httpServletResponse,
+                                        Authentication authentication) throws ServletException, IOException {
         setDefaultTargetUrl("/user/userDashboard");
         super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
     }

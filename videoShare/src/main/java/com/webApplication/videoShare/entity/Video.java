@@ -3,6 +3,10 @@ package com.webApplication.videoShare.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,11 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String videoId;
 
-    @Column(length = 50)
-    private String comment;
+    @JsonBackReference
+    @ManyToMany()
+    private List<User> commentedUser = new ArrayList<>();
+
+    private List<Pair<Long, List<String>>> comments = new ArrayList<>();
 
     @JsonBackReference
     @ManyToOne()
@@ -47,16 +54,13 @@ public class Video {
     @Enumerated(EnumType.ORDINAL)
     private LikeOrDislike likeOrDislike;
 
-    public Video(){
-
-    }
-
-    public Video(long id, String title, String url, String videoId, String comment, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
+    public Video(long id, String title, String url, String videoId, List<User> commentedUser, List<Pair<Long, List<String>>> comments, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.videoId = videoId;
-        this.comment = comment;
+        this.commentedUser = commentedUser;
+        this.comments = comments;
         this.user = user;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
@@ -66,32 +70,12 @@ public class Video {
         this.likeOrDislike = likeOrDislike;
     }
 
+    public Video(){
+
+    }
+
     public long getId() {
         return id;
-    }
-
-    public long getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(long viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public long getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(long likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public long getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(long dislikeCount) {
-        this.dislikeCount = dislikeCount;
     }
 
     public void setId(long id) {
@@ -122,33 +106,67 @@ public class Video {
         this.videoId = videoId;
     }
 
-    public User getUser() {
+    public List<User> getCommentedUser() {
+        return commentedUser;
+    }
 
+    public void setCommentedUser(List<User> commentedUser) {
+        this.commentedUser = commentedUser;
+    }
+
+    public List<Pair<Long, List<String>>> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Pair<Long, List<String>>> comments) {
+        this.comments = comments;
+    }
+
+    public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
-
         this.user = user;
     }
 
-    public List<User> getLikedUser() {
+    public long getViewCount() {
+        return viewCount;
+    }
 
+    public void setViewCount(long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public long getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(long dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
+    public List<User> getLikedUser() {
         return likedUser;
     }
 
     public void setLikedUser(List<User> likedUser) {
-
         this.likedUser = likedUser;
     }
 
     public List<User> getDislikedUser() {
-
         return dislikedUser;
     }
 
     public void setDislikedUser(List<User> dislikedUser) {
-
         this.dislikedUser = dislikedUser;
     }
 
@@ -158,13 +176,5 @@ public class Video {
 
     public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
         this.likeOrDislike = likeOrDislike;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 }

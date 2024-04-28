@@ -15,12 +15,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         Optional<User> user = userRepository.findUserByEmail(email);
         if(user.isPresent()){
-
             User userObj = user.get();
             return org.springframework.security.core.userdetails.User.builder()
                     .username(userObj.getEmail())
@@ -29,17 +28,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .build();
         }
         else{
-
             throw new UsernameNotFoundException(email);
         }
     }
 
     private String[] getRoles(User user) {
-
         if(user.getRole() == null){
-
             return new String[]{"USER"};
         }
+
         return user.getRole().split(",");
     }
 }

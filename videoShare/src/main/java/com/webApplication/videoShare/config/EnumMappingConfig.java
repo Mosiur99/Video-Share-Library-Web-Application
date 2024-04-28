@@ -9,7 +9,6 @@ public class EnumMappingConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-
         ApplicationConversionService.configure(registry);
     }
 }

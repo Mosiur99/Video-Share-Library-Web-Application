@@ -26,5 +26,5 @@ public interface VideoService {
 
     List<User> dislikedUsers(String videoId);
 
-    String addNewComment(String comment, Long id);
+    String addNewComment(String comment, Long videoId, Long userId);
 }

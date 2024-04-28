@@ -1,0 +1,10 @@
+
+‰
+java:S1192B"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8Àïê ò1J$889f85f3-f057-4627-814e-0c84b3bb1c36
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8Âïê ò1J$f1a22f31-076b-4090-a9b6-3cb7a08b2a3d
+­
+java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(íœ¡ñùÿÿÿÿ8Îïê ò1J$b558e8c3-1f49-4a2a-925f-10c95ccb89ed
+{
+java:S6856F"3Bind path variable "videoId" to a method parameter.(¶‹åßÿÿÿÿÿ8Ïïê ò1J$4f4a5693-94f6-4cc7-acf4-d69491d3ef21
+v
+java:S6856W".Bind path variable "id" to a method parameter.(Ãêìãúÿÿÿÿ8ê˜ë£ò1J$bd996ab5-2848-406b-8c57-a50695459eb4
