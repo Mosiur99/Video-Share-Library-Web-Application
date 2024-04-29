@@ -3,10 +3,6 @@ package com.webApplication.videoShare.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

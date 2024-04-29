@@ -1,21 +1,8 @@
 
 ‰
-java:S1192B"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8Àïê ò1J$2a5fdaef-6535-4bf2-9c11-a79f6252afe6
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8Âïê ò1J$c0994c7e-7f9e-40f4-a9c7-c791b3ad1167
+java:S1192<"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8Àïê ò1J$4fdeb6dd-aaac-43df-86a1-18e17ca47459
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8Âïê ò1J$aef215ab-d88f-4068-9fa4-46b4b6771139
 ­
-java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(íœ¡ñùÿÿÿÿ8Îïê ò1J$26c90b91-4519-4768-9ebf-e466159abaaf
+java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(íœ¡ñùÿÿÿÿ8Îïê ò1J$4f203469-be9e-4a0d-b8e5-69493f1a4480
 {
-java:S6856F"3Bind path variable "videoId" to a method parameter.(¶‹åßÿÿÿÿÿ8Ïïê ò1J$98adbffa-a33c-4ce9-928b-8306edc87f4d
-q
-java:S1128"TRemove this unused import 'com.webApplication.videoShare.repository.UserRepository'.(Â‹Ñµ8»’µÄò1
-X
-java:S1128
-";Remove this unused import 'org.antlr.v4.runtime.misc.Pair'.(ÇàŸ˜8»’µÄò1
-b
-java:S1128"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8»’µÄò1
-i
-java:S1128"GRemove this unused import 'org.springframework.validation.ObjectError'.(ı£¿®ÿÿÿÿÿ8»’µÄò1
-P
-java:S1128".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ8»’µÄò1
-L
-java:S1128"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ8»’µÄò1
+java:S6856@"3Bind path variable "videoId" to a method parameter.(¶‹åßÿÿÿÿÿ8Ïïê ò1J$0d6df3d3-46df-4f3e-b93c-4e30509d88ff

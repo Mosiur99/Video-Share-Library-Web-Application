@@ -6,7 +6,6 @@ import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
