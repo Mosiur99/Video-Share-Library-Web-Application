@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -49,7 +50,7 @@ public class UserController {
     @GetMapping("/userLogin")
     public String loginPage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+        if(Objects.isNull(authentication) || authentication instanceof AnonymousAuthenticationToken){
             return "userLogin";
         }
 
@@ -78,7 +79,6 @@ public class UserController {
     public String homePage(Model model) {
         List<Video> videoList = videoService.getAllVideos();
         model.addAttribute("videoList", videoList);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
             return "home";

@@ -78,17 +78,10 @@ public class VideoController {
 
     @PostMapping("/user/likeOrDislike/{id}/{LikeOrDislike}")
     @ResponseBody
-    public ResponseEntity<Long[]> updateLikeOrDislike(@PathVariable Long id,
+    public ResponseEntity<List<Long>> updateLikeOrDislike(@PathVariable Long id,
                                                       @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        Long[] ar = videoService.updateLikeOrDisLikeCount(id, likeOrDislike.name());
-        return ResponseEntity.ok(ar);
-    }
-
-    @PostMapping("/user/addComment/{id}/{id}")
-    @ResponseBody
-    public ResponseEntity<String> addComment(@RequestBody String comment,
-                                             @PathVariable Long videoId, @PathVariable Long userId) {
-        return new ResponseEntity<>(videoService.addNewComment(comment, videoId, userId), HttpStatus.OK);
+        List<Long> actionCount = videoService.updateLikeOrDisLikeCount(id, likeOrDislike);
+        return ResponseEntity.ok(actionCount);
     }
 
     @PostMapping("/user/likedUsers/{videoId}")

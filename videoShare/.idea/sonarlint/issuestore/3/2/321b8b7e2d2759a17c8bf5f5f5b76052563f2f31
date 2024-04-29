@@ -1,9 +1,11 @@
 
-¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‚·ìÏûÿÿÿÿ8²ª££ò1J$af3695e1-7a6c-409e-800c-acfdf9e34d5c
-‰	java:S1079"BConstructor has 13 parameters, which is greater than 7 authorized.(’ã’ûÿÿÿÿ8‹³©£ò1J$4ff2b431-c719-436e-a12b-936b2257c77a
-X
-java:S1128"6Remove this unused import 'lombok.AllArgsConstructor'.(´œ¾öùÿÿÿÿ8Œî­¤ò1
-J
-java:S1128"(Remove this unused import 'lombok.Data'.(÷í«ÿÿÿÿÿ8Œî­¤ò1
-R
-java:S1128"5Remove this unused import 'lombok.NoArgsConstructor'.(¸¨›8Œî­¤ò1
+¡	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‚·ìÏûÿÿÿÿ8²ª££ò1J$caa34645-5fb2-4fe8-b9b7-7c7dd4d28a06
+‰	java:S1073"BConstructor has 11 parameters, which is greater than 7 authorized.(ÓÑÚÏúÿÿÿÿ8é…Àò1J$da661dad-6db4-45ce-ba54-18334699028b
+~
+java:S1128"6Remove this unused import 'lombok.AllArgsConstructor'.(´œ¾öùÿÿÿÿ8ı…Àò1J$6f826526-eccc-4936-9605-3ca036591945
+p
+java:S1128"(Remove this unused import 'lombok.Data'.(÷í«ÿÿÿÿÿ8ı…Àò1J$5f8b6f44-4a6b-4f9f-9df2-042dcc36763d
+x
+java:S1128"5Remove this unused import 'lombok.NoArgsConstructor'.(¸¨›8ı…Àò1J$802ec44c-e1d8-446c-8d57-17f3579b2b91
+‡
+java:S1128	"?Remove this unused import 'org.springframework.data.util.Pair'.(¾úŸ˜øÿÿÿÿ8ı…Àò1J$965a86dd-e8d8-4f28-ab37-37859409df4e

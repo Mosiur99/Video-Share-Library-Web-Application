@@ -1,18 +1,12 @@
 
-u
-java:S1488-"ZImmediately return this expression instead of assigning it to the temporary variable "id".(œÅìËÿÿÿÿÿ
-R
-java:S49735"<Strings and Boxed types should be compared using "equals()".(–àº
-R
-java:S49735"<Strings and Boxed types should be compared using "equals()".(–àº
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ–‰¦
-c
-java:S3655#"HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(´ñìšşÿÿÿÿ
-c
-java:S3655-"HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(œÅìËÿÿÿÿÿ
-V
-java:S1128"ARemove this unused import 'org.springframework.util.StringUtils'.(Ğôÿ
-_
-java:S1128"DRemove this unused import 'java.security.InvalidParameterException'.(Öª°—şÿÿÿÿ
-F
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
+•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ–‰¦J$1a75478a-f5b1-40fe-a820-2c6ed3275a16
+
+java:S3655-"HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(šÄŒ¶üÿÿÿÿ8±÷°Âò1J$038749ea-8e49-4ac2-afbf-d7f3730ce5f8
+
+java:S3655#"HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(´ñìšşÿÿÿÿ8±÷°Âò1J$5c87f14f-9c60-427a-bc22-fdbdd7935bb9
+ƒ
+java:S1128"ARemove this unused import 'org.springframework.util.StringUtils'.(Ğôÿ8óè²Âò1J$e443199c-235e-43c7-bdbd-67caaf557ce2
+Œ
+java:S1128"DRemove this unused import 'java.security.InvalidParameterException'.(Öª°—şÿÿÿÿ8óè²Âò1J$bdce0a6a-284f-4dd7-ba59-6a30862b2a27
+s
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8óè²Âò1J$dd8415da-4206-42cb-b279-5b4bf1dbd45a

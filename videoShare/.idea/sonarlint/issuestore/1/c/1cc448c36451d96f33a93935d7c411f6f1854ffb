@@ -1,12 +1,12 @@
 
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‘á½€ÿÿÿÿÿ
-X
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ
-X
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ
-u
-java:S3305"ZInject this field value directly into "securityFilterChain", the only method that uses it.(½ô¢ıÿÿÿÿ
-G
-java:S1602"",Remove useless curly braces around statement(˜Ëéøıÿÿÿÿ
-B
-java:S1602)",Remove useless curly braces around statement(Õ­‘’
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‘á½€ÿÿÿÿÿJ$34732fe1-7a67-4d26-aa3c-a536fa4793c0
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$0d402b73-3339-4a87-b5c3-58f76e7ce086
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$145410a4-e70e-421b-a856-e5b096478f92
+›
+java:S3305"ZInject this field value directly into "securityFilterChain", the only method that uses it.(½ô¢ıÿÿÿÿJ$6458de76-d68e-45ac-915f-ba138c4d7b1b
+m
+java:S1602"",Remove useless curly braces around statement(˜ËéøıÿÿÿÿJ$67a90ecb-305a-44d3-bba7-847f061e15f1
+h
+java:S1602)",Remove useless curly braces around statement(Õ­‘’J$478c4878-12c1-4dc9-bc15-f8ea26f33200

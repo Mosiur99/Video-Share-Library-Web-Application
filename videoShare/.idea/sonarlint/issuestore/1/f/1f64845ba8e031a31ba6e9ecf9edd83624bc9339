@@ -1,14 +1,14 @@
 
-†
-java:S1192I"JDefine a constant instead of duplicating this literal "videoList" 3 times.(õâÿŠJ$a0cb2a10-8dcd-4e2c-a0df-245f7a3e5fe7
-•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀJ$c93b8fd6-adbd-4814-b30e-a65e44e748ef
-‚
-java:S1128"FRemove this unused import 'com.webApplication.videoShare.entity.User'.(úîÅJ$6273d638-2664-49b6-acd7-b5174b8b8dbb
-
-java:S1128"TRemove this unused import 'com.webApplication.videoShare.repository.UserRepository'.(Â‹ÑµJ$486eb78d-9646-4dff-8216-36cfbe1e9c07
-‘
-java:S1128"URemove this unused import 'com.webApplication.videoShare.repository.VideoRepository'.(Òœ…J$c207f29e-34f1-4516-a1df-30ec2b9949e8
-š
-java:S1128"YRemove this unused import 'org.springframework.security.crypto.password.PasswordEncoder'.(‰¡ßáÿÿÿÿÿJ$e58a7deb-a970-4279-b94e-80582193f38e
+
+java:S1192J"JDefine a constant instead of duplicating this literal "videoList" 3 times.(õâÿŠ8ß™ÀÂò1J$2d4ee5e1-3121-4c0d-ad63-37ef71782301
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8á™ÀÂò1J$df06c1be-64a2-4142-b37e-c6e29868caf0
+‰
+java:S1128"FRemove this unused import 'com.webApplication.videoShare.entity.User'.(úîÅ8õ™ÀÂò1J$5e46e80c-5638-424d-988c-0df5960a6416
 —
-java:S1128"[Remove this unused import 'org.springframework.web.servlet.mvc.support.RedirectAttributes'.(ìçÚËJ$1a45837f-64b0-4565-bcb6-37c496e94e86
+java:S1128"TRemove this unused import 'com.webApplication.videoShare.repository.UserRepository'.(Â‹Ñµ8ö™ÀÂò1J$479777fe-f3a4-443c-8eab-8698263e7ddf
+˜
+java:S1128"URemove this unused import 'com.webApplication.videoShare.repository.VideoRepository'.(Òœ…8ö™ÀÂò1J$3743aced-a1cd-490f-a875-f072ad8377d6
+¡
+java:S1128"YRemove this unused import 'org.springframework.security.crypto.password.PasswordEncoder'.(‰¡ßáÿÿÿÿÿ8ö™ÀÂò1J$8a8e9958-26d5-4e1c-a127-b87121d37ea4
+
+java:S1128"[Remove this unused import 'org.springframework.web.servlet.mvc.support.RedirectAttributes'.(ìçÚË8ö™ÀÂò1J$1dc319a9-ba06-4447-8e75-e5e628f08a80

@@ -42,15 +42,13 @@ public class UserServiceImpl implements UserService{
 
         String email = userDetails.getUsername();
         Optional<User> user = userRepository.findUserByEmail(email);
-        Long id = user.get().getId();
-
-        return id;
+        return user.get().getId();
     }
 
     @Override
     public Boolean isValidUser(String email,
                                String password) {
-        if (Objects.isNull(email) || email == "" || Objects.isNull(password) || password == "") {
+        if (Objects.isNull(email) || email.isEmpty() || Objects.isNull(password) || password.isEmpty()) {
             return false;
         }
 

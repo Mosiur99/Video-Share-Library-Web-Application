@@ -47,17 +47,6 @@
         </div>
     </div>
 
-    <div class="row mx-1">
-        <form th:action="@{${'/user/addComment/'+video.id}}">
-            <h6><label for="comment">Comment</label></h6>
-            <textarea class="form-control" id="comment" name="comment" rows="3" cols="80"></textarea>
-            <button type="button" class="btn btn-primary click float-right mt-1" onclick="addNewComment()">Submit</button>
-            <ol id="comments">
-
-            </ol>
-        </form>
-    </div>
-
     <div class="row">
         <div class="m-5 col">
             <form th:action="@{${'/user/likedUsers/'+video.videoId}}">
@@ -112,31 +101,6 @@
     };
     xhr.send();
 }
-
-    function addNewComment() {
-    var videoId = /*[[${video.id}]]*/ '';
-    var commentText = document.getElementById('comment').value;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/addComment/' + videoId, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            var commentText = JSON.parse(xhr.responseText);
-            var list = document.getElementById('comments');
-            list.innerText = '';
-            var newComment = document.createElement('li');
-            newComment.innerText = commentText;
-            list.appendChild(newComment);
-            document.getElementById('likedUsers').style.display = 'none';
-            document.getElementById('dislikedUsers').style.display = 'none';
-            document.getElementById('comments').style.display = 'block';
-            document.getElementById('comment').value = '';
-        }
-    };
-    xhr.send(JSON.stringify(commentText));
-}
-
-
 
     function findingLikedUsers() {
     var videoId = /*[[${video.videoId}]]*/ '';

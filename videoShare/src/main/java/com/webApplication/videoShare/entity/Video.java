@@ -29,12 +29,6 @@ public class Video {
     private String videoId;
 
     @JsonBackReference
-    @ManyToMany()
-    private List<User> commentedUser = new ArrayList<>();
-
-    private List<Pair<Long, List<String>>> comments = new ArrayList<>();
-
-    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
@@ -54,13 +48,11 @@ public class Video {
     @Enumerated(EnumType.ORDINAL)
     private LikeOrDislike likeOrDislike;
 
-    public Video(long id, String title, String url, String videoId, List<User> commentedUser, List<Pair<Long, List<String>>> comments, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
         this.id = id;
         this.title = title;
         this.url = url;
         this.videoId = videoId;
-        this.commentedUser = commentedUser;
-        this.comments = comments;
         this.user = user;
         this.viewCount = viewCount;
         this.likeCount = likeCount;
@@ -104,22 +96,6 @@ public class Video {
 
     public void setVideoId(String videoId) {
         this.videoId = videoId;
-    }
-
-    public List<User> getCommentedUser() {
-        return commentedUser;
-    }
-
-    public void setCommentedUser(List<User> commentedUser) {
-        this.commentedUser = commentedUser;
-    }
-
-    public List<Pair<Long, List<String>>> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Pair<Long, List<String>>> comments) {
-        this.comments = comments;
     }
 
     public User getUser() {
