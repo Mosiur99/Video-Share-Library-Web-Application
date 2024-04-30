@@ -1,8 +1,6 @@
 
 ‰
-java:S1192<"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8Àïê ò1J$4fdeb6dd-aaac-43df-86a1-18e17ca47459
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8Âïê ò1J$aef215ab-d88f-4068-9fa4-46b4b6771139
-­
-java:S6833"eReplace the "@Controller" annotation by "@RestController" and remove all "@ResponseBody" annotations.(íœ¡ñùÿÿÿÿ8Îïê ò1J$4f203469-be9e-4a0d-b8e5-69493f1a4480
-{
-java:S6856@"3Bind path variable "videoId" to a method parameter.(¶‹åßÿÿÿÿÿ8Ïïê ò1J$0d6df3d3-46df-4f3e-b93c-4e30509d88ff
+java:S1192>"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8¤ĞÊîò1J$992df989-4c4f-4ddf-88fa-0ce362cdc619
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8¦ĞÊîò1J$30c445eb-61fc-45d2-82d1-b70067eb46f8
+u
+java:S1068"3Remove this unused "videoRepository" private field.(Ô˜t8À¤Íîò1J$f4e9deba-3242-4979-8d2d-7011585d1288

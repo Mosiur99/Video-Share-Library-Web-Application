@@ -34,7 +34,7 @@ public class VideoController {
     @PostMapping("/user/addVideo")
     public String addNewVideo(@RequestParam String title,
                               @RequestParam String url) {
-        videoService.newVideoAdded(title, url, userService.fetchUserId());
+        videoService.addNewVideo(title, url, userService.fetchUserId());
         return "redirect:/user/userDashboard";
     }
 
@@ -45,59 +45,61 @@ public class VideoController {
         return "addVideo";
     }
 
-    @PostMapping("/user/edit/{id}")
-    public String editThisVideo(@PathVariable Long id,
+    @PostMapping("/user/edit/{videoId}/{id}")
+    public String editThisVideo(@PathVariable String videoId,
+                                @PathVariable Long id,
                                 @RequestParam String title,
                                 @RequestParam String url) {
-        videoService.updateVideo(id, title, url);
+        videoService.updateVideo(videoId, id, title, url);
         return "redirect:/user/userDashboard";
     }
 
-    @GetMapping("/user/edit/{id}")
+    @GetMapping("/user/edit/{videoId}/{id}")
     public String editVideo(@PathVariable Long id,
+                            @PathVariable String videoId,
                             Model model) {
-        Video video = videoRepository.getReferenceById(id);
+        Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
         return "editVideo";
     }
 
     @GetMapping("/user/videoDetails/{videoId}/{id}")
-    public String videoDetails(@PathVariable Long id,
+    public String videoDetails(@PathVariable String videoId,
+                               @PathVariable Long id,
                                Model model) {
-        Video video = videoService.singleVideoDetails(id);
+        Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
-        videoService.viewCountUpdate(id);
+        videoService.viewCountUpdate(videoId, id);
         return "videoDetails";
     }
 
-    @PostMapping("/user/likeOrDislike/{id}/{LikeOrDislike}")
-    @ResponseBody
-    public ResponseEntity<List<Long>> updateLikeOrDislike(@PathVariable Long id,
-                                                      @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        List<Long> actionCount = videoService.updateLikeOrDisLikeCount(id, likeOrDislike);
+    @PostMapping("/user/likeOrDislike/{videoId}/{id}/{LikeOrDislike}")
+    public ResponseEntity<List<Long>> updateLikeOrDislike(@PathVariable String videoId,
+                                                          @PathVariable Long id,
+                                                          @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
+        List<Long> actionCount = videoService.updateLikeOrDisLikeCount(videoId, id, likeOrDislike);
         return ResponseEntity.ok(actionCount);
     }
 
-    @PostMapping("/user/likedUsers/{videoId}")
-    @ResponseBody
-    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId) {
-        List<User> userList = videoService.likedUsers(videoId);
+    @PostMapping("/user/likedUsers/{videoId}/{id}")
+    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId, @PathVariable Long id) {
+        List<User> userList = videoService.likedUsers(videoId, id);
         return ResponseEntity.ok(userList);
     }
 
-    @PostMapping("/user/dislikedUsers/{videoId}")
-    @ResponseBody
-    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId) {
-        List<User> userList = videoService.dislikedUsers(videoId);
+    @PostMapping("/user/dislikedUsers/{videoId}/{id}")
+    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId, @PathVariable Long id) {
+        List<User> userList = videoService.dislikedUsers(videoId, id);
         return ResponseEntity.ok(userList);
     }
 
-    @GetMapping("/view/{id}")
-    public String viewVideo(@PathVariable Long id,
+    @GetMapping("/view/{videoId}/{id}")
+    public String viewVideo(@PathVariable String videoId,
+                            @PathVariable Long id,
                             Model model) {
-        Video video = videoService.singleVideoDetails(id);
+        Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
-        videoService.viewCountUpdate(id);
+        videoService.viewCountUpdate(videoId, id);
         return "view";
     }
 

@@ -3,17 +3,17 @@ package com.webApplication.videoShare.service;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
+import com.webApplication.videoShare.exception.ResourceNotFoundException;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class VideoServiceImpl implements VideoService{
@@ -40,7 +40,11 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public List<Video> getAllVideosByUserId() {
         Long userId = userService.fetchUserId();
-        return videoRepository.fetchUserVideo(userId);
+        List<Video> videoList = videoRepository.fetchUserVideo(userId);
+        if(Objects.isNull(videoList)) {
+            throw new ResourceNotFoundException();
+        }
+        return videoList;
     }
 
     @Override
@@ -50,67 +54,88 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public Video singleVideoDetails(Long id) {
-        return videoRepository.getReferenceById(id);
+    public Video singleVideoDetails(String videoId, Long id) {
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
+        return video;
     }
 
     @Override
-    public List<Long> updateLikeOrDisLikeCount(Long id,
-                                           LikeOrDislike likeOrDisLike) {
+    @Transactional
+    public List<Long> updateLikeOrDisLikeCount(String videoId,
+                                               Long id,
+                                               LikeOrDislike likeOrDisLike) {
         Long userId = userService.fetchUserId();
-        Video video = videoRepository.getReferenceById(id);
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
         List<User> likedUserList = video.getLikedUser();
         List<User> dislikedUserList = video.getDislikedUser();
-        User loginUser = userRepository.findById(userId).orElse(null);
+        Optional<User> loginUser = userRepository.findById(userId);
 
-        if (Objects.nonNull(video.getUser()) && video.getUser().getId().equals(userId)) {
+        if(loginUser.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+
+        if (Objects.nonNull(video.getUser())
+            && video.getUser().getId().equals(userId)) {
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        if(likedUserList.contains(loginUser) &&
-                likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            likedUserList.remove(loginUser);
+        if(likedUserList.contains(loginUser.get())
+            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
+            likedUserList.remove(loginUser.get());
             video.setLikeCount(video.getLikeCount() - 1);
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        if(!likedUserList.contains(loginUser) && dislikedUserList.contains(loginUser) && likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            dislikedUserList.remove(loginUser);
-            likedUserList.add(loginUser);
+        if(!likedUserList.contains(loginUser.get())
+            && dislikedUserList.contains(loginUser.get())
+            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
+            dislikedUserList.remove(loginUser.get());
+            likedUserList.add(loginUser.get());
             video.setDislikeCount(video.getDislikeCount() - 1);
             video.setLikeCount(video.getLikeCount() + 1);
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        if(!likedUserList.contains(loginUser) && !dislikedUserList.contains(loginUser) && likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            likedUserList.add(loginUser);
+        if(!likedUserList.contains(loginUser.get())
+            && !dislikedUserList.contains(loginUser.get())
+            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
+            likedUserList.add(loginUser.get());
             video.setLikeCount(video.getLikeCount() + 1);
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        if(dislikedUserList.contains(loginUser) && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
-            dislikedUserList.remove(loginUser);
+        if(dislikedUserList.contains(loginUser.get())
+            && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
+            dislikedUserList.remove(loginUser.get());
             video.setDislikeCount(video.getDislikeCount() - 1);
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        if(!dislikedUserList.contains(loginUser) && likedUserList.contains(loginUser) && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
-            likedUserList.remove(loginUser);
+        if(!dislikedUserList.contains(loginUser.get())
+            && likedUserList.contains(loginUser.get())
+            && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
+            likedUserList.remove(loginUser.get());
             video.setDislikeCount(video.getDislikeCount() + 1);
-            dislikedUserList.add(loginUser);
+            dislikedUserList.add(loginUser.get());
             video.setLikeCount(video.getLikeCount() - 1);
             return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
         }
 
-        dislikedUserList.add(loginUser);
+        dislikedUserList.add(loginUser.get());
         video.setDislikeCount(video.getDislikeCount() + 1);
         return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
     }
 
     @Override
-    public void newVideoAdded(String title,
-                              String url,
-                              Long id) {
+    public void addNewVideo(String title,
+                            String url,
+                            Long id) {
         Video video = new Video();
         video.setTitle(title);
         video.setUrl(url);
@@ -121,8 +146,12 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public void viewCountUpdate(Long id) {
-        Video video = videoRepository.getReferenceById(id);
+    public void viewCountUpdate(String videoId, Long id) {
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(Objects.isNull(authentication) || authentication instanceof AnonymousAuthenticationToken){
             video.setViewCount(video.getViewCount() + 1);
@@ -131,17 +160,23 @@ public class VideoServiceImpl implements VideoService{
         }
 
         Long userId = userService.fetchUserId();
-        if(Objects.nonNull(video.getUser()) && !video.getUser().getId().equals(userId)){
-            video.setViewCount(video.getViewCount() + 1);
-            videoRepository.save(video);
+        if(Objects.isNull(video.getUser()) || !video.getUser().getId().equals(userId)){
+            throw new ResourceNotFoundException();
         }
+
+        video.setViewCount(video.getViewCount() + 1);
+        videoRepository.save(video);
     }
 
     @Override
-    public void updateVideo(Long id,
+    public void updateVideo(String videoId,
+                            Long id,
                             String title,
                             String url) {
-        Video video = videoRepository.getReferenceById(id);
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
         video.setTitle(title);
         video.setUrl(url);
         video.setVideoId(extractVideoId(url));
@@ -154,18 +189,24 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public List<User> likedUsers(String videoId) {
-        Video video = videoRepository.fetchVideoByVideoId(videoId);
+    public List<User> likedUsers(String videoId, Long id) {
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
         return video.getLikedUser();
     }
 
     @Override
-    public List<User> dislikedUsers(String videoId) {
-        Video video = videoRepository.fetchVideoByVideoId(videoId);
+    public List<User> dislikedUsers(String videoId, Long id) {
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
         return video.getDislikedUser();
     }
 
-    public List<Long> updateVideoInformation(Video video,
+    private List<Long> updateVideoInformation(Video video,
                                              List<User> likedUserList,
                                              List<User> dislikedUserList,
                                              LikeOrDislike likeOrDislike){

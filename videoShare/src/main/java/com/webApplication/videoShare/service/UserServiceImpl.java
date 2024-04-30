@@ -1,6 +1,7 @@
 package com.webApplication.videoShare.service;
 
 import com.webApplication.videoShare.entity.User;
+import com.webApplication.videoShare.exception.ResourceNotFoundException;
 import com.webApplication.videoShare.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -29,6 +29,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public User singleUserDetails(Long id) {
         Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
         return user.get();
     }
 
@@ -39,6 +42,9 @@ public class UserServiceImpl implements UserService{
 
         String email = userDetails.getUsername();
         Optional<User> user = userRepository.findUserByEmail(email);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
         return user.get().getId();
     }
 
@@ -50,7 +56,6 @@ public class UserServiceImpl implements UserService{
         }
 
         Optional<User> user = userRepository.findUserByEmail(email);
-
         return user.isPresent();
     }
 

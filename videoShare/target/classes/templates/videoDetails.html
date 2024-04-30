@@ -34,13 +34,13 @@
 
     <div class="row mx-1">
         <div class="col">
-            <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/LIKE'}}">
+            <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/LIKE'}}">
                 <button type="button" class="btn btn-primary click" onclick="likeVideo()" col="1">Like</button>
                 <p id="likeCount" th:text="${video.likeCount}"></p>
             </form>
         </div>
         <div class="col">
-            <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.id+'/DISLIKE'}}">
+            <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/DISLIKE'}}">
                 <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
                 <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
             </form>
@@ -49,7 +49,7 @@
 
     <div class="row">
         <div class="m-5 col">
-            <form th:action="@{${'/user/likedUsers/'+video.videoId}}">
+            <form th:action="@{${'/user/likedUsers/'+video.videoId+'/'+video.id}}">
                 <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>
                 <ul id="likedUsers">
 
@@ -58,7 +58,7 @@
         </div>
 
         <div class="m-5 col">
-            <form th:action="@{${'/user/dislikedUsers/'+video.videoId}}">
+            <form th:action="@{${'/user/dislikedUsers/'+video.videoId+'/'+video.id}}">
                 <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>
                 <ul id="dislikedUsers">
 
@@ -70,9 +70,10 @@
 
 <script th:inline="javascript">
     function likeVideo() {
-    var videoId = /*[[${video.id}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
+    var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/LIKE', true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/LIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             var likeOrDislikeCount = JSON.parse(xhr.responseText);
@@ -87,9 +88,10 @@
 
 
     function dislikeVideo() {
-    var videoId = /*[[${video.id}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
+    var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/DISLIKE', true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' id + '/DISLIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             var likeOrDislikeCount = JSON.parse(xhr.responseText);
@@ -104,8 +106,9 @@
 
     function findingLikedUsers() {
     var videoId = /*[[${video.videoId}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likedUsers/' + videoId, true);
+    xhr.open('POST', '/user/likedUsers/' + videoId + '/' + id, true);
     xhr.onload = function () {
             if (xhr.status === 200) {
                 var userList = JSON.parse(xhr.responseText);
@@ -130,8 +133,9 @@
 
     function findingDislikedUsers() {
     var videoId = /*[[${video.videoId}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/dislikedUsers/' + videoId, true);
+    xhr.open('POST', '/user/dislikedUsers/' + videoId + '/' + id, true);
     xhr.onload = function () {
             if (xhr.status === 200) {
                 var userList = JSON.parse(xhr.responseText);

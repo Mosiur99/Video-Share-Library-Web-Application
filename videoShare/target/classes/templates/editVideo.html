@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <h2>Edit Video</h2>
-    <form th:action="@{${'/user/edit/'+video.id}}" method="post">
+    <form th:action="@{${'/user/edit/'+video.videoId+'/'+video.id}}" method="post">
         <div class="form-group">
             <label for="title">Title:</label>
             <input th:value="${video.title}" type="text" class="form-control" id="title" name="title" required>

@@ -13,17 +13,17 @@ public interface VideoService {
 
     String extractVideoId(String url);
 
-    Video singleVideoDetails(Long id);
+    Video singleVideoDetails(String videoId, Long id);
 
-    List<Long> updateLikeOrDisLikeCount(Long id, LikeOrDislike likeOrDislike);
+    List<Long> updateLikeOrDisLikeCount(String videoId, Long id, LikeOrDislike likeOrDislike);
 
-    void newVideoAdded(String title, String url, Long id);
+    void addNewVideo(String title, String url, Long id);
 
-    void viewCountUpdate(Long id);
+    void viewCountUpdate(String videoId, Long id);
 
-    void updateVideo(Long id, String title, String url);
+    void updateVideo(String videoId, Long id, String title, String url);
 
-    List<User> likedUsers(String videoId);
+    List<User> likedUsers(String videoId, Long id);
 
-    List<User> dislikedUsers(String videoId);
+    List<User> dislikedUsers(String videoId, Long id);
 }

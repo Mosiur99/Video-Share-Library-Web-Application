@@ -1,6 +1,2 @@
 
-•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ–‰¦J$cc329358-5ff4-4330-bd6d-a594100a24b0
-
-java:S3655*"HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(šÄŒ¶üÿÿÿÿ8±÷°Âò1J$81dbd79a-a2ca-434c-9f12-dd73636b67ee
-
-java:S3655 "HCall "user.isPresent()" or "!user.isEmpty()" before accessing the value.(´ñìšşÿÿÿÿ8±÷°Âò1J$6256bad4-3b31-4ee8-b2e2-647f3ce1c990
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ–‰¦8’Û­ëò1J$f6d88889-a4cf-4f87-8e40-85146bdba4e2
