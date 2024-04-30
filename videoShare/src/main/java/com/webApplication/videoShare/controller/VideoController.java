@@ -1,5 +1,6 @@
 package com.webApplication.videoShare.controller;
 
+import com.webApplication.videoShare.dto.ResponseDTO;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
@@ -55,8 +56,8 @@ public class VideoController {
     }
 
     @GetMapping("/user/edit/{videoId}/{id}")
-    public String editVideo(@PathVariable Long id,
-                            @PathVariable String videoId,
+    public String editVideo(@PathVariable String videoId,
+                            @PathVariable Long id,
                             Model model) {
         Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
@@ -74,17 +75,17 @@ public class VideoController {
     }
 
     @PostMapping("/user/likeOrDislike/{videoId}/{id}/{LikeOrDislike}")
-    public ResponseEntity<List<Long>> updateLikeOrDislike(@PathVariable String videoId,
+    public ResponseEntity<ResponseDTO> updateLikeOrDislike(@PathVariable String videoId,
                                                           @PathVariable Long id,
                                                           @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        List<Long> actionCount = videoService.updateLikeOrDisLikeCount(videoId, id, likeOrDislike);
-        return ResponseEntity.ok(actionCount);
+        ResponseDTO responseDTO = videoService.updateLikeOrDisLikeCount(videoId, id, likeOrDislike);
+        return ResponseEntity.ok(responseDTO);
     }
 
-    @PostMapping("/user/likedUsers/{videoId}/{id}")
-    public ResponseEntity<List<User>> likedUserList(@PathVariable String videoId, @PathVariable Long id) {
-        List<User> userList = videoService.likedUsers(videoId, id);
-        return ResponseEntity.ok(userList);
+    @PostMapping("/user/details/{videoId}/{id}")
+    public ResponseEntity<ResponseDTO> getDetails(@PathVariable String videoId, @PathVariable Long id) {
+        ResponseDTO responseDTO = videoService.getDetails(videoId, id);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping("/user/dislikedUsers/{videoId}/{id}")

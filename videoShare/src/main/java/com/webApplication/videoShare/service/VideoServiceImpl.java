@@ -1,5 +1,6 @@
 package com.webApplication.videoShare.service;
 
+import com.webApplication.videoShare.dto.ResponseDTO;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
@@ -64,9 +65,9 @@ public class VideoServiceImpl implements VideoService{
 
     @Override
     @Transactional
-    public List<Long> updateLikeOrDisLikeCount(String videoId,
-                                               Long id,
-                                               LikeOrDislike likeOrDisLike) {
+    public ResponseDTO updateLikeOrDisLikeCount(String videoId,
+                                                Long id,
+                                                LikeOrDislike likeOrDisLike) {
         Long userId = userService.fetchUserId();
         Video video = videoRepository.getVideoByVideoId(videoId, id);
         if(Objects.isNull(video)){
@@ -159,8 +160,7 @@ public class VideoServiceImpl implements VideoService{
             return;
         }
 
-        Long userId = userService.fetchUserId();
-        if(Objects.isNull(video.getUser()) || !video.getUser().getId().equals(userId)){
+        if(Objects.isNull(video.getUser())){
             throw new ResourceNotFoundException();
         }
 
@@ -206,17 +206,36 @@ public class VideoServiceImpl implements VideoService{
         return video.getDislikedUser();
     }
 
-    private List<Long> updateVideoInformation(Video video,
+    @Override
+    public ResponseDTO getDetails(String videoId, Long id) {
+        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        if(Objects.isNull(video)){
+            throw new ResourceNotFoundException();
+        }
+
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setLikeCount(video.getLikeCount());
+        responseDTO.setDislikeCount(video.getDislikeCount());
+        responseDTO.setLikedUsers(video.getLikedUser());
+        responseDTO.setDislikedUsers(video.getDislikedUser());
+
+        return responseDTO;
+    }
+
+    private ResponseDTO updateVideoInformation(Video video,
                                              List<User> likedUserList,
                                              List<User> dislikedUserList,
                                              LikeOrDislike likeOrDislike){
         video.setLikedUser(likedUserList);
         video.setDislikedUser(dislikedUserList);
         video.setLikeOrDislike(likeOrDislike);
-        List<Long> actionCount = new ArrayList<>();
-        actionCount.add(video.getLikeCount());
-        actionCount.add(video.getDislikeCount());
         videoRepository.save(video);
-        return actionCount;
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setLikedUsers(likedUserList);
+        responseDTO.setDislikedUsers(dislikedUserList);
+        responseDTO.setLikeCount(video.getLikeCount());
+        responseDTO.setDislikeCount(video.getDislikeCount());
+
+        return responseDTO;
     }
 }

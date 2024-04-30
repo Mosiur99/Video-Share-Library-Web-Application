@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        #actionList{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,24 +52,13 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="m-5 col">
-            <form th:action="@{${'/user/likedUsers/'+video.videoId+'/'+video.id}}">
-                <button type="button" class="btn btn-secondary click" onclick="findingLikedUsers()">Liked User List</button>
-                <ul id="likedUsers">
+    <div class="row m-2">
+        <form th:action="@{${'/user/details/'+video.videoId+'/'+video.id}}">
+            <button type="button" class="btn btn-secondary click" onclick="getDetails()">Details</button>
+            <ul id="actionList">
 
-                </ul>
-            </form>
-        </div>
-
-        <div class="m-5 col">
-            <form th:action="@{${'/user/dislikedUsers/'+video.videoId+'/'+video.id}}">
-                <button type="button" class="btn btn-secondary click" onclick="findingDislikedUsers()">DisLiked User List</button>
-                <ul id="dislikedUsers">
-
-                </ul>
-            </form>
-        </div>
+            </ul>
+        </form>
     </div>
 </form>
 
@@ -76,88 +70,113 @@
     xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/LIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var likeOrDislikeCount = JSON.parse(xhr.responseText);
-            document.getElementById('likeCount').innerText = likeOrDislikeCount[0];
-            document.getElementById('dislikeCount').innerText = likeOrDislikeCount[1];
-            document.getElementById('likedUsers').style.display = 'none';
-            document.getElementById('dislikedUsers').style.display = 'none';
+            var responseDTO = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = responseDTO.likeCount;
+            document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+
+            var likedUsers = responseDTO.likedUsers;
+                var dislikedUsers = responseDTO.dislikedUsers;
+                var list = document.getElementById('actionList');
+                list.innerText = '';
+                var paragraph = document.createElement('li');
+                paragraph.innerText = "Liked User List";
+                list.appendChild(paragraph);
+                if(likedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in likedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = likedUsers[i].username;
+                    list.appendChild(user);
+                }
+                var paragraph2 = document.createElement('li');
+                paragraph2.innerText = "Disliked User List";
+                list.appendChild(paragraph2);
+                if(dislikedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in dislikedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = dislikedUsers[i].username;
+                    list.appendChild(user);
+                }
+
+            document.getElementById('actionList').style.display = 'none';
         }
     };
     xhr.send();
 }
-
 
     function dislikeVideo() {
     var id = /*[[${video.id}]]*/ '';
     var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' id + '/DISLIKE', true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/DISLIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var likeOrDislikeCount = JSON.parse(xhr.responseText);
-            document.getElementById('likeCount').innerText = likeOrDislikeCount[0];
-            document.getElementById('dislikeCount').innerText = likeOrDislikeCount[1];
-            document.getElementById('likedUsers').style.display = 'none';
-            document.getElementById('dislikedUsers').style.display = 'none';
+            var responseDTO = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = responseDTO.likeCount;
+            document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+
+            var likedUsers = responseDTO.likedUsers;
+                var dislikedUsers = responseDTO.dislikedUsers;
+                var list = document.getElementById('actionList');
+                list.innerText = '';
+                var paragraph = document.createElement('li');
+                paragraph.innerText = "Liked User List";
+                list.appendChild(paragraph);
+                if(likedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in likedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = likedUsers[i].username;
+                    list.appendChild(user);
+                }
+                var paragraph2 = document.createElement('li');
+                paragraph2.innerText = "Disliked User List";
+                list.appendChild(paragraph2);
+                if(dislikedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in dislikedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = dislikedUsers[i].username;
+                    list.appendChild(user);
+                }
+
+            document.getElementById('actionList').style.display = 'none';
         }
     };
     xhr.send();
 }
 
-    function findingLikedUsers() {
+    function getDetails() {
     var videoId = /*[[${video.videoId}]]*/ '';
     var id = /*[[${video.id}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likedUsers/' + videoId + '/' + id, true);
+    xhr.open('POST', '/user/details/' + videoId + '/' + id, true);
     xhr.onload = function () {
             if (xhr.status === 200) {
-                var userList = JSON.parse(xhr.responseText);
-                var list = document.getElementById('likedUsers');
-                list.innerText = '';
-                    if(userList.length === 0){
-                        var user = document.createElement('li');
-                        user.innerText = 'No user have';
-                        list.appendChild(user);
-                    }
-                    for(var i in userList){
-                        var user = document.createElement('li');
-                        user.innerText = userList[i].username;
-                        list.appendChild(user);
-                    }
-                    document.getElementById('likedUsers').style.display = 'block';
-                    document.getElementById('dislikedUsers').style.display = 'none';
+                var action = document.getElementById('actionList');
+                if(action.style.display === 'none'){
+                    action.style.display = 'block';
+                }else{
+                    action.style.display = 'none';
+                 }
+<!--                document.getElementById('actionList').style.display = 'block';-->
             }
         };
         xhr.send();
 }
-
-    function findingDislikedUsers() {
-    var videoId = /*[[${video.videoId}]]*/ '';
-    var id = /*[[${video.id}]]*/ '';
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/dislikedUsers/' + videoId + '/' + id, true);
-    xhr.onload = function () {
-            if (xhr.status === 200) {
-                var userList = JSON.parse(xhr.responseText);
-                var list = document.getElementById('dislikedUsers');
-                list.innerText = '';
-                    if(userList.length === 0){
-                        var user = document.createElement('li');
-                        user.innerText = 'No user have';
-                        list.appendChild(user);
-                    }
-                    for(var i in userList){
-                        var user = document.createElement('li');
-                        user.innerText = userList[i].username;
-                        list.appendChild(user);
-                    }
-                    document.getElementById('dislikedUsers').style.display = 'block';
-                    document.getElementById('likedUsers').style.display = 'none';
-            }
-        };
-        xhr.send();
-}
-
 </script>
 
 </body>
