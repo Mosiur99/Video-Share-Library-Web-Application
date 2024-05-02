@@ -8,5 +8,7 @@ public interface UserService {
 
     Long fetchUserId();
 
-    void validUser(String email, String password);
+    Boolean isValidUser(String email, String password);
+
+    void saveNewUser(String username, String email, String password);
 }

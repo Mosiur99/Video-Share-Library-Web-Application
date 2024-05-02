@@ -6,17 +6,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Video Details</h1>
 <div>
+<<<<<<< HEAD
     <h2>Video Title</h2>
     <p th:text="${video.title}">Video Title</p>
     <div class="video-container">
+=======
+    <h5 th:text="${video.title}">Video Title</h5>
+    <div class="video-container m-3">
+>>>>>>> master
         <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
     </div>
 </div>
 <div>
     <h2>View Count</h2>
     <p th:text="${video.viewCount}">${video.viewCount}</p>
+</div>
+<div>
+        <button type="button" class="btn btn-primary" disabled>Like</button>
+        <p id="likeCount" th:text="${video.likeCount}"></p>
+</div>
+<div>
+        <button type="button" class="btn btn-danger" disabled>Dislike</button>
+        <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
 </div>
     <a href="/home" class="btn btn-primary float-right">Return Home Page</a>
 </div>

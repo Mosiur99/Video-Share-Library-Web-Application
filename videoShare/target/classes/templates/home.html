@@ -11,20 +11,23 @@
     </style>
 </head>
 <body>
-<div>
-    <a th:href="@{/userSignup}"><button class = "btn btn-primary float-right m-3">Sign Up</button></a>
-</div>
-<div>
-<!--    <h4>Login</h4>-->
-    <a th:href="@{/userLogin}"><button class = "btn btn-primary float-right m-3">Login</button></a>
-</div>
-<h1>Video List</h1>
-<div th:each="video : ${videoList}">
-    <h2 th:text="${video.title}"></h2>
-    <div class="video-container">
-        <iframe class = "ytplayer" width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
+<div class="d-flex justify-content-between">
+    <div>
+        <a th:href="@{/userSignup}"><button class = "btn btn-primary m-1">Sign Up</button></a>
     </div>
-    <a th:href="@{${'/view/'+video.videoId}}" class="btn btn-primary">View</a>
+    <div>
+        <a th:href="@{/userLogin}"><button class = "btn btn-primary m-1">Login</button></a>
+    </div>
+</div>
+<div class="d-flex justify-content-center align-items-center flex-column flex-wrap">
+    <h5>Video List</h5>
+    <div th:each="video : ${videoList}" class="m-3">
+        <h6 th:text="${video.title}"></h6>
+            <div class="video-container">
+                <iframe class = "ytplayer" width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId}}" frameborder="0" allowfullscreen></iframe>
+            </div>
+        <a th:href="@{${'/view/'+video.videoId+'/'+video.id}}" class="btn btn-primary float-right">View</a>
+    </div>
 </div>
 </body>
 </html>

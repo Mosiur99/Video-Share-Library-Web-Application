@@ -1,89 +1,181 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Video Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        #actionList{
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
-<div>
-    <h5 th:text="${video.title}" class="m-3">Video Title</h5>
-    <div class="video-container m-3">
-        <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
-    </div>
-</div>
-<div>
-    <h2>View Count</h2>
-    <p th:text="${video.viewCount}"></p>
-</div>
-<div>
-    <form id="likeForm" th:action="@{${'/user/like/'+video.videoId}}">
-        <button type="button" class="btn btn-primary click" onclick="likeVideo()">Like</button>
-        <p id="likeCount" th:text="${video.likeCount}"></p>
-    </form>
-</div>
-<div>
-    <form id="dislikeForm" th:action="@{${'/user/dislike/'+video.videoId}}">
-        <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
-        <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
-    </form>
-</div>
 
-<div>
-    <h5>Who liked this video</h5>
-    <div th:if="${not #lists.isEmpty(video.likedUser)}">
-        <div th:each="likedUser : ${video.likedUser}">
-            <p id="likedUser" th:text="${likedUser.username}"></p>
+<form>
+    <div class="row float-right mx-2 mt-2">
+        <div>
+            <a href="/user/userHome" class="btn btn-primary">Return Home Page</a>
         </div>
     </div>
-    <div th:if="${#lists.isEmpty(video.likedUser)}">
-        <p>No one has liked this video yet</p>
-    </div>
-</div>
-<div>
-    <h5>Who Disliked this video</h5>
-    <div th:if="${not #lists.isEmpty(video.dislikedUser)}">
-        <div th:each="dislikedUser : ${video.dislikedUser}">
-            <p th:text="${dislikedUser.username}"></p>
+
+    <div class="row mx-1">
+        <div>
+            <h5 th:text="${video.title}" class="mx-2">Video Title</h5>
+            <div class="video-container m-3">
+                <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+            </div>
         </div>
     </div>
-    <div th:if="${#lists.isEmpty(video.dislikedUser)}">
-        <p>No one has disliked this video yet</p>
-    </div>
-</div>
-<div>
-    <a href="/user/userHome" class="btn btn-primary float-right">Return Home Page</a>
-</div>
 
+    <div class="row mx-1">
+        <h6 class="mx-1">View Count:</h6>
+        <h4><p th:text="${video.viewCount}"></p></h4>
+    </div>
+
+    <div class="row mx-1">
+        <div class="col">
+            <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/LIKE'}}">
+                <button type="button" class="btn btn-primary click" onclick="likeVideo()" col="1">Like</button>
+                <p id="likeCount" th:text="${video.likeCount}"></p>
+            </form>
+        </div>
+        <div class="col">
+            <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/DISLIKE'}}">
+                <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
+                <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="row m-2">
+        <form th:action="@{${'/user/details/'+video.videoId+'/'+video.id}}">
+            <button type="button" class="btn btn-secondary click" onclick="getDetails()">Details</button>
+            <ul id="actionList">
+
+            </ul>
+        </form>
+    </div>
+</form>
 
 <script th:inline="javascript">
     function likeVideo() {
+    var id = /*[[${video.id}]]*/ '';
     var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/like/' + videoId, true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/LIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var likeCount = parseInt(xhr.responseText);
-            document.getElementById('likeCount').innerText = likeCount;
-            document.getElementById('dislikeCount').innerText = /*[[${video.dislikeCount}]]*/ '';
+            var responseDTO = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = responseDTO.likeCount;
+            document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+
+            var likedUsers = responseDTO.likedUsers;
+                var dislikedUsers = responseDTO.dislikedUsers;
+                var list = document.getElementById('actionList');
+                list.innerText = '';
+                var paragraph = document.createElement('li');
+                paragraph.innerText = "Liked User List";
+                list.appendChild(paragraph);
+                if(likedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in likedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = likedUsers[i].username;
+                    list.appendChild(user);
+                }
+                var paragraph2 = document.createElement('li');
+                paragraph2.innerText = "Disliked User List";
+                list.appendChild(paragraph2);
+                if(dislikedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in dislikedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = dislikedUsers[i].username;
+                    list.appendChild(user);
+                }
+
+            document.getElementById('actionList').style.display = 'none';
         }
     };
     xhr.send();
 }
 
-
     function dislikeVideo() {
+    var id = /*[[${video.id}]]*/ '';
     var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/dislike/' + videoId, true);
+    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/DISLIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var dislikeCount = parseInt(xhr.responseText);
-            document.getElementById('dislikeCount').innerText = dislikeCount;
-            document.getElementById('likeCount').innerText = /*[[${video.likeCount}]]*/ '';
+            var responseDTO = JSON.parse(xhr.responseText);
+            document.getElementById('likeCount').innerText = responseDTO.likeCount;
+            document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+
+            var likedUsers = responseDTO.likedUsers;
+                var dislikedUsers = responseDTO.dislikedUsers;
+                var list = document.getElementById('actionList');
+                list.innerText = '';
+                var paragraph = document.createElement('li');
+                paragraph.innerText = "Liked User List";
+                list.appendChild(paragraph);
+                if(likedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in likedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = likedUsers[i].username;
+                    list.appendChild(user);
+                }
+                var paragraph2 = document.createElement('li');
+                paragraph2.innerText = "Disliked User List";
+                list.appendChild(paragraph2);
+                if(dislikedUsers.length === 0){
+                    var paragraph = document.createElement('li');
+                    paragraph.innerText = 'No user have';
+                    list.appendChild(paragraph);
+                }
+                for(var i in dislikedUsers){
+                    var user = document.createElement('li');
+                    user.innerText = dislikedUsers[i].username;
+                    list.appendChild(user);
+                }
+
+            document.getElementById('actionList').style.display = 'none';
         }
     };
     xhr.send();
+}
+
+    function getDetails() {
+    var videoId = /*[[${video.videoId}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/user/details/' + videoId + '/' + id, true);
+    xhr.onload = function () {
+            if (xhr.status === 200) {
+                var action = document.getElementById('actionList');
+                if(action.style.display === 'none'){
+                    action.style.display = 'block';
+                }else{
+                    action.style.display = 'none';
+                 }
+<!--                document.getElementById('actionList').style.display = 'block';-->
+            }
+        };
+        xhr.send();
 }
 </script>
 

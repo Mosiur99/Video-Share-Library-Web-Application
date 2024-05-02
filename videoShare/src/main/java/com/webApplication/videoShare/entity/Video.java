@@ -1,6 +1,7 @@
 package com.webApplication.videoShare.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Video {
     @Column(nullable = false, unique = true)
     private String videoId;
 
+    @JsonBackReference
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,16 +33,18 @@ public class Video {
     private  long likeCount = 0;
     private long dislikeCount = 0;
 
+    @JsonBackReference
     @ManyToMany()
     private List<User> likedUser = new ArrayList<>();
+
+    @JsonBackReference
     @ManyToMany()
     private List<User> dislikedUser = new ArrayList<>();
 
-    public Video(){
+    @Enumerated(EnumType.ORDINAL)
+    private LikeOrDislike likeOrDislike;
 
-    }
-
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -51,34 +55,15 @@ public class Video {
         this.dislikeCount = dislikeCount;
         this.likedUser = likedUser;
         this.dislikedUser = dislikedUser;
+        this.likeOrDislike = likeOrDislike;
+    }
+
+    public Video(){
+
     }
 
     public long getId() {
         return id;
-    }
-
-    public long getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(long viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public long getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(long likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public long getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(long dislikeCount) {
-        this.dislikeCount = dislikeCount;
     }
 
     public void setId(long id) {
@@ -117,6 +102,30 @@ public class Video {
         this.user = user;
     }
 
+    public long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(long viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public long getDislikeCount() {
+        return dislikeCount;
+    }
+
+    public void setDislikeCount(long dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
     public List<User> getLikedUser() {
         return likedUser;
     }
@@ -131,5 +140,13 @@ public class Video {
 
     public void setDislikedUser(List<User> dislikedUser) {
         this.dislikedUser = dislikedUser;
+    }
+
+    public LikeOrDislike getLikeOrDislike() {
+        return likeOrDislike;
+    }
+
+    public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
+        this.likeOrDislike = likeOrDislike;
     }
 }

@@ -1,5 +1,8 @@
 package com.webApplication.videoShare.service;
 
+import com.webApplication.videoShare.dto.ResponseDTO;
+import com.webApplication.videoShare.entity.LikeOrDislike;
+import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 
 import java.util.List;
@@ -11,15 +14,19 @@ public interface VideoService {
 
     String extractVideoId(String url);
 
-    Video singleVideoDetails(String id);
+    Video singleVideoDetails(String videoId, Long id);
 
-    Long updateLikeCount(String id);
+    ResponseDTO updateLikeOrDisLikeCount(String videoId, Long id, LikeOrDislike likeOrDislike);
 
-    Long updateDislikeCount(String id);
+    void addNewVideo(String title, String url, Long id);
 
-    void newVideoAdded(String title, String url, long id);
+    void viewCountUpdate(String videoId, Long id);
 
-    void viewCountUpdate(String id);
+    void updateVideo(String videoId, Long id, String title, String url);
 
-    void updateVideo(Long id, String title, String url);
+    List<User> likedUsers(String videoId, Long id);
+
+    List<User> dislikedUsers(String videoId, Long id);
+
+    ResponseDTO getDetails(String videoId, Long id);
 }

@@ -1,56 +1,72 @@
 package com.webApplication.videoShare.service;
 
 import com.webApplication.videoShare.entity.User;
+import com.webApplication.videoShare.exception.ResourceNotFoundException;
 import com.webApplication.videoShare.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
 
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public User singleUserDetails(Long id) {
-        List<User> userList = userRepository.findAll();
-        for(User user : userList){
-            if(user.getId().equals(id)){
-                return user;
-            }
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException();
         }
-        return null;
+        return user.get();
     }
 
     @Override
     public Long fetchUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        Long id = 0L;
-        List<User> userList = userRepository.findAll();
-        for(User user : userList){
-            if(user.getEmail().equals(username)){
-                id = user.getId();
-                break;
-            }
+
+        String email = userDetails.getUsername();
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException();
         }
-        return id;
+        return user.get().getId();
     }
 
     @Override
-    public void validUser(String email, String password){
-        List<User> userList = userRepository.findAll();
-        Optional<User> user = userList.stream()
-                .filter(t -> email.equals(t.getUsername()))
-                .filter(t -> password.equals(t.getPassword()))
-                .findFirst();
+    public Boolean isValidUser(String email,
+                               String password) {
+        if (Objects.isNull(email) || email.isEmpty() || Objects.isNull(password) || password.isEmpty()) {
+            return false;
+        }
+
+        Optional<User> user = userRepository.findUserByEmail(email);
+        return user.isPresent();
+    }
+
+    @Override
+    public void saveNewUser(String username,
+                            String email,
+                            String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 }

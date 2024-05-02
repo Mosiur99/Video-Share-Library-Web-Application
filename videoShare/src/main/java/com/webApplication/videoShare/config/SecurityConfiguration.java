@@ -18,12 +18,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+    @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(registry ->{
+                .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/home", "/userSignup", "/register/**", "/view/**").permitAll();
                     registry.requestMatchers("/user/**").hasRole("USER");
                     registry.anyRequest().authenticated();
@@ -33,6 +36,11 @@ public class SecurityConfiguration {
                             .loginPage("/userLogin")
                             .usernameParameter("email")
                             .successHandler(new AuthenticationSuccessHandler())
+                            .permitAll();
+                })
+                .logout(httpSecurityLogoutConfigurer -> {
+                    httpSecurityLogoutConfigurer
+                            .logoutSuccessHandler(logoutSuccessHandler)
                             .permitAll();
                 })
                 .build();

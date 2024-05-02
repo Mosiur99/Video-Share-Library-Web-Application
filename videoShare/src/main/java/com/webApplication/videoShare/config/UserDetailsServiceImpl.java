@@ -15,6 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findUserByEmail(email);
@@ -35,6 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(user.getRole() == null){
             return new String[]{"USER"};
         }
+
         return user.getRole().split(",");
     }
 }

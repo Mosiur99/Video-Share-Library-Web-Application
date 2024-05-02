@@ -1,0 +1,12 @@
+
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‘á½€ÿÿÿÿÿJ$00f74597-3311-4c0b-b055-da2c014f8026
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$3c98f6b8-ba89-4929-9e1d-71afb45f7dd3
+~
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞJ$9aebfc3e-3e4c-466c-a305-d6d0513ceaf7
+›
+java:S3305"ZInject this field value directly into "securityFilterChain", the only method that uses it.(½ô¢ıÿÿÿÿJ$5afc3dc3-eb78-4a87-b9ae-1b3f1c4999dd
+m
+java:S1602"",Remove useless curly braces around statement(˜ËéøıÿÿÿÿJ$c59a72ca-5dd0-4339-8581-c1d9853fdaf5
+h
+java:S1602)",Remove useless curly braces around statement(Õ­‘’J$9f1b38eb-2303-4564-8130-5b4a614a8f7a
