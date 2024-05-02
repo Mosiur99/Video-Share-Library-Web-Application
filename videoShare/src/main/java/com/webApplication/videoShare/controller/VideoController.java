@@ -88,12 +88,6 @@ public class VideoController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    @PostMapping("/user/dislikedUsers/{videoId}/{id}")
-    public ResponseEntity<List<User>> dislikedUserList(@PathVariable String videoId, @PathVariable Long id) {
-        List<User> userList = videoService.dislikedUsers(videoId, id);
-        return ResponseEntity.ok(userList);
-    }
-
     @GetMapping("/view/{videoId}/{id}")
     public String viewVideo(@PathVariable String videoId,
                             @PathVariable Long id,

@@ -24,9 +24,5 @@ public interface VideoService {
 
     void updateVideo(String videoId, Long id, String title, String url);
 
-    List<User> likedUsers(String videoId, Long id);
-
-    List<User> dislikedUsers(String videoId, Long id);
-
     ResponseDTO getDetails(String videoId, Long id);
 }

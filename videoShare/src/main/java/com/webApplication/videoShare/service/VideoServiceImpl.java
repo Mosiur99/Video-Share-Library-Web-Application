@@ -189,24 +189,6 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public List<User> likedUsers(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
-            throw new ResourceNotFoundException();
-        }
-        return video.getLikedUser();
-    }
-
-    @Override
-    public List<User> dislikedUsers(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
-            throw new ResourceNotFoundException();
-        }
-        return video.getDislikedUser();
-    }
-
-    @Override
     public ResponseDTO getDetails(String videoId, Long id) {
         Video video = videoRepository.getVideoByVideoId(videoId, id);
         if(Objects.isNull(video)){
