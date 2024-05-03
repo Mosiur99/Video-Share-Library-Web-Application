@@ -1,8 +1,6 @@
 
 ‰
-java:S1192?"FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8¤ĞÊîò1J$9f37407c-81ee-4c1c-b6b8-eb2ff43dc191
-œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8¦ĞÊîò1J$c46c117d-ecd3-41ff-8bd4-3699218d6c29
-M
-java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8ì—úÀó1
-u
-java:S1068"3Remove this unused "videoRepository" private field.(Ô˜t8À¤Íîò1J$c42b7f2e-4332-42da-a6f8-faa702596d9f
+java:S1192="FDefine a constant instead of duplicating this literal "video" 3 times.(‡®³ç8¢Û“ïó1J$55855013-9f19-48aa-8337-6d2d7755b3a9
+œ	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(£œÀ8®Û“ïó1J$a909b84b-491a-4b7b-a5df-93df815fefe7
+r
+java:S1128"URemove this unused import 'com.webApplication.videoShare.repository.VideoRepository'.(Òœ…8¡Õöğó1

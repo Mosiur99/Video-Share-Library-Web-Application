@@ -1,10 +1,12 @@
 package com.webApplication.videoShare.service;
 
 import com.webApplication.videoShare.dto.ResponseDTO;
+import com.webApplication.videoShare.entity.Comment;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.exception.ResourceNotFoundException;
+import com.webApplication.videoShare.repository.CommentRepository;
 import com.webApplication.videoShare.repository.UserRepository;
 import com.webApplication.videoShare.repository.VideoRepository;
 import jakarta.transaction.Transactional;
@@ -23,14 +25,17 @@ public class VideoServiceImpl implements VideoService{
     private final UserService userService;
     private final VideoRepository videoRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     @Autowired
     public VideoServiceImpl(UserService userService,
                             VideoRepository videoRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository,
+                            CommentRepository commentRepository) {
         this.userService = userService;
         this.videoRepository = videoRepository;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -202,6 +207,21 @@ public class VideoServiceImpl implements VideoService{
         responseDTO.setDislikedUsers(video.getDislikedUser());
 
         return responseDTO;
+    }
+
+    @Override
+    public String postComment(Long videoId, Long userId, String comment) {
+        Comment description = new Comment();
+        description.setDescription(comment);
+        description.setUser(userService.singleUserDetails(userId));
+        description.setVideo(videoRepository.getReferenceById(videoId));
+        commentRepository.save(description);
+        return comment;
+    }
+
+    @Override
+    public List<Comment> getComment(Long videoId, Long userId) {
+        return commentRepository.getComment(videoId, userId);
     }
 
     private ResponseDTO updateVideoInformation(Video video,

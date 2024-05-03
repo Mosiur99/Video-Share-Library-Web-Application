@@ -41,3 +41,7 @@ v
 Fsrc/main/java/com/webApplication/videoShare/exception/ApiResponse.java,e\f\efc7d9ac46c854922f337bd3a4148b9be5a21cd6
 p
 @src/main/java/com/webApplication/videoShare/dto/ResponseDTO.java,3\c\3c4bf4a4ed4abca006d161d2be980ab2573ce410
+o
+?src/main/java/com/webApplication/videoShare/entity/Comment.java,2\f\2fefbeac0b250e4dfac00f0b0d72e11404641c40
+}
+Msrc/main/java/com/webApplication/videoShare/repository/CommentRepository.java,e\3\e3b4155022ea38b2b0ae7d76d153439701882596

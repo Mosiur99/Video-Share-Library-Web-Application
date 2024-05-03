@@ -1,5 +1,6 @@
 package com.webApplication.videoShare.controller;
 
+import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
@@ -86,6 +87,8 @@ public class UserController {
     public String userHomePage(Model model) {
         List<Video> videoList = videoService.getAllVideos();
         model.addAttribute("videoList", videoList);
+        User user = userService.singleUserDetails(userService.fetchUserId());
+        model.addAttribute(user);
         return "userHome";
     }
 }

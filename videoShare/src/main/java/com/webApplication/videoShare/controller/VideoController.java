@@ -1,6 +1,7 @@
 package com.webApplication.videoShare.controller;
 
 import com.webApplication.videoShare.dto.ResponseDTO;
+import com.webApplication.videoShare.entity.Comment;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
@@ -20,16 +21,13 @@ public class VideoController {
 
     private final UserService userService;
     private final VideoService videoService;
-    private final VideoRepository videoRepository;
 
     @Autowired
     public VideoController(UserService userService,
-                           VideoService videoService,
-                           VideoRepository videoRepository) {
+                           VideoService videoService) {
 
         this.userService = userService;
         this.videoService = videoService;
-        this.videoRepository = videoRepository;
     }
 
     @PostMapping("/user/addVideo")
@@ -64,13 +62,18 @@ public class VideoController {
         return "editVideo";
     }
 
-    @GetMapping("/user/videoDetails/{videoId}/{id}")
+    @GetMapping("/user/videoDetails/{videoId}/{id}/{userId}")
     public String videoDetails(@PathVariable String videoId,
                                @PathVariable Long id,
+                               @PathVariable Long userId,
                                Model model) {
         Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
+        List<Comment> comments = videoService.getComment(id, userId);
+        model.addAttribute("comments", comments);
         videoService.viewCountUpdate(videoId, id);
+        User user = userService.singleUserDetails(userId);
+        model.addAttribute("user", user);
         return "videoDetails";
     }
 
@@ -87,6 +90,14 @@ public class VideoController {
         ResponseDTO responseDTO = videoService.getDetails(videoId, id);
         return ResponseEntity.ok(responseDTO);
     }
+
+    @PostMapping("/user/comment/{videoId}/{userId}")
+    public ResponseEntity<String> postComment(@PathVariable Long videoId,
+                                                   @PathVariable Long userId,
+                                                   @RequestParam String description) {
+        return ResponseEntity.ok(videoService.postComment(videoId, userId, description));
+    }
+
 
     @GetMapping("/view/{videoId}/{id}")
     public String viewVideo(@PathVariable String videoId,

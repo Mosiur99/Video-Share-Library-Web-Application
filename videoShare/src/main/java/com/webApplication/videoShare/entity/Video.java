@@ -2,11 +2,20 @@ package com.webApplication.videoShare.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "videos")
 public class Video {
@@ -23,6 +32,13 @@ public class Video {
 
     @Column(nullable = false, unique = true)
     private String videoId;
+
+    @JsonManagedReference
+    @OneToMany(
+            mappedBy = "video",
+            cascade = CascadeType.ALL
+    )
+    private List<Comment> comments;
 
     @JsonBackReference
     @ManyToOne()
@@ -44,109 +60,4 @@ public class Video {
     @Enumerated(EnumType.ORDINAL)
     private LikeOrDislike likeOrDislike;
 
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
-        this.id = id;
-        this.title = title;
-        this.url = url;
-        this.videoId = videoId;
-        this.user = user;
-        this.viewCount = viewCount;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
-        this.likedUser = likedUser;
-        this.dislikedUser = dislikedUser;
-        this.likeOrDislike = likeOrDislike;
-    }
-
-    public Video(){
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(long viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public long getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(long likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public long getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(long dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
-
-    public List<User> getLikedUser() {
-        return likedUser;
-    }
-
-    public void setLikedUser(List<User> likedUser) {
-        this.likedUser = likedUser;
-    }
-
-    public List<User> getDislikedUser() {
-        return dislikedUser;
-    }
-
-    public void setDislikedUser(List<User> dislikedUser) {
-        this.dislikedUser = dislikedUser;
-    }
-
-    public LikeOrDislike getLikeOrDislike() {
-        return likeOrDislike;
-    }
-
-    public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
-        this.likeOrDislike = likeOrDislike;
-    }
 }
