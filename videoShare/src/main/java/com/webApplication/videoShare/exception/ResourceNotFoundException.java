@@ -20,7 +20,7 @@ public class ResourceNotFoundException extends RuntimeException {
     }
 
     public ResourceNotFoundException(Long userId, String url) {
-        super(String.format("this video %s is already uploaded by user id %d !!!!", url, userId));
+        super(String.format("this video %s is already uploaded this user which user id is %d or uploaded by other's user!!!!", url, userId));
         this.url = url;
         this.userId = userId;
     }
