@@ -17,5 +17,8 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "SELECT video FROM Video video WHERE videoId = :videoId AND id = :id")
     Video getVideoByVideoId(@Param("videoId") String videoId, @Param("id") Long id);
 
+    @Query(value = "SELECT video FROM Video video WHERE video.url = :url")
+    Video duplicateVideoCheck(@Param("url") String url);
+
 }
 

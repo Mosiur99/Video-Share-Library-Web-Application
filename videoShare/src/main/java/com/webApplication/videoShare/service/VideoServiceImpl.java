@@ -148,13 +148,18 @@ public class VideoServiceImpl implements VideoService{
     public void addNewVideo(String title,
                             String url,
                             Long id) {
-        Video video = new Video();
-        video.setTitle(title);
-        video.setUrl(url);
-        String videoId = extractVideoId(url);
-        video.setVideoId(videoId);
-        video.setUser(userRepository.fetchUserById(id));
-        videoRepository.save(video);
+        if(Objects.isNull(videoRepository.duplicateVideoCheck(url))) {
+            Video video = new Video();
+            video.setTitle(title);
+            video.setUrl(url);
+            String videoId = extractVideoId(url);
+            video.setVideoId(videoId);
+            video.setUser(userRepository.fetchUserById(id));
+            videoRepository.save(video);
+        }
+        else{
+            throw new ResourceNotFoundException(id, url);
+        }
     }
 
     @Override
