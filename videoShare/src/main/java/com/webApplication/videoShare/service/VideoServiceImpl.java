@@ -163,6 +163,7 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
+    @Transactional
     public void viewCountUpdate(String videoId, Long id) {
         Video video = videoRepository.getVideoByVideoId(videoId, id);
         if(Objects.isNull(video)){
