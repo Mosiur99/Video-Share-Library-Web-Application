@@ -2,7 +2,6 @@ package com.webApplication.videoShare.service;
 
 import com.webApplication.videoShare.dto.ResponseDTO;
 import com.webApplication.videoShare.entity.LikeOrDislike;
-import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 
 import java.util.List;

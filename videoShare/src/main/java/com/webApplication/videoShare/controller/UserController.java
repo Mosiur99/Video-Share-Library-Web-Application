@@ -55,10 +55,10 @@ public class UserController {
     @PostMapping("/userLogin")
     public String loginSubmit(@RequestParam String email,
                               @RequestParam String password) {
-        try{
+        try {
             userService.isValidUser(email, password);
             return "redirect:/user/userDashboard";
-        }catch(Exception exception){
+        } catch(Exception exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
     }

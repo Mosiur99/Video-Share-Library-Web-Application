@@ -63,10 +63,15 @@ public class UserServiceImpl implements UserService{
     public void saveNewUser(String username,
                             String email,
                             String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
+        User user = userRepository.duplicateMailCheck(email);
+        if(Objects.isNull(user)) {
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setEmail(email);
+            newUser.setPassword(passwordEncoder.encode(password));
+            userRepository.save(newUser);
+        } else {
+            throw new ResourceNotFoundException(email);
+        }
     }
 }

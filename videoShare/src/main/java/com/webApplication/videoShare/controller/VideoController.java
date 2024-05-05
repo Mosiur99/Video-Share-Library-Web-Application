@@ -4,7 +4,6 @@ import com.webApplication.videoShare.dto.ResponseDTO;
 import com.webApplication.videoShare.entity.LikeOrDislike;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
-import com.webApplication.videoShare.repository.VideoRepository;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +12,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class VideoController {
 
     private final UserService userService;
     private final VideoService videoService;
-    private final VideoRepository videoRepository;
 
     @Autowired
     public VideoController(UserService userService,
-                           VideoService videoService,
-                           VideoRepository videoRepository) {
+                           VideoService videoService) {
 
         this.userService = userService;
         this.videoService = videoService;
-        this.videoRepository = videoRepository;
     }
 
     @PostMapping("/user/addVideo")
@@ -97,5 +91,4 @@ public class VideoController {
         videoService.viewCountUpdate(videoId, id);
         return "view";
     }
-
 }
