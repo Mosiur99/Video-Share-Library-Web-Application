@@ -14,7 +14,7 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "SELECT video FROM Video video INNER JOIN video.user user WHERE user.id = :userId")
     List<Video> fetchUserVideo(@Param("userId") Long userId);
 
-    @Query(value = "SELECT video FROM Video video WHERE videoId = :videoId AND id = :id")
+    @Query(value = "SELECT video FROM Video video WHERE video.videoId = :videoId AND video.id = :id")
     Video getVideoByVideoId(@Param("videoId") String videoId, @Param("id") Long id);
 
     @Query(value = "SELECT video FROM Video video WHERE video.url = :url")

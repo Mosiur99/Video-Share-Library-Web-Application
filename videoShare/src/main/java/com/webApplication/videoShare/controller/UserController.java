@@ -38,7 +38,7 @@ public class UserController {
     public String signupSubmit(@RequestParam String username,
                                @RequestParam String email,
                                @RequestParam String password) {
-        userService.saveNewUser(username, email, password);
+        userService.saveNewUser(email, username, password);
         return "signupSuccess";
     }
 

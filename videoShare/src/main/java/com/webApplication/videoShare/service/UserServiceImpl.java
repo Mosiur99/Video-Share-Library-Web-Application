@@ -3,6 +3,7 @@ package com.webApplication.videoShare.service;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.exception.ResourceNotFoundException;
 import com.webApplication.videoShare.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,18 +61,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveNewUser(String username,
-                            String email,
+    @Transactional
+    public void saveNewUser(String email,
+                            String username,
                             String password) {
         User user = userRepository.duplicateMailCheck(email);
-        if(Objects.isNull(user)) {
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setEmail(email);
-            newUser.setPassword(passwordEncoder.encode(password));
-            userRepository.save(newUser);
-        } else {
+        if (!Objects.isNull(user)) {
             throw new ResourceNotFoundException(email);
         }
+
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setPassword(passwordEncoder.encode(password));
+        userRepository.save(newUser);
     }
 }

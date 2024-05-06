@@ -29,7 +29,7 @@ public class VideoController {
     @PostMapping("/user/addVideo")
     public String addNewVideo(@RequestParam String title,
                               @RequestParam String url) {
-        videoService.addNewVideo(title, url, userService.fetchUserId());
+        videoService.addNewVideo(userService.fetchUserId(), url, title);
         return "redirect:/user/userDashboard";
     }
 
@@ -45,7 +45,7 @@ public class VideoController {
                                 @PathVariable Long id,
                                 @RequestParam String title,
                                 @RequestParam String url) {
-        videoService.updateVideo(videoId, id, title, url);
+        videoService.updateVideo(id, url, title, videoId);
         return "redirect:/user/userDashboard";
     }
 
@@ -64,7 +64,7 @@ public class VideoController {
                                Model model) {
         Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
-        videoService.viewCountUpdate(videoId, id);
+        videoService.viewCountUpdate(id, videoId);
         return "videoDetails";
     }
 
@@ -72,13 +72,13 @@ public class VideoController {
     public ResponseEntity<ResponseDTO> updateLikeOrDislike(@PathVariable String videoId,
                                                           @PathVariable Long id,
                                                           @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        ResponseDTO responseDTO = videoService.updateLikeOrDisLikeCount(videoId, id, likeOrDislike);
+        ResponseDTO responseDTO = videoService.updateLikeOrDisLikeCount(id, videoId, likeOrDislike);
         return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping("/user/details/{videoId}/{id}")
     public ResponseEntity<ResponseDTO> getDetails(@PathVariable String videoId, @PathVariable Long id) {
-        ResponseDTO responseDTO = videoService.getDetails(videoId, id);
+        ResponseDTO responseDTO = videoService.getDetails(id, videoId);
         return ResponseEntity.ok(responseDTO);
     }
 
@@ -88,7 +88,7 @@ public class VideoController {
                             Model model) {
         Video video = videoService.singleVideoDetails(videoId, id);
         model.addAttribute("video", video);
-        videoService.viewCountUpdate(videoId, id);
+        videoService.viewCountUpdate(id, videoId);
         return "view";
     }
 }

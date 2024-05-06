@@ -1,6 +1,6 @@
 
-š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‘á½€ÿÿÿÿÿJ$6d707c48-790b-42d0-b0c5-048e949d84ac
+š	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‘á½€ÿÿÿÿÿJ$9e7d95fc-da67-4cfa-9077-7037116cdc79
 t
-java:S1602&",Remove useless curly braces around statement(˜Ëéøýÿÿÿÿ8¯ô€¼ô1J$3a52a267-4e67-4b17-a81d-5c3debcdd9a7
+java:S1602&",Remove useless curly braces around statement(˜Ëéøýÿÿÿÿ8¯ô€¼ô1J$9e25f68d-9b27-4b22-82fa-8cfc293d7149
 o
-java:S1602-",Remove useless curly braces around statement(Õ­‘’8°ô€¼ô1J$9e35340e-1764-493c-ae2f-e36c7c50bc5f
+java:S1602-",Remove useless curly braces around statement(Õ­‘’8°ô€¼ô1J$c9afcc54-544a-4441-b588-b358e56c09ac

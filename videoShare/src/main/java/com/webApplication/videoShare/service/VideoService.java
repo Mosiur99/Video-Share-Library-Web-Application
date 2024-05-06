@@ -15,13 +15,13 @@ public interface VideoService {
 
     Video singleVideoDetails(String videoId, Long id);
 
-    ResponseDTO updateLikeOrDisLikeCount(String videoId, Long id, LikeOrDislike likeOrDislike);
+    ResponseDTO updateLikeOrDisLikeCount(Long id, String videoId, LikeOrDislike likeOrDislike);
 
-    void addNewVideo(String title, String url, Long id);
+    void addNewVideo(Long id, String url, String title);
 
-    void viewCountUpdate(String videoId, Long id);
+    void viewCountUpdate(Long id, String videoId);
 
-    void updateVideo(String videoId, Long id, String title, String url);
+    void updateVideo(Long id, String url, String title, String videoId);
 
-    ResponseDTO getDetails(String videoId, Long id);
+    ResponseDTO getDetails(Long id, String videoId);
 }
