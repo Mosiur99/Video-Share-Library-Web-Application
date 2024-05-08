@@ -15,7 +15,7 @@ public interface VideoService {
 
     Video singleVideoDetails(String videoId, Long id);
 
-    ResponseDTO updateLikeOrDisLikeCount(Long id, String videoId, LikeOrDislike likeOrDislike);
+    ResponseDTO action(Long id, String videoId, LikeOrDislike likeOrDislike);
 
     void addNewVideo(Long id, String url, String title, String previousVideoId);
 

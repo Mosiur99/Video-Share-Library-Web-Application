@@ -61,9 +61,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional
-    public ResponseDTO updateLikeOrDisLikeCount(Long id,
-                                                String videoId,
-                                                LikeOrDislike likeOrDislike) {
+    public ResponseDTO action(Long id,
+                              String videoId,
+                              LikeOrDislike likeOrDislike) {
         Long userId = userService.fetchUserId();
         Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
@@ -82,17 +82,7 @@ public class VideoServiceImpl implements VideoService {
             return updateVideoInformation(video, likedUserList, likeOrDislike, dislikedUserList);
         }
 
-        isItLikeAndInLikedUserList(loginUser.get(), video, likedUserList, likeOrDislike);
-
-        isItLikeAndNotInLikedUserListAndInDislikedUserList(loginUser.get(), video, likedUserList, likeOrDislike, dislikedUserList);
-
-        isItLikeAndNotInLikedUserListAndNotInDislikedUserList(loginUser.get(), video, likedUserList, likeOrDislike, dislikedUserList);
-
-        isItDislikeAndInDislikedUserList(loginUser.get(), video, likeOrDislike, dislikedUserList);
-
-        isItDislikeAndNotInDislikedUserListAndInLikedUserList(loginUser.get(), video, likedUserList, likeOrDislike, dislikedUserList);
-
-        isItDislikeAndNotInLikedUserListAndNotInDislikedUserList(loginUser.get(), video, likedUserList, likeOrDislike, dislikedUserList);
+        afterAction(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
 
         return updateVideoInformation(video, likedUserList, likeOrDislike, dislikedUserList);
     }
@@ -181,107 +171,69 @@ public class VideoServiceImpl implements VideoService {
         return responseDTO;
     }
 
-    /**
-     * if the user is already exist in the likedUserList who press the like button
-     * then we decrease the like count and remove the user from likedUserList.
-     */
-    private void isItLikeAndInLikedUserList(User user,
-                                            Video video,
-                                            List<User> likedUserList,
-                                            LikeOrDislike likeOrDislike) {
-        if(likedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.LIKE)) {
-            likedUserList.remove(user);
-            video.setLikeCount(video.getLikeCount() - 1);
-        }
-    }
-
-    /**
-     * if the user is not exist in the likedUserList who press the like button but exist in dislikedUserList
-     * then we decrease the dislike count and remove the user from the disLikedUserList
-     * after increase the like count and add the user in the likedUserList
-     */
-    private void isItLikeAndNotInLikedUserListAndInDislikedUserList(User user,
-                                                                    Video video,
-                                                                    List<User> likedUserList,
-                                                                    LikeOrDislike likeOrDislike,
-                                                                    List<User> dislikedUserList) {
-        if(!likedUserList.contains(user)
-                && dislikedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.LIKE)) {
-            dislikedUserList.remove(user);
-            likedUserList.add(user);
-            video.setDislikeCount(video.getDislikeCount() - 1);
-            video.setLikeCount(video.getLikeCount() + 1);
-        }
-    }
-
-    /**
-     * if the user is not exist in both likedUserList and dislikedUserList who press the like button
-     * then we increase the like count and add the user in the likedUserList.
-     */
-    private void isItLikeAndNotInLikedUserListAndNotInDislikedUserList(User user,
-                                                                       Video video,
-                                                                       List<User> likedUserList,
-                                                                       LikeOrDislike likeOrDislike,
-                                                                       List<User> dislikedUserList) {
-        if(!likedUserList.contains(user)
-                && !dislikedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+    private void afterAction(User user,
+                              Video video,
+                              List<User> likedUserList,
+                              List<User> dislikedUserList,
+                              LikeOrDislike likeOrDislike) {
+        /**
+         * if the user is not exist in the likeUserList and press the like button
+         * then we add the user in likedUserList and increase the like count
+         */
+        if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
             likedUserList.add(user);
             video.setLikeCount(video.getLikeCount() + 1);
         }
-    }
 
-    /**
-     * if the user is already exist in the dislikedUserList who press the dislike button
-     * then we decrease the dislike count and remove the user from dislikedUserList.
-     */
-    private void isItDislikeAndInDislikedUserList(User user,
-                                                  Video video,
-                                                  LikeOrDislike likeOrDislike,
-                                                  List<User> dislikedUserList) {
-        if(dislikedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+        /**
+         * if the user is not exist in the dislikeUserList and press the dislike button
+         * then we add the user in dislikedUserList and increase the dislike count
+         */
+        else if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+            dislikedUserList.add(user);
+            video.setDislikeCount(video.getDislikeCount() + 1);
+        }
+
+        /**
+         * if the user existed in the likeUserList and press the like button
+         * then we remove the user from likedUserList and decrease the like count
+         */
+        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+            likedUserList.remove(user);
+            video.setLikeCount(video.getLikeCount() - 1);
+        }
+
+        /**
+         * if the user existed in the dislikeUserList and press the dislike button
+         * then we remove the user from dislikedUserList and decrease the dislike count
+         */
+        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
             dislikedUserList.remove(user);
             video.setDislikeCount(video.getDislikeCount() - 1);
         }
-    }
 
-    /**
-     * if the user is not exist in the dislikedUserList who press the dislike button but exist in likedUserList
-     * then we decrease the like count and remove the user from the likedUserList
-     * after increase the dislike count and add the user in the dislikedUserList
-     */
-    private void isItDislikeAndNotInDislikedUserListAndInLikedUserList(User user,
-                                                                       Video video,
-                                                                       List<User> likedUserList,
-                                                                       LikeOrDislike likeOrDislike,
-                                                                       List<User> dislikedUserList) {
-        if(!dislikedUserList.contains(user)
-                && likedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+        /**
+         * if the user existed in the likeUserList and press the dislike button
+         * then we remove the user from likedUserList and decrease the like count
+         * and then we add the user in dislikedUserList and increase the dislike count
+         */
+        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
             likedUserList.remove(user);
-            video.setDislikeCount(video.getDislikeCount() + 1);
-            dislikedUserList.add(user);
             video.setLikeCount(video.getLikeCount() - 1);
-        }
-    }
-
-    /**
-     * if the user is not exist in both likedUserList and dislikedUserList who press the dislike button
-     * then we increase the dislike count and add the user in the dislikedUserList.
-     */
-    private void isItDislikeAndNotInLikedUserListAndNotInDislikedUserList(User user,
-                                                                          Video video,
-                                                                          List<User> likedUserList,
-                                                                          LikeOrDislike likeOrDislike,
-                                                                          List<User> dislikedUserList) {
-        if(!likedUserList.contains(user)
-                && !dislikedUserList.contains(user)
-                && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
             dislikedUserList.add(user);
             video.setDislikeCount(video.getDislikeCount() + 1);
+        }
+
+        /**
+         * if the user existed in the dislikeUserList and press the like button
+         * then we remove the user from dislikedUserList and decrease the dislike count
+         * and then we add the user in likedUserList and increase the like count
+         */
+        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+            dislikedUserList.remove(user);
+            video.setDislikeCount(video.getDislikeCount() - 1);
+            likedUserList.add(user);
+            video.setLikeCount(video.getLikeCount() + 1);
         }
     }
 }
