@@ -17,11 +17,9 @@ public interface VideoService {
 
     ResponseDTO updateLikeOrDisLikeCount(Long id, String videoId, LikeOrDislike likeOrDislike);
 
-    void addNewVideo(Long id, String url, String title);
+    void addNewVideo(Long id, String url, String title, String previousVideoId);
 
     void viewCountUpdate(Long id, String videoId);
-
-    void updateVideo(Long id, String url, String title, String videoId);
 
     ResponseDTO getDetails(Long id, String videoId);
 }

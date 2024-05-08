@@ -29,7 +29,8 @@ public class VideoController {
     @PostMapping("/user/addVideo")
     public String addNewVideo(@RequestParam String title,
                               @RequestParam String url) {
-        videoService.addNewVideo(userService.fetchUserId(), url, title);
+        String previousVideoId = "";
+        videoService.addNewVideo(userService.fetchUserId(), url, title, previousVideoId);
         return "redirect:/user/userDashboard";
     }
 
@@ -45,7 +46,7 @@ public class VideoController {
                                 @PathVariable Long id,
                                 @RequestParam String title,
                                 @RequestParam String url) {
-        videoService.updateVideo(id, url, title, videoId);
+        videoService.addNewVideo(id, url, title, videoId);
         return "redirect:/user/userDashboard";
     }
 
@@ -54,7 +55,9 @@ public class VideoController {
                             @PathVariable Long id,
                             Model model) {
         Video video = videoService.singleVideoDetails(videoId, id);
+        User user = userService.singleUserDetails(id);
         model.addAttribute("video", video);
+        model.addAttribute("user", user);
         return "editVideo";
     }
 

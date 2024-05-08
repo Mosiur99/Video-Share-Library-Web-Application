@@ -26,7 +26,7 @@
             <td th:text = "${video.title}">Title</td>
             <td th:text = "${video.url}">URL</td>
             <td>
-                <a th:href="@{${'/user/edit/'+video.videoId+'/'+video.id}}" class="btn btn-danger">Edit</a>
+                <a th:href="@{${'/user/edit/'+video.videoId+'/'+user.id}}" class="btn btn-danger">Edit</a>
             </td>
         </tr>
         </tbody>

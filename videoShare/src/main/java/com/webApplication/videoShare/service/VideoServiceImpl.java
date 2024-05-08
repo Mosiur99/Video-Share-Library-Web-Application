@@ -51,7 +51,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video singleVideoDetails(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)) {
             throw new ResourceNotFoundException();
         }
@@ -65,7 +65,7 @@ public class VideoServiceImpl implements VideoService {
                                                 String videoId,
                                                 LikeOrDislike likeOrDislike) {
         Long userId = userService.fetchUserId();
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
             throw new ResourceNotFoundException();
         }
@@ -101,12 +101,17 @@ public class VideoServiceImpl implements VideoService {
     @Transactional
     public void addNewVideo(Long id,
                             String url,
-                            String title) {
-        if(!Objects.isNull(videoRepository.duplicateVideoCheck(url))){
+                            String title,
+                            String previousVideoId) {
+        if(!Objects.isNull(videoRepository.duplicateVideoCheck(url, id))) {
             throw new ResourceNotFoundException(id, url);
         }
 
-        Video video = new Video();
+        Video video = videoRepository.getVideoById(previousVideoId);
+        if(Objects.isNull(video)) {
+            video = new Video();
+        }
+
         video.setTitle(title);
         video.setUrl(url);
         String videoId = extractVideoId(url);
@@ -124,7 +129,7 @@ public class VideoServiceImpl implements VideoService {
     @Transactional
     public void viewCountUpdate(Long id,
                                 String videoId) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
             throw new ResourceNotFoundException();
         }
@@ -145,30 +150,9 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    @Transactional
-    public void updateVideo(Long id,
-                            String url,
-                            String title,
-                            String videoId) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
-            throw new ResourceNotFoundException();
-        }
-        video.setTitle(title);
-        video.setUrl(url);
-        video.setVideoId(extractVideoId(url));
-        video.setLikeCount(0);
-        video.setDislikeCount(0);
-        video.setViewCount(0);
-        video.setLikedUser(null);
-        video.setDislikedUser(null);
-        videoRepository.save(video);
-    }
-
-    @Override
     public ResponseDTO getDetails(Long id,
                                   String videoId) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)) {
             throw new ResourceNotFoundException();
         }

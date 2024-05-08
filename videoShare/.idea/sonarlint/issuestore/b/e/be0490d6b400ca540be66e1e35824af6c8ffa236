@@ -1,4 +1,4 @@
 
 â
-java:S11929"FDefine a constant instead of duplicating this literal "video" 3 times.(áÆ≥Á8§– ÓÚ1J$53fe7c58-6260-4af9-8a90-dca85e8807eb
-ú	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ù£ú¿8¶– ÓÚ1J$b592665f-25b9-4590-bdb4-97d97ae9ec12
+java:S1192;"FDefine a constant instead of duplicating this literal "video" 3 times.(áÆ≥Á8®’‚≥ı1J$a77e622d-ee2b-4260-bd00-8f4e8f421938
+ú	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ù£ú¿8©’‚≥ı1J$0b9bf0c5-a243-48f5-82da-be0c47087dbb

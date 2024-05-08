@@ -1,5 +1,6 @@
 package com.webApplication.videoShare.controller;
 
+import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
@@ -66,7 +67,9 @@ public class UserController {
     @GetMapping("/user/userDashboard")
     public String userDashboard(Model model) {
         List<Video> videoList = videoService.getAllVideosByUserId();
+        User user = userService.singleUserDetails(userService.fetchUserId());
         model.addAttribute("videoList", videoList);
+        model.addAttribute("user", user);
         return "userDashboard";
     }
 
