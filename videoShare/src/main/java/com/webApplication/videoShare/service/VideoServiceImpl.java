@@ -61,7 +61,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     @Transactional
-    public ResponseDTO action(Long id,
+    public ResponseDTO updateLikeOrDislike(Long id,
                               String videoId,
                               LikeOrDislike likeOrDislike) {
         Long userId = userService.fetchUserId();
@@ -79,12 +79,17 @@ public class VideoServiceImpl implements VideoService {
 
         if (Objects.nonNull(video.getUser())
             && video.getUser().getId().equals(userId)) {
-            return updateVideoInformation(video, likedUserList, likeOrDislike, dislikedUserList);
+            return null;
         }
 
-        afterAction(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
+        updateLikeOrDislike(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
 
-        return updateVideoInformation(video, likedUserList, likeOrDislike, dislikedUserList);
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setLikedUsers(likedUserList);
+        responseDTO.setDislikedUsers(dislikedUserList);
+        responseDTO.setLikeCount(video.getLikeCount());
+        responseDTO.setDislikeCount(video.getDislikeCount());
+        return responseDTO;
     }
 
     @Override
@@ -155,27 +160,11 @@ public class VideoServiceImpl implements VideoService {
         return responseDTO;
     }
 
-    private ResponseDTO updateVideoInformation(Video video,
-                                               List<User> likedUserList,
-                                               LikeOrDislike likeOrDislike,
-                                               List<User> dislikedUserList) {
-        video.setLikedUser(likedUserList);
-        video.setDislikedUser(dislikedUserList);
-        video.setLikeOrDislike(likeOrDislike);
-        videoRepository.save(video);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setLikedUsers(likedUserList);
-        responseDTO.setDislikedUsers(dislikedUserList);
-        responseDTO.setLikeCount(video.getLikeCount());
-        responseDTO.setDislikeCount(video.getDislikeCount());
-        return responseDTO;
-    }
-
-    private void afterAction(User user,
-                              Video video,
-                              List<User> likedUserList,
-                              List<User> dislikedUserList,
-                              LikeOrDislike likeOrDislike) {
+    private void updateLikeOrDislike(User user,
+                                    Video video,
+                                    List<User> likedUserList,
+                                    List<User> dislikedUserList,
+                                    LikeOrDislike likeOrDislike) {
         /**
          * if the user is not exist in the likeUserList and press the like button
          * then we add the user in likedUserList and increase the like count
@@ -235,5 +224,7 @@ public class VideoServiceImpl implements VideoService {
             likedUserList.add(user);
             video.setLikeCount(video.getLikeCount() + 1);
         }
+
+        videoRepository.save(video);
     }
 }

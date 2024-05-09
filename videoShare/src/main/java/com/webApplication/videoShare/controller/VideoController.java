@@ -75,7 +75,7 @@ public class VideoController {
     public ResponseEntity<ResponseDTO> updateLikeOrDislike(@PathVariable String videoId,
                                                           @PathVariable Long id,
                                                           @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        ResponseDTO responseDTO = videoService.action(id, videoId, likeOrDislike);
+        ResponseDTO responseDTO = videoService.updateLikeOrDislike(id, videoId, likeOrDislike);
         return ResponseEntity.ok(responseDTO);
     }
 
