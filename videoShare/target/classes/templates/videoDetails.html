@@ -80,35 +80,41 @@
             document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
 
             var likedUsers = responseDTO.likedUsers;
-                var dislikedUsers = responseDTO.dislikedUsers;
-                var list = document.getElementById('actionList');
-                list.innerText = '';
+            var dislikedUsers = responseDTO.dislikedUsers;
+            var list = document.getElementById('actionList');
+            list.innerText = '';
+            var list1 = document.createElement('li');
+            list1.innerText = "Video Uploader Name";
+            list.appendChild(list1);
+            var videoUploaderName = document.createElement('li');
+            videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+            list.appendChild(videoUploaderName);
+            var paragraph = document.createElement('li');
+            paragraph.innerText = "Liked User List";
+            list.appendChild(paragraph);
+            if(likedUsers.length === 0){
                 var paragraph = document.createElement('li');
-                paragraph.innerText = "Liked User List";
+                paragraph.innerText = 'No user have';
                 list.appendChild(paragraph);
-                if(likedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in likedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = likedUsers[i].username;
-                    list.appendChild(user);
-                }
-                var paragraph2 = document.createElement('li');
-                paragraph2.innerText = "Disliked User List";
-                list.appendChild(paragraph2);
-                if(dislikedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in dislikedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = dislikedUsers[i].username;
-                    list.appendChild(user);
-                }
+            }
+            for(var i in likedUsers){
+                var user = document.createElement('li');
+                user.innerText = likedUsers[i].username;
+                list.appendChild(user);
+            }
+            var paragraph2 = document.createElement('li');
+            paragraph2.innerText = "Disliked User List";
+            list.appendChild(paragraph2);
+            if(dislikedUsers.length === 0){
+                var paragraph = document.createElement('li');
+                paragraph.innerText = 'No user have';
+                list.appendChild(paragraph);
+            }
+            for(var i in dislikedUsers){
+                var user = document.createElement('li');
+                user.innerText = dislikedUsers[i].username;
+                list.appendChild(user);
+            }
 
             document.getElementById('actionList').style.display = 'none';
         }
@@ -128,35 +134,41 @@
             document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
 
             var likedUsers = responseDTO.likedUsers;
-                var dislikedUsers = responseDTO.dislikedUsers;
-                var list = document.getElementById('actionList');
-                list.innerText = '';
+            var dislikedUsers = responseDTO.dislikedUsers;
+            var list = document.getElementById('actionList');
+            list.innerText = '';
+            var list1 = document.createElement('li');
+            list1.innerText = "Video Uploader Name";
+            list.appendChild(list1);
+            var videoUploaderName = document.createElement('li');
+            videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+            list.appendChild(videoUploaderName);
+            var paragraph = document.createElement('li');
+            paragraph.innerText = "Liked User List";
+            list.appendChild(paragraph);
+            if(likedUsers.length === 0){
                 var paragraph = document.createElement('li');
-                paragraph.innerText = "Liked User List";
+                paragraph.innerText = 'No user have';
                 list.appendChild(paragraph);
-                if(likedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in likedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = likedUsers[i].username;
-                    list.appendChild(user);
-                }
-                var paragraph2 = document.createElement('li');
-                paragraph2.innerText = "Disliked User List";
-                list.appendChild(paragraph2);
-                if(dislikedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in dislikedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = dislikedUsers[i].username;
-                    list.appendChild(user);
-                }
+            }
+            for(var i in likedUsers){
+                var user = document.createElement('li');
+                user.innerText = likedUsers[i].username;
+                list.appendChild(user);
+            }
+            var paragraph2 = document.createElement('li');
+            paragraph2.innerText = "Disliked User List";
+            list.appendChild(paragraph2);
+            if(dislikedUsers.length === 0){
+                var paragraph = document.createElement('li');
+                paragraph.innerText = 'No user have';
+                list.appendChild(paragraph);
+            }
+            for(var i in dislikedUsers){
+                var user = document.createElement('li');
+                user.innerText = dislikedUsers[i].username;
+                list.appendChild(user);
+            }
 
             document.getElementById('actionList').style.display = 'none';
         }
@@ -173,13 +185,19 @@
             if (xhr.status === 200) {
 
                 var responseDTO = JSON.parse(xhr.responseText);
-            document.getElementById('likeCount').innerText = responseDTO.likeCount;
-            document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+                document.getElementById('likeCount').innerText = responseDTO.likeCount;
+                document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
 
-            var likedUsers = responseDTO.likedUsers;
+                var likedUsers = responseDTO.likedUsers;
                 var dislikedUsers = responseDTO.dislikedUsers;
                 var list = document.getElementById('actionList');
                 list.innerText = '';
+                var list1 = document.createElement('li');
+                list1.innerText = "Video Uploader Name";
+                list.appendChild(list1);
+                var videoUploaderName = document.createElement('li');
+                videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+                list.appendChild(videoUploaderName);
                 var paragraph = document.createElement('li');
                 paragraph.innerText = "Liked User List";
                 list.appendChild(paragraph);

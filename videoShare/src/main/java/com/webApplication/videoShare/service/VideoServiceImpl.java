@@ -79,7 +79,7 @@ public class VideoServiceImpl implements VideoService {
 
         if (Objects.nonNull(video.getUser())
             && video.getUser().getId().equals(userId)) {
-            return null;
+            return new ResponseDTO();
         }
 
         updateLikeOrDislike(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
