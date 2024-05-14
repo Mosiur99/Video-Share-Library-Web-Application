@@ -61,6 +61,7 @@
       </li>
     </ul>
     <p><strong>Note: </strong>The user can not like or dislike his videos.</p>
+    <p>If a user presses the Details button then he will show the name of the user who uploaded this video and also show the list of liked users and disliked users.</p>
   </li>
 </ul>
 
