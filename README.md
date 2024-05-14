@@ -21,6 +21,14 @@
     <p><strong>Notes: </strong>The user can not like or dislike his videos.</p>
   </li>
 </ul>
+<h3>Stack</h3>
+<ul>
+  <li>Java</li>
+  <li>Spring Boot</li>
+  <li>Ajax</li>
+  <li>Thymeleaf</li>
+  <li>MySQL</li>
+</ul>
 <h3>Discuss Implementation Part:</h3>
 <ul>
   <li>
