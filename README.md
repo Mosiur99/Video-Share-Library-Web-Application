@@ -38,5 +38,28 @@
     <p><strong>Add New Video: </strong>Here a login user can upload a new video with information about the video URL and and video title. 
     <p><strong>Notes: </strong>A user can not upload a video in which the video is already uploaded by other users.</p>
   </li>
+  <li>
+    Here we have the details about a single video. When a user comes to this page the video is automatically started and the video view count is incremented even if the video is uploaded by the user the video view count is also incremented. Here we have also three buttons Like, Dislike, and Details. If a user presses the Like/Dislike button here 6 happens can occur.
+    <ul>
+      <li>
+        If a user presses the Like button and the user has already previously liked this video then the like count will decrease and the user will be removed from the list of Liked Users.
+      </li>
+      <li>
+        If a user presses the Like button and the user has already previously disliked this video then the like count will increase then the user will be added to the list of Liked users and the disliked count will decrease then the user will be removed from the list of Disliked Users.
+      </li>
+      <li>
+        If a user presses the Like button and the user does not exist in both the list of liked users and disliked users then increase the like count and add the user to the list of liked users.
+      </li>
+      <li>
+        If a user presses the Dislike button and the user has already previously disliked this video then the dislike count will decrease and the user will be removed from the list of Disliked Users.
+      </li>
+      <li>
+        If a user presses the Dislike button and the user has already previously liked this video then the dislike count will increase then the user will be added to the list of Disliked users and the liked count will decrease then the user will be removed from the list of Liked Users.
+      </li>
+      <li>
+        If a user presses the Dislike button and the user does not exist in both the list of liked users and disliked users then increase the dislike count and add the user to the list of disliked users.
+      </li>
+    </ul>
+  </li>
 </ul>
 
