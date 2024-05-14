@@ -1,6 +1,6 @@
 package com.webApplication.videoShare.entity;
 
-public enum LikeOrDislike {
+public enum Activity {
 
     LIKE, DISLIKE
 }
