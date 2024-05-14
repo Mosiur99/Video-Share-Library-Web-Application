@@ -63,5 +63,10 @@
     <p><strong>Note: </strong>The user can not like or dislike his videos.</p>
     <p>If a user presses the Details button then he will show the name of the user who uploaded this video and also show the list of liked users and disliked users.</p>
   </li>
+  <li>
+    <p><strong>Home Page: </strong>The home page has a list of all videos which videos are uploaded by all users.
+Without login, any user can see this page and also view the video and the view count of the video will increase accordingly.
+</p>
+  </li>
 </ul>
 
