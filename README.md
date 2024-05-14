@@ -31,5 +31,12 @@
     <p><strong>User Login: </strong>After creating an account the user can log in to the web application page. Here user can log in with his email and password which email and password he provided at the time of registration. If the email and password are provided incorrectly he can not access the web page.</p>
     <p><strong>Notes: </strong>By Default, in spring boot security a user can log in with his username and password. But on our webpage, we build the login system with the user's email and password.</p>
   </li>
+  <li>
+    <p><strong>User Dashboard: </strong>After login, a user is redirected to his own dashboard. This dashboard has a video list of all videos uploaded by the user. We also have an edit option for all videos where the user can change the video information like - video URL and video Title.</p>
+  </li>
+  <li>
+    <p><strong>Add New Video: </strong>Here a login user can upload a new video with information about the video URL and and video title. 
+    <p><strong>Notes: </strong>A user can not upload a video in which the video is already uploaded by other users.</p>
+  </li>
 </ul>
 
