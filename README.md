@@ -60,6 +60,7 @@
         If a user presses the Dislike button and the user does not exist in both the list of liked users and disliked users then increase the dislike count and add the user to the list of disliked users.
       </li>
     </ul>
+    <p><strong>Note: </strong>The user can not like or dislike his videos.</p>
   </li>
 </ul>
 
