@@ -14,7 +14,7 @@
     <p>Each video will show the <strong>Total view count</strong>, <strong>Like count</strong>, <strong>Dislike count</strong>, <strong>Details button</strong>(after clicking this button user can see the list of liked and disliked users and also can see the video uploader name)</p>
   </li>
   <li>
-    Each user has a dashboard. In this dashboard <strong>He will grant access to add YouTube videos</strong>, <strong>He can also view the videos he uploaded.</strong>, 
+    Each user has a dashboard. In this dashboard <strong>He will grant access to add YouTube videos</strong>, <strong>He can also view the videos he uploaded</strong>, 
     <strong>Also can edit the video</strong>
   </li>
   <li>
