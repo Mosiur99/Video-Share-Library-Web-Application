@@ -39,7 +39,7 @@
     <p><strong>Notes: </strong>A user can not upload a video in which the video is already uploaded by other users.</p>
   </li>
   <li>
-    Here we have the details about a single video. When a user comes to this page the video is automatically started and the video view count is incremented even if the video is uploaded by the user the video view count is also incremented. Here we have also three buttons Like, Dislike, and Details. If a user presses the Like/Dislike button here 6 happens can occur.
+    <p><strong>Single Video Details: </strong>Here we have the details about a single video. When a user comes to this page the video is automatically started and the video view count is incremented even if the video is uploaded by the user the video view count is also incremented. Here we have also three buttons Like, Dislike, and Details. If a user presses the Like/Dislike button here 6 happens can occur.</p>
     <ul>
       <li>
         If a user presses the Like button and the user has already previously liked this video then the like count will decrease and the user will be removed from the list of Liked Users.
