@@ -17,10 +17,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    private  final LogoutSuccessHandler logoutSuccessHandler;
+    private  final UserDetailsServiceImpl userDetailsServiceImpl;
+
     @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
-    @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    public SecurityConfiguration(LogoutSuccessHandler logoutSuccessHandler, UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.logoutSuccessHandler = logoutSuccessHandler;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

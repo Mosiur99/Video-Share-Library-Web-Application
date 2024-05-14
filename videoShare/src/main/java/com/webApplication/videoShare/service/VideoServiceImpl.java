@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class VideoServiceImpl implements VideoService{
-
+public class VideoServiceImpl implements VideoService {
 
     private final UserService userService;
     private final VideoRepository videoRepository;
@@ -41,11 +40,7 @@ public class VideoServiceImpl implements VideoService{
     @Override
     public List<Video> getAllVideosByUserId() {
         Long userId = userService.fetchUserId();
-        List<Video> videoList = videoRepository.fetchUserVideo(userId);
-        if(Objects.isNull(videoList)) {
-            throw new ResourceNotFoundException();
-        }
-        return videoList;
+        return videoRepository.fetchUserVideo(userId);
     }
 
     @Override
@@ -56,20 +51,21 @@ public class VideoServiceImpl implements VideoService{
 
     @Override
     public Video singleVideoDetails(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
+        Video video = videoRepository.getVideoById(videoId);
+        if(Objects.isNull(video)) {
             throw new ResourceNotFoundException();
         }
+
         return video;
     }
 
     @Override
     @Transactional
-    public ResponseDTO updateLikeOrDisLikeCount(String videoId,
-                                                Long id,
-                                                LikeOrDislike likeOrDisLike) {
+    public ResponseDTO updateLikeOrDislike(Long id,
+                              String videoId,
+                              LikeOrDislike likeOrDislike) {
         Long userId = userService.fetchUserId();
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
             throw new ResourceNotFoundException();
         }
@@ -83,103 +79,39 @@ public class VideoServiceImpl implements VideoService{
 
         if (Objects.nonNull(video.getUser())
             && video.getUser().getId().equals(userId)) {
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
+            return new ResponseDTO();
         }
 
-        if(likedUserList.contains(loginUser.get())
-            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            likedUserList.remove(loginUser.get());
-            video.setLikeCount(video.getLikeCount() - 1);
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
-        }
+        updateLikeOrDislike(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
 
-        if(!likedUserList.contains(loginUser.get())
-            && dislikedUserList.contains(loginUser.get())
-            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            dislikedUserList.remove(loginUser.get());
-            likedUserList.add(loginUser.get());
-            video.setDislikeCount(video.getDislikeCount() - 1);
-            video.setLikeCount(video.getLikeCount() + 1);
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
-        }
-
-        if(!likedUserList.contains(loginUser.get())
-            && !dislikedUserList.contains(loginUser.get())
-            && likeOrDisLike.equals(LikeOrDislike.LIKE)){
-            likedUserList.add(loginUser.get());
-            video.setLikeCount(video.getLikeCount() + 1);
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
-        }
-
-        if(dislikedUserList.contains(loginUser.get())
-            && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
-            dislikedUserList.remove(loginUser.get());
-            video.setDislikeCount(video.getDislikeCount() - 1);
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
-        }
-
-        if(!dislikedUserList.contains(loginUser.get())
-            && likedUserList.contains(loginUser.get())
-            && likeOrDisLike.equals(LikeOrDislike.DISLIKE)){
-            likedUserList.remove(loginUser.get());
-            video.setDislikeCount(video.getDislikeCount() + 1);
-            dislikedUserList.add(loginUser.get());
-            video.setLikeCount(video.getLikeCount() - 1);
-            return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
-        }
-
-        dislikedUserList.add(loginUser.get());
-        video.setDislikeCount(video.getDislikeCount() + 1);
-        return updateVideoInformation(video, likedUserList, dislikedUserList, likeOrDisLike);
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setLikedUsers(likedUserList);
+        responseDTO.setDislikedUsers(dislikedUserList);
+        responseDTO.setLikeCount(video.getLikeCount());
+        responseDTO.setDislikeCount(video.getDislikeCount());
+        return responseDTO;
     }
 
     @Override
-    public void addNewVideo(String title,
+    @Transactional
+    public void addNewVideo(Long id,
                             String url,
-                            Long id) {
-        Video video = new Video();
+                            String title,
+                            String previousVideoId) {
+        if(!Objects.isNull(videoRepository.duplicateVideoCheck(url, id))) {
+            throw new ResourceNotFoundException(id, url);
+        }
+
+        Video video = videoRepository.getVideoById(previousVideoId);
+        if(Objects.isNull(video)) {
+            video = new Video();
+        }
+
         video.setTitle(title);
         video.setUrl(url);
         String videoId = extractVideoId(url);
         video.setVideoId(videoId);
         video.setUser(userRepository.fetchUserById(id));
-        videoRepository.save(video);
-    }
-
-    @Override
-    public void viewCountUpdate(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
-            throw new ResourceNotFoundException();
-        }
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(Objects.isNull(authentication) || authentication instanceof AnonymousAuthenticationToken){
-            video.setViewCount(video.getViewCount() + 1);
-            videoRepository.save(video);
-            return;
-        }
-
-        if(Objects.isNull(video.getUser())){
-            throw new ResourceNotFoundException();
-        }
-
-        video.setViewCount(video.getViewCount() + 1);
-        videoRepository.save(video);
-    }
-
-    @Override
-    public void updateVideo(String videoId,
-                            Long id,
-                            String title,
-                            String url) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
-            throw new ResourceNotFoundException();
-        }
-        video.setTitle(title);
-        video.setUrl(url);
-        video.setVideoId(extractVideoId(url));
         video.setLikeCount(0);
         video.setDislikeCount(0);
         video.setViewCount(0);
@@ -189,27 +121,34 @@ public class VideoServiceImpl implements VideoService{
     }
 
     @Override
-    public List<User> likedUsers(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
+    @Transactional
+    public void viewCountUpdate(Long id,
+                                String videoId) {
+        Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
             throw new ResourceNotFoundException();
         }
-        return video.getLikedUser();
-    }
 
-    @Override
-    public List<User> dislikedUsers(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(Objects.isNull(authentication) || authentication instanceof AnonymousAuthenticationToken) {
+            video.setViewCount(video.getViewCount() + 1);
+            videoRepository.save(video);
+            return;
+        }
+
+        if(Objects.isNull(video.getUser())) {
             throw new ResourceNotFoundException();
         }
-        return video.getDislikedUser();
+
+        video.setViewCount(video.getViewCount() + 1);
+        videoRepository.save(video);
     }
 
     @Override
-    public ResponseDTO getDetails(String videoId, Long id) {
-        Video video = videoRepository.getVideoByVideoId(videoId, id);
-        if(Objects.isNull(video)){
+    public ResponseDTO getDetails(Long id,
+                                  String videoId) {
+        Video video = videoRepository.getVideoById(videoId);
+        if(Objects.isNull(video)) {
             throw new ResourceNotFoundException();
         }
 
@@ -218,24 +157,74 @@ public class VideoServiceImpl implements VideoService{
         responseDTO.setDislikeCount(video.getDislikeCount());
         responseDTO.setLikedUsers(video.getLikedUser());
         responseDTO.setDislikedUsers(video.getDislikedUser());
-
         return responseDTO;
     }
 
-    private ResponseDTO updateVideoInformation(Video video,
-                                             List<User> likedUserList,
-                                             List<User> dislikedUserList,
-                                             LikeOrDislike likeOrDislike){
-        video.setLikedUser(likedUserList);
-        video.setDislikedUser(dislikedUserList);
-        video.setLikeOrDislike(likeOrDislike);
-        videoRepository.save(video);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setLikedUsers(likedUserList);
-        responseDTO.setDislikedUsers(dislikedUserList);
-        responseDTO.setLikeCount(video.getLikeCount());
-        responseDTO.setDislikeCount(video.getDislikeCount());
+    private void updateLikeOrDislike(User user,
+                                    Video video,
+                                    List<User> likedUserList,
+                                    List<User> dislikedUserList,
+                                    LikeOrDislike likeOrDislike) {
+        /**
+         * if the user is not exist in the likeUserList and press the like button
+         * then we add the user in likedUserList and increase the like count
+         */
+        if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+            likedUserList.add(user);
+            video.setLikeCount(video.getLikeCount() + 1);
+        }
 
-        return responseDTO;
+        /**
+         * if the user is not exist in the dislikeUserList and press the dislike button
+         * then we add the user in dislikedUserList and increase the dislike count
+         */
+        else if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+            dislikedUserList.add(user);
+            video.setDislikeCount(video.getDislikeCount() + 1);
+        }
+
+        /**
+         * if the user existed in the likeUserList and press the like button
+         * then we remove the user from likedUserList and decrease the like count
+         */
+        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+            likedUserList.remove(user);
+            video.setLikeCount(video.getLikeCount() - 1);
+        }
+
+        /**
+         * if the user existed in the dislikeUserList and press the dislike button
+         * then we remove the user from dislikedUserList and decrease the dislike count
+         */
+        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+            dislikedUserList.remove(user);
+            video.setDislikeCount(video.getDislikeCount() - 1);
+        }
+
+        /**
+         * if the user existed in the likeUserList and press the dislike button
+         * then we remove the user from likedUserList and decrease the like count
+         * and then we add the user in dislikedUserList and increase the dislike count
+         */
+        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+            likedUserList.remove(user);
+            video.setLikeCount(video.getLikeCount() - 1);
+            dislikedUserList.add(user);
+            video.setDislikeCount(video.getDislikeCount() + 1);
+        }
+
+        /**
+         * if the user existed in the dislikeUserList and press the like button
+         * then we remove the user from dislikedUserList and decrease the dislike count
+         * and then we add the user in likedUserList and increase the like count
+         */
+        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+            dislikedUserList.remove(user);
+            video.setDislikeCount(video.getDislikeCount() - 1);
+            likedUserList.add(user);
+            video.setLikeCount(video.getLikeCount() + 1);
+        }
+
+        videoRepository.save(video);
     }
 }

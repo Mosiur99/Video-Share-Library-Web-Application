@@ -8,59 +8,64 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        #actionList{
-            display: none;
+        #buttons{
+            width: 50%;
+        }
+        #video-box{
+            margin-top: 2%;
+            margin-left: 4%;
+        }
+        #view{
+            width: 55%;
         }
     </style>
 </head>
 
 <body>
 
-<form>
-    <div class="row float-right mx-2 mt-2">
-        <div>
-            <a href="/user/userHome" class="btn btn-primary">Return Home Page</a>
-        </div>
-    </div>
+<div>
+    <a href="/user/userHome" class="btn btn-primary m-3">Return Home Page</a>
+</div>
+
+<div class="d-flex justify-content-center align-items-center flex-column" id="video-box">
 
     <div class="row mx-1">
         <div>
             <h5 th:text="${video.title}" class="mx-2">Video Title</h5>
             <div class="video-container m-3">
-                <iframe width="700" height="315" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+                <iframe width="1000" height="500" th:src="@{${'https://www.youtube.com/embed/'+video.videoId+'?autoplay=1'}}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
             </div>
         </div>
     </div>
 
-    <div class="row mx-1">
+    <div class="row mx-1" id="view">
         <h6 class="mx-1">View Count:</h6>
-        <h4><p th:text="${video.viewCount}"></p></h4>
+        <h6><p class="text-primary" th:text="${video.viewCount}"></p></h6>
     </div>
 
-    <div class="row mx-1">
-        <div class="col">
+    <div class="row" id="buttons">
+        <div class="col" id="button1">
             <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/LIKE'}}">
-                <button type="button" class="btn btn-primary click" onclick="likeVideo()" col="1">Like</button>
+                <button type="button" class="btn btn-primary click" onclick="likeVideo()">Like</button>
                 <p id="likeCount" th:text="${video.likeCount}"></p>
             </form>
         </div>
-        <div class="col">
+        <div class="col" id="button2">
             <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/DISLIKE'}}">
                 <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
                 <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
             </form>
         </div>
-    </div>
+        <div class="col" id="button3">
+            <form th:action="@{${'/user/details/'+video.videoId+'/'+video.id}}">
+                <button type="button" class="btn btn-secondary click" onclick="getDetails()">Details</button>
+                <ul id="actionList">
 
-    <div class="row m-2">
-        <form th:action="@{${'/user/details/'+video.videoId+'/'+video.id}}">
-            <button type="button" class="btn btn-secondary click" onclick="getDetails()">Details</button>
-            <ul id="actionList">
-
-            </ul>
-        </form>
+                </ul>
+            </form>
+        </div>
     </div>
-</form>
+</div>
 
 <script th:inline="javascript">
     function likeVideo() {
@@ -75,35 +80,41 @@
             document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
 
             var likedUsers = responseDTO.likedUsers;
-                var dislikedUsers = responseDTO.dislikedUsers;
-                var list = document.getElementById('actionList');
-                list.innerText = '';
+            var dislikedUsers = responseDTO.dislikedUsers;
+            var list = document.getElementById('actionList');
+            list.innerText = '';
+            var list1 = document.createElement('li');
+            list1.innerText = "Video Uploader Name";
+            list.appendChild(list1);
+            var videoUploaderName = document.createElement('li');
+            videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+            list.appendChild(videoUploaderName);
+            var paragraph = document.createElement('li');
+            paragraph.innerText = "Liked User List";
+            list.appendChild(paragraph);
+            if(likedUsers.length === 0){
                 var paragraph = document.createElement('li');
-                paragraph.innerText = "Liked User List";
+                paragraph.innerText = 'No user have';
                 list.appendChild(paragraph);
-                if(likedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in likedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = likedUsers[i].username;
-                    list.appendChild(user);
-                }
-                var paragraph2 = document.createElement('li');
-                paragraph2.innerText = "Disliked User List";
-                list.appendChild(paragraph2);
-                if(dislikedUsers.length === 0){
-                    var paragraph = document.createElement('li');
-                    paragraph.innerText = 'No user have';
-                    list.appendChild(paragraph);
-                }
-                for(var i in dislikedUsers){
-                    var user = document.createElement('li');
-                    user.innerText = dislikedUsers[i].username;
-                    list.appendChild(user);
-                }
+            }
+            for(var i in likedUsers){
+                var user = document.createElement('li');
+                user.innerText = likedUsers[i].username;
+                list.appendChild(user);
+            }
+            var paragraph2 = document.createElement('li');
+            paragraph2.innerText = "Disliked User List";
+            list.appendChild(paragraph2);
+            if(dislikedUsers.length === 0){
+                var paragraph = document.createElement('li');
+                paragraph.innerText = 'No user have';
+                list.appendChild(paragraph);
+            }
+            for(var i in dislikedUsers){
+                var user = document.createElement('li');
+                user.innerText = dislikedUsers[i].username;
+                list.appendChild(user);
+            }
 
             document.getElementById('actionList').style.display = 'none';
         }
@@ -123,9 +134,70 @@
             document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
 
             var likedUsers = responseDTO.likedUsers;
+            var dislikedUsers = responseDTO.dislikedUsers;
+            var list = document.getElementById('actionList');
+            list.innerText = '';
+            var list1 = document.createElement('li');
+            list1.innerText = "Video Uploader Name";
+            list.appendChild(list1);
+            var videoUploaderName = document.createElement('li');
+            videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+            list.appendChild(videoUploaderName);
+            var paragraph = document.createElement('li');
+            paragraph.innerText = "Liked User List";
+            list.appendChild(paragraph);
+            if(likedUsers.length === 0){
+                var paragraph = document.createElement('li');
+                paragraph.innerText = 'No user have';
+                list.appendChild(paragraph);
+            }
+            for(var i in likedUsers){
+                var user = document.createElement('li');
+                user.innerText = likedUsers[i].username;
+                list.appendChild(user);
+            }
+            var paragraph2 = document.createElement('li');
+            paragraph2.innerText = "Disliked User List";
+            list.appendChild(paragraph2);
+            if(dislikedUsers.length === 0){
+                var paragraph = document.createElement('li');
+                paragraph.innerText = 'No user have';
+                list.appendChild(paragraph);
+            }
+            for(var i in dislikedUsers){
+                var user = document.createElement('li');
+                user.innerText = dislikedUsers[i].username;
+                list.appendChild(user);
+            }
+
+            document.getElementById('actionList').style.display = 'none';
+        }
+    };
+    xhr.send();
+}
+
+    function getDetails() {
+    var videoId = /*[[${video.videoId}]]*/ '';
+    var id = /*[[${video.id}]]*/ '';
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/user/details/' + videoId + '/' + id, true);
+    xhr.onload = function () {
+            if (xhr.status === 200) {
+
+                var responseDTO = JSON.parse(xhr.responseText);
+                document.getElementById('likeCount').innerText = responseDTO.likeCount;
+                document.getElementById('dislikeCount').innerText = responseDTO.dislikeCount;
+
+                var likedUsers = responseDTO.likedUsers;
                 var dislikedUsers = responseDTO.dislikedUsers;
                 var list = document.getElementById('actionList');
                 list.innerText = '';
+                var list1 = document.createElement('li');
+                list1.innerText = "Video Uploader Name";
+                list.appendChild(list1);
+                var videoUploaderName = document.createElement('li');
+                videoUploaderName.innerText = /*[[${video.user.username}]]*/ '';
+                list.appendChild(videoUploaderName);
                 var paragraph = document.createElement('li');
                 paragraph.innerText = "Liked User List";
                 list.appendChild(paragraph);
@@ -153,26 +225,13 @@
                     list.appendChild(user);
                 }
 
-            document.getElementById('actionList').style.display = 'none';
-        }
-    };
-    xhr.send();
-}
-
-    function getDetails() {
-    var videoId = /*[[${video.videoId}]]*/ '';
-    var id = /*[[${video.id}]]*/ '';
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/details/' + videoId + '/' + id, true);
-    xhr.onload = function () {
-            if (xhr.status === 200) {
                 var action = document.getElementById('actionList');
-                if(action.style.display === 'none'){
-                    action.style.display = 'block';
-                }else{
+                if(action.style.display === 'block'){
                     action.style.display = 'none';
+                }else{
+                    action.style.display = 'block';
                  }
-<!--                document.getElementById('actionList').style.display = 'block';-->
+<!--                document.getElementById('actionList').style.display = 'none';-->
             }
         };
         xhr.send();

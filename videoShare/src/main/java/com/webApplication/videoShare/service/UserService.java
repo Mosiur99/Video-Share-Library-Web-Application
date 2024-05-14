@@ -10,5 +10,5 @@ public interface UserService {
 
     Boolean isValidUser(String email, String password);
 
-    void saveNewUser(String username, String email, String password);
+    void saveNewUser(String email, String username, String password);
 }

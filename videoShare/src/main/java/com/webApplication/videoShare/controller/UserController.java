@@ -1,5 +1,6 @@
 package com.webApplication.videoShare.controller;
 
+import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.service.UserService;
 import com.webApplication.videoShare.service.VideoService;
@@ -38,7 +39,7 @@ public class UserController {
     public String signupSubmit(@RequestParam String username,
                                @RequestParam String email,
                                @RequestParam String password) {
-        userService.saveNewUser(username, email, password);
+        userService.saveNewUser(email, username, password);
         return "signupSuccess";
     }
 
@@ -55,10 +56,10 @@ public class UserController {
     @PostMapping("/userLogin")
     public String loginSubmit(@RequestParam String email,
                               @RequestParam String password) {
-        try{
+        try {
             userService.isValidUser(email, password);
             return "redirect:/user/userDashboard";
-        }catch(Exception exception){
+        } catch(Exception exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error");
         }
     }
@@ -66,7 +67,9 @@ public class UserController {
     @GetMapping("/user/userDashboard")
     public String userDashboard(Model model) {
         List<Video> videoList = videoService.getAllVideosByUserId();
+        User user = userService.singleUserDetails(userService.fetchUserId());
         model.addAttribute("videoList", videoList);
+        model.addAttribute("user", user);
         return "userDashboard";
     }
 

@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT user FROM User user WHERE user.id = :userId")
     User fetchUserById(@Param("userId") Long userId);
+
+    @Query(value = "SELECT user FROM User user WHERE user.email = :email")
+    User duplicateMailCheck(@Param("email") String email);
 }
