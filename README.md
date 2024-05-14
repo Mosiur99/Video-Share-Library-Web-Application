@@ -24,8 +24,7 @@
 <h2>Discuss Implementation Part:</h2>
 <ul>
   <li>
-    <p><strong>New User Register: </strong>We have a signup page where a user creates a new account.</p>
-      <p>Here a user creates an account with the information of username, email, and password.</p>
+    <p><strong>New User Register: </strong>We have a signup page where a user creates a new account. Here a user creates an account with the information of username, email, and password.</p>
     <p><strong>Notes: </strong>The important part of the signup page is the user must use an email whose email is not already registered in this web application.</p>
   </li>
   <li>
