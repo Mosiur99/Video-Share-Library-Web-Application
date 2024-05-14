@@ -1,7 +1,7 @@
 package com.webApplication.videoShare.service;
 
 import com.webApplication.videoShare.dto.ResponseDTO;
-import com.webApplication.videoShare.entity.LikeOrDislike;
+import com.webApplication.videoShare.entity.Activity;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.exception.ResourceNotFoundException;
@@ -63,7 +63,7 @@ public class VideoServiceImpl implements VideoService {
     @Transactional
     public ResponseDTO updateLikeOrDislike(Long id,
                               String videoId,
-                              LikeOrDislike likeOrDislike) {
+                              Activity activity) {
         Long userId = userService.fetchUserId();
         Video video = videoRepository.getVideoById(videoId);
         if(Objects.isNull(video)){
@@ -82,7 +82,7 @@ public class VideoServiceImpl implements VideoService {
             return new ResponseDTO();
         }
 
-        updateLikeOrDislike(loginUser.get(), video, likedUserList, dislikedUserList, likeOrDislike);
+        updateLikeOrDislike(loginUser.get(), video, likedUserList, dislikedUserList, activity);
 
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setLikedUsers(likedUserList);
@@ -164,12 +164,12 @@ public class VideoServiceImpl implements VideoService {
                                     Video video,
                                     List<User> likedUserList,
                                     List<User> dislikedUserList,
-                                    LikeOrDislike likeOrDislike) {
+                                    Activity activity) {
         /**
          * if the user is not exist in the likeUserList and press the like button
          * then we add the user in likedUserList and increase the like count
          */
-        if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+        if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && activity.equals(Activity.LIKE)) {
             likedUserList.add(user);
             video.setLikeCount(video.getLikeCount() + 1);
         }
@@ -178,7 +178,7 @@ public class VideoServiceImpl implements VideoService {
          * if the user is not exist in the dislikeUserList and press the dislike button
          * then we add the user in dislikedUserList and increase the dislike count
          */
-        else if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+        else if(!likedUserList.contains(user) && !dislikedUserList.contains(user) && activity.equals(Activity.DISLIKE)) {
             dislikedUserList.add(user);
             video.setDislikeCount(video.getDislikeCount() + 1);
         }
@@ -187,7 +187,7 @@ public class VideoServiceImpl implements VideoService {
          * if the user existed in the likeUserList and press the like button
          * then we remove the user from likedUserList and decrease the like count
          */
-        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+        else if(likedUserList.contains(user) && activity.equals(Activity.LIKE)) {
             likedUserList.remove(user);
             video.setLikeCount(video.getLikeCount() - 1);
         }
@@ -196,7 +196,7 @@ public class VideoServiceImpl implements VideoService {
          * if the user existed in the dislikeUserList and press the dislike button
          * then we remove the user from dislikedUserList and decrease the dislike count
          */
-        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+        else if(dislikedUserList.contains(user) && activity.equals(Activity.DISLIKE)) {
             dislikedUserList.remove(user);
             video.setDislikeCount(video.getDislikeCount() - 1);
         }
@@ -206,7 +206,7 @@ public class VideoServiceImpl implements VideoService {
          * then we remove the user from likedUserList and decrease the like count
          * and then we add the user in dislikedUserList and increase the dislike count
          */
-        else if(likedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.DISLIKE)) {
+        else if(likedUserList.contains(user) && activity.equals(Activity.DISLIKE)) {
             likedUserList.remove(user);
             video.setLikeCount(video.getLikeCount() - 1);
             dislikedUserList.add(user);
@@ -218,7 +218,7 @@ public class VideoServiceImpl implements VideoService {
          * then we remove the user from dislikedUserList and decrease the dislike count
          * and then we add the user in likedUserList and increase the like count
          */
-        else if(dislikedUserList.contains(user) && likeOrDislike.equals(LikeOrDislike.LIKE)) {
+        else if(dislikedUserList.contains(user) && activity.equals(Activity.LIKE)) {
             dislikedUserList.remove(user);
             video.setDislikeCount(video.getDislikeCount() - 1);
             likedUserList.add(user);

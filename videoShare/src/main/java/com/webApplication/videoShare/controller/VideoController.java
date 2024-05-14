@@ -1,7 +1,7 @@
 package com.webApplication.videoShare.controller;
 
 import com.webApplication.videoShare.dto.ResponseDTO;
-import com.webApplication.videoShare.entity.LikeOrDislike;
+import com.webApplication.videoShare.entity.Activity;
 import com.webApplication.videoShare.entity.User;
 import com.webApplication.videoShare.entity.Video;
 import com.webApplication.videoShare.service.UserService;
@@ -71,11 +71,11 @@ public class VideoController {
         return "videoDetails";
     }
 
-    @PostMapping("/user/likeOrDislike/{videoId}/{id}/{LikeOrDislike}")
+    @PostMapping("/user/activity/{videoId}/{id}/{Activity}")
     public ResponseEntity<ResponseDTO> updateLikeOrDislike(@PathVariable String videoId,
                                                           @PathVariable Long id,
-                                                          @PathVariable(name = "LikeOrDislike", required = true)LikeOrDislike likeOrDislike) {
-        ResponseDTO responseDTO = videoService.updateLikeOrDislike(id, videoId, likeOrDislike);
+                                                          @PathVariable(name = "Activity", required = true) Activity activity) {
+        ResponseDTO responseDTO = videoService.updateLikeOrDislike(id, videoId, activity);
         return ResponseEntity.ok(responseDTO);
     }
 

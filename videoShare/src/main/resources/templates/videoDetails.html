@@ -45,13 +45,13 @@
 
     <div class="row" id="buttons">
         <div class="col" id="button1">
-            <form id="likeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/LIKE'}}">
+            <form id="likeForm" th:action="@{${'/user/activity/'+video.videoId+'/'+video.id+'/LIKE'}}">
                 <button type="button" class="btn btn-primary click" onclick="likeVideo()">Like</button>
                 <p id="likeCount" th:text="${video.likeCount}"></p>
             </form>
         </div>
         <div class="col" id="button2">
-            <form id="dislikeForm" th:action="@{${'/user/likeOrDislike/'+video.videoId+'/'+video.id+'/DISLIKE'}}">
+            <form id="dislikeForm" th:action="@{${'/user/activity/'+video.videoId+'/'+video.id+'/DISLIKE'}}">
                 <button type="button" class="btn btn-danger click" onclick="dislikeVideo()">Dislike</button>
                 <p id="dislikeCount" th:text="${video.dislikeCount}"></p>
             </form>
@@ -72,7 +72,7 @@
     var id = /*[[${video.id}]]*/ '';
     var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/LIKE', true);
+    xhr.open('POST', '/user/activity/' + videoId + '/' + id + '/LIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             var responseDTO = JSON.parse(xhr.responseText);
@@ -126,7 +126,7 @@
     var id = /*[[${video.id}]]*/ '';
     var videoId = /*[[${video.videoId}]]*/ '';
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/user/likeOrDislike/' + videoId + '/' + id + '/DISLIKE', true);
+    xhr.open('POST', '/user/activity/' + videoId + '/' + id + '/DISLIKE', true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             var responseDTO = JSON.parse(xhr.responseText);

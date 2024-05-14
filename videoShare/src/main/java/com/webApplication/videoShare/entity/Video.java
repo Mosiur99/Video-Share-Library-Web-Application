@@ -42,9 +42,9 @@ public class Video {
     private List<User> dislikedUser = new ArrayList<>();
 
     @Enumerated(EnumType.ORDINAL)
-    private LikeOrDislike likeOrDislike;
+    private Activity activity;
 
-    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, LikeOrDislike likeOrDislike) {
+    public Video(long id, String title, String url, String videoId, User user, long viewCount, long likeCount, long dislikeCount, List<User> likedUser, List<User> dislikedUser, Activity activity) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -55,7 +55,7 @@ public class Video {
         this.dislikeCount = dislikeCount;
         this.likedUser = likedUser;
         this.dislikedUser = dislikedUser;
-        this.likeOrDislike = likeOrDislike;
+        this.activity = activity;
     }
 
     public Video(){
@@ -142,11 +142,11 @@ public class Video {
         this.dislikedUser = dislikedUser;
     }
 
-    public LikeOrDislike getLikeOrDislike() {
-        return likeOrDislike;
+    public Activity getLikeOrDislike() {
+        return activity;
     }
 
-    public void setLikeOrDislike(LikeOrDislike likeOrDislike) {
-        this.likeOrDislike = likeOrDislike;
+    public void setLikeOrDislike(Activity activity) {
+        this.activity = activity;
     }
 }
