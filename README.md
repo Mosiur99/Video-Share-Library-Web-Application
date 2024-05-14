@@ -28,5 +28,9 @@
       <p>Here a user creates an account with the information of username, email, and password.</p>
     <p><strong>Notes: </strong>The important part of the signup page is the user must use an email whose email is not already registered in this web application.</p>
   </li>
+  <li>
+    <p><strong>User Login: </strong>After creating an account the user can log in to the web application page. Here user can log in with his email and password which email and password he provided at the time of registration. If the email and password are provided incorrectly he can not access the web page.</p>
+    <p><strong>Notes: </strong>By Default, in spring boot security a user can log in with his username and password. But on our webpage, we build the login system with the user's email and password.</p>
+  </li>
 </ul>
 
