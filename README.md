@@ -39,13 +39,17 @@
   <li>
     <p><strong>User Login: </strong>After creating an account the user can log in to the web application page. Here user can log in with his email and password which email and password he provided at the time of registration. If the email and password are provided incorrectly he can not access the web page.</p>
     <p><strong>Notes: </strong>By Default, in spring boot security a user can log in with his username and password. But on our webpage, we build the login system with the user's email and password.</p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/61518d91-b099-4d73-b5e1-d7662234b767">
+
   </li>
   <li>
     <p><strong>User Dashboard: </strong>After login, a user is redirected to his own dashboard. This dashboard has a video list of all videos uploaded by the user. We also have an edit option for all videos where the user can change the video information like - video URL and video Title.</p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/0338f67a-2397-423b-a3d0-17cf408036bd">
   </li>
   <li>
     <p><strong>Add New Video: </strong>Here a login user can upload a new video with information about the video URL and and video title. 
     <p><strong>Notes: </strong>A user can not upload a video in which the video is already uploaded by other users.</p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/31badf01-729a-4248-8045-c642bb54360a">
   </li>
   <li>
     <p><strong>Single Video Details: </strong>Here we have the details about a single video. When a user comes to this page the video is automatically started and the video view count is incremented even if the video is uploaded by the user the video view count is also incremented. Here we have also three buttons Like, Dislike, and Details. If a user presses the Like/Dislike button here 6 happens can occur.</p>
@@ -71,11 +75,16 @@
     </ul>
     <p><strong>Note: </strong>The user can not like or dislike his videos.</p>
     <p>If a user presses the Details button then he will show the name of the user who uploaded this video and also show the list of liked users and disliked users.</p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/7cc11866-1951-4385-837e-cc8d616fd441">
   </li>
   <li>
     <p><strong>Home Page: </strong>The home page has a list of all videos which videos are uploaded by all users.
 Without login, any user can see this page and also view the video and the view count of the video will increase accordingly.
 </p>
+    <p><strong>Normal User Home Page:</strong></p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/bc6acab5-a7d0-40eb-89c0-1f5e95e75041">
+    <p><strong>Login User Home Page:</strong></p>
+    <img src="https://github.com/Mosiur99/Video-Share-Library-Web-Application/assets/143164282/e7f8d95c-e3a7-440c-8723-8e560fffaa35">
   </li>
 </ul>
 
